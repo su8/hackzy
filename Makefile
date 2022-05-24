@@ -19,10 +19,9 @@ SRCS=main.cpp
 PROGS=hackzy
 BIN_DIR=/usr/bin
 
-all: $(PROGS)
+all:
+	$(CC) $(CFLAGS) -o $(PROGS) $(SRCS)
 
-%: %.c
-	$(CC) $(CFLAGS) -o $@ $<
 
 install: 
 	install -D -s -m 755 hackzy $(BIN_DIR)/hackzy
