@@ -1,2 +1,0 @@
-# hackzy
-Cli hacker game
