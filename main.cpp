@@ -208,22 +208,12 @@ static void do_ssh(const std::string &str)
             }
             else
             {
+                foundIt = 1;
+                std::cout << "Connected to: " << buf << '\n';
+                IP = bufStr;
                 break;
             }
         }
-    }
-
-    for (const auto &[key, val] : ipData)
-    {
-        if (key != bufStr)
-        {
-            continue;
-        }
-
-        foundIt = 1;
-        std::cout << "Connected to: " << buf << '\n';
-        IP = bufStr;
-        break;
     }
 
     if (foundIt == 0)
