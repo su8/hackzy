@@ -20,7 +20,7 @@ PROGS=hackzy
 BIN_DIR=/usr/bin
 
 all:
-	$(CC) $(CFLAGS) -o $(PROGS) $(SRCS)
+	$(CXX) $(CFLAGS) -o $(PROGS) $(SRCS)
 
 
 install: 
