@@ -1,4 +1,4 @@
-#   07/29/2018
+#   05/24/2022
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
 #   the Free Software Foundation; either version 2 of the License, or
@@ -14,14 +14,13 @@
 #   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #   MA 02110-1301, USA.
 
-CFLAGS+=-Wall -Wextra -O2 -std=c++17 -pipe -pedantic -Wundef -Wshadow -W -Wwrite-strings -Wcast-align -Wstrict-overflow=5 -Wconversion -Wpointer-arith -Wstrict-prototypes -Wformat=2 -Wsign-compare -Wendif-labels -Wredundant-decls -Winit-self
+CFLAGS+=-Wall -Wextra -O2 -std=c++17 -pipe -pedantic -Wundef -Wshadow -W -Wwrite-strings -Wcast-align -Wstrict-overflow=5 -Wconversion -Wpointer-arith -Wformat=2 -Wsign-compare -Wendif-labels -Wredundant-decls -Winit-self
 SRCS=main.cpp
 PROGS=hackzy
 BIN_DIR=/usr/bin
 
 all:
 	$(CXX) $(CFLAGS) -o $(PROGS) $(SRCS)
-
 
 install: 
 	install -D -s -m 755 hackzy $(BIN_DIR)/hackzy
