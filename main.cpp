@@ -1,5 +1,23 @@
+/*
+
+  05/24/2022
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation; either version 2 of the License, or
+  (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program; if not, write to the Free Software
+  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+  MA 02110-1301, USA.
+*/
+
 #include <iostream>
-#include <string>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
@@ -54,7 +72,6 @@ int main(void)
         std::string userInput;
         std::cout << "frost@localhost " << IP << " > ";
         getline(std::cin, userInput);
-        std::cout << "frost@localhost " << IP << "> " << userInput << '\n';
 
         if (userInput.size() == 0)
         {
@@ -74,7 +91,7 @@ int main(void)
 
 static inline void processInput(const std::string &str)
 {
-    unsigned short int x = 0, z = 0;
+    unsigned short int x = 0;
     char buf[30] = {'\0'};
     char cmd[10] = {'\0'};
     char matchCmd = 0;
@@ -112,7 +129,6 @@ static inline void processInput(const std::string &str)
     }
 
     trimQuotes(buf, strPtr);
-
     opt[x].my_func(static_cast<std::string>(buf));
 }
 
@@ -163,8 +179,9 @@ static void do_scan(const std::string &str)
         {"123.456.789.000"},
         {"268.99.301.543"}};
 
-    for (auto &ip : ipPool)
+    for (const auto &ip : ipPool)
     {
+        std::this_thread::sleep_for(std::chrono::milliseconds(1000));
         std::cout << ip << '\n';
     }
 }
@@ -194,7 +211,6 @@ static void do_ssh(const std::string &str)
             }
             else
             {
-                IP = bufStr;
                 break;
             }
         }
@@ -208,7 +224,6 @@ static void do_ssh(const std::string &str)
         }
 
         foundIt = 1;
-
         std::cout << "Connected to: " << buf << '\n';
         IP = bufStr;
         break;
