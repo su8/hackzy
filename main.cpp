@@ -102,6 +102,7 @@ static inline void processInput(const std::string &str)
     {
         if (*strPtr == ' ')
         {
+            strPtr++;
             break;
         }
         *cmdPtr++ = *strPtr;
@@ -121,11 +122,6 @@ static inline void processInput(const std::string &str)
     {
         std::cout << "No such command " << cmd << "\n";
         return;
-    }
-
-    if (*strPtr)
-    {
-        strPtr++;
     }
 
     trimQuotes(buf, strPtr);
@@ -197,6 +193,7 @@ static void do_ssh(const std::string &str)
 
     if (!strcmp(buf, ""))
     {
+        puts("You need to provide IP");
         return;
     }
 
@@ -243,6 +240,7 @@ static void do_crackssh(const std::string &str)
 
     if (!strcmp(buf, ""))
     {
+        puts("You need to provide IP");
         return;
     }
 
