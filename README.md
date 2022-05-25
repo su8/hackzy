@@ -3,8 +3,10 @@ Cli hacker game
 
 ## Installation
 
-```bash
+`
 make -j4
 sudo make install
-``|
+`
+
+[![C/C++ build](https://github.com/su8/hackzy/actions/workflows/c-cpp.yml/badge.svg)](https://github.com/su8/hackzy/actions/workflows/c-cpp.yml)
 
