@@ -4,7 +4,7 @@ Cli hacker game
 ## Installation
 
 `
-make -j4
+make -j4 && 
 sudo make install
 `
 
