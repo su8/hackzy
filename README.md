@@ -16,4 +16,4 @@ I was inspired by https://github.com/The-Council-of-Wills/HacknetPlusPlus to cre
 
 ---
 
-The game is entirely from my tablet with CxxDroid
+The game is entirely written from my tablet with CxxDroid
