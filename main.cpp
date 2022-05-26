@@ -120,7 +120,7 @@ static inline void processInput(const std::string &str)
 
     if (matchCmd == 0)
     {
-        std::cout << "No such command " << cmd << "\n";
+        std::cout << "No such command " << str << "\n";
         return;
     }
 
@@ -148,7 +148,7 @@ static void do_cat(const std::string &str)
 {
     if ((strcmp(str.c_str(), "notes.txt")))
     {
-        std::cout << "No such " << str<< " file\n";
+        std::cout << "No such " << str << " file\n";
         return;
     }
 
