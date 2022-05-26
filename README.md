@@ -9,3 +9,4 @@ Cli hacker game
 make -j4 && 
 sudo make install
 `
+I was inspired from https://github.com/The-Council-of-Wills/HacknetPlusPlus to create this program. I do use their **help** command.
