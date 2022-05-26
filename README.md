@@ -9,4 +9,11 @@ Cli hacker game
 make -j4 && 
 sudo make install
 `
-I was inspired from https://github.com/The-Council-of-Wills/HacknetPlusPlus to create this program. I do use their **help** command.
+
+---
+
+I was inspired by https://github.com/The-Council-of-Wills/HacknetPlusPlus to create this program. I do use their **help** command.
+
+---
+
+The game is entirely from my tablet with CxxDroid
