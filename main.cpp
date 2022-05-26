@@ -146,13 +146,9 @@ static void trimQuotes(char *bufPtr, const char *strPtr)
 
 static void do_cat(const std::string &str)
 {
-    char buf[30] = {'\0'};
-
-    trimQuotes(buf, str.c_str());
-
-    if ((strcmp(buf, "notes.txt")))
+    if ((strcmp(str.c_str(), "notes.txt")))
     {
-        std::cout << "No such " << buf << " file\n";
+        std::cout << "No such " << str<< " file\n";
         return;
     }
 
@@ -184,14 +180,9 @@ static void do_scan(const std::string &str)
 
 static void do_ssh(const std::string &str)
 {
-    char buf[30] = {'\0'};
     char foundIt = 0;
 
-    trimQuotes(buf, str.c_str());
-
-    std::string bufStr = static_cast<std::string>(buf);
-
-    if (!strcmp(buf, ""))
+    if (!strcmp(str.c_str(), ""))
     {
         puts("You need to provide IP");
         return;
@@ -199,7 +190,7 @@ static void do_ssh(const std::string &str)
 
     for (const auto &[key, val] : ipCracked)
     {
-        if (key == bufStr)
+        if (key == str)
         {
             if (val == 0)
             {
@@ -209,8 +200,8 @@ static void do_ssh(const std::string &str)
             else
             {
                 foundIt = 1;
-                std::cout << "Connected to: " << buf << '\n';
-                IP = bufStr;
+                std::cout << "Connected to: " << str << '\n';
+                IP = str;
                 break;
             }
         }
@@ -218,17 +209,14 @@ static void do_ssh(const std::string &str)
 
     if (foundIt == 0)
     {
-        std::cout << "The given ip " << buf << " does not exist\n";
+        std::cout << "The given ip " << str << " does not exist\n";
     }
 }
 static void do_crackssh(const std::string &str)
 {
-    char buf[30] = {'\0'};
     char foundIt = 0;
 
-    trimQuotes(buf, str.c_str());
-
-    if (!strcmp(buf, ""))
+    if (!strcmp(str.c_str(), ""))
     {
         puts("You need to provide IP");
         return;
@@ -236,7 +224,7 @@ static void do_crackssh(const std::string &str)
 
     for (const auto &[key, val] : ipCracked)
     {
-        if (key != static_cast<std::string>(buf))
+        if (key != str)
         {
             continue;
         }
@@ -245,9 +233,9 @@ static void do_crackssh(const std::string &str)
 
         if (val == 0)
         {
-            std::cout << "Attempting to crack port 22 on " << buf << "\n";
+            std::cout << "Attempting to crack port 22 on " << str << "\n";
             std::this_thread::sleep_for(std::chrono::milliseconds(5000));
-            std::cout << "Cracked port 22 on: " << buf << '\n';
+            std::cout << "Cracked port 22 on: " << str << '\n';
             ipCracked[key] = 1;
         }
         else
@@ -259,7 +247,7 @@ static void do_crackssh(const std::string &str)
 
     if (foundIt == 0)
     {
-        std::cout << "The given ip " << buf << " does not exist\n";
+        std::cout << "The given ip " << str << " does not exist\n";
     }
 }
 
