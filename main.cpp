@@ -33,6 +33,7 @@ static void do_cat(const std::string &str);
 static void do_scan(const std::string &str);
 static void do_ssh(const std::string &str);
 static void do_crackssh(const std::string &str);
+static void do_crackfw(const std::string &str);
 static inline void processInput(const std::string &str);
 
 struct Opt
@@ -47,6 +48,7 @@ struct Opt opt[] = {
     {"cat", do_cat},
     {"scan", do_scan},
     {"ssh", do_ssh},
+    {"crackfw", do_crackfw},
     {"crackssh", do_crackssh}};
 
 std::string IP = "1.1.1.1";
@@ -57,11 +59,11 @@ std::map<std::string, unsigned short int> ipCracked = {
     {"123.456.789.000", 0},
     {"268.99.301.543", 0}};
 
-std::map<std::string, std::string> ipData = {
-    {"1.1.1.1", "Todo: scan for more ip"},
-    {"44.55.66.77", "So feel been kept be at gate. Be september it extensive oh concluded of certainty. In read most gate at body held it ever no. Talking justice welcome message inquiry in started of am me. Led own hearted highest visited lasting sir through compass his. Guest tiled he quick by so these trees am. It announcing alteration at surrounded comparison. "},
-    {"123.456.789.000", "Acceptance middletons me if discretion boisterous travelling an. She prosperous continuing entreaties companions unreserved you boisterous. Middleton sportsmen sir now cordially ask additions for. You ten occasional saw everything but conviction. Daughter returned quitting few are day advanced branched. Do enjoyment defective objection or we if favourite. At wonder afford so danger cannot former seeing. Power visit charm money add heard new other put. Attended no indulged marriage is to judgment offering landlord. "},
-    {"268.99.301.543", "Stronger unpacked felicity to of mistaken. Fanny at wrong table ye in. Be on easily cannot innate in lasted months on. Differed and and felicity steepest mrs age outweigh. Opinions learning likewise daughter now age outweigh. Raptures stanhill my greatest mistaken or exercise he on although. Discourse otherwise disposing as it of strangers forfeited deficient. "}};
+std::map<std::string, unsigned short int> ipFwCracked = {
+    {"1.1.1.1", 1},
+    {"44.55.66.77", 0},
+    {"123.456.789.000", 0},
+    {"268.99.301.543", 0}};
 
 int main(void)
 {
@@ -91,14 +93,14 @@ int main(void)
 
 static inline void processInput(const std::string &str)
 {
-    unsigned short int x = 0;
+    unsigned short int x = 0U;
     char buf[30] = {'\0'};
     char cmd[10] = {'\0'};
     char matchCmd = 0;
     const char *strPtr = str.c_str();
     char *cmdPtr = cmd;
 
-    for (x = 0; x < 9 && *strPtr; x++, strPtr++)
+    for (x = 0U; x < 9U && *strPtr; x++, strPtr++)
     {
         if (*strPtr == ' ')
         {
@@ -109,7 +111,7 @@ static inline void processInput(const std::string &str)
     }
     *cmdPtr = '\0';
 
-    for (x = 0U; x < 6U; x++)
+    for (x = 0U; x < 7U; x++)
     {
         if (!(strcmp(opt[x].cmd, cmd)))
         {
@@ -130,9 +132,9 @@ static inline void processInput(const std::string &str)
 
 static void trimQuotes(char *bufPtr, const char *strPtr)
 {
-    unsigned short int x = 0;
+    unsigned short int x = 0U;
 
-    for (; x < 29 && *strPtr; x++, strPtr++)
+    for (; x < 29U && *strPtr; x++, strPtr++)
     {
         if (*strPtr == '"' || *strPtr == '\'')
         {
@@ -146,6 +148,12 @@ static void trimQuotes(char *bufPtr, const char *strPtr)
 
 static void do_cat(const std::string &str)
 {
+    std::map<std::string, std::string> ipData = {
+        {"1.1.1.1",  "Todo: scan for more ip"},
+        {"44.55.66.77", "So feel been kept be at gate. Be september it extensive oh concluded of certainty. In read most gate at body held it ever no. Talking justice welcome message inquiry in started of am me. Led own hearted highest visited lasting sir through compass his. Guest tiled he quick by so these trees am. It announcing alteration at surrounded comparison. "},
+        {"123.456.789.000", "Acceptance middletons me if discretion boisterous travelling an. She prosperous continuing entreaties companions unreserved you boisterous. Middleton sportsmen sir now cordially ask additions for. You ten occasional saw everything but conviction. Daughter returned quitting few are day advanced branched. Do enjoyment defective objection or we if favourite. At wonder afford so danger cannot former seeing. Power visit charm money add heard new other put. Attended no indulged marriage is to judgment offering landlord. "},
+        {"268.99.301.543", "Stronger unpacked felicity to of mistaken. Fanny at wrong table ye in. Be on easily cannot innate in lasted months on. Differed and and felicity steepest mrs age outweigh. Opinions learning likewise daughter now age outweigh. Raptures stanhill my greatest mistaken or exercise he on although. Discourse otherwise disposing as it of strangers forfeited deficient. "}};
+
     if ((strcmp(str.c_str(), "notes.txt")))
     {
         std::cout << "No such " << str << " file\n";
@@ -165,16 +173,10 @@ static void do_cat(const std::string &str)
 static void do_scan(const std::string &str)
 {
     (void)str;
-    std::vector<std::string> ipPool = {
-        {"1.1.1.1"},
-        {"44.55.66.77"},
-        {"123.456.789.000"},
-        {"268.99.301.543"}};
-
-    for (const auto &ip : ipPool)
+    for (const auto &[key, val] : ipCracked)
     {
         std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-        std::cout << ip << '\n';
+        std::cout << key << '\n';
     }
 }
 
@@ -188,22 +190,42 @@ static void do_ssh(const std::string &str)
         return;
     }
 
+    for (const auto &[key, val] : ipFwCracked)
+    {
+        if (key != str)
+        {
+            continue;
+        }
+
+        if (val == 0)
+        {
+            puts("Cannot connect to this IP as its firewall have to be cracked first with crackfw program");
+            return;
+        }
+        else
+        {
+            break;
+        }
+    }
+
     for (const auto &[key, val] : ipCracked)
     {
-        if (key == str)
+        if (key != str)
         {
-            if (val == 0)
-            {
-                puts("Cannot connect to this IP as its ssh port have to be cracked first with crackssh program");
-                return;
-            }
-            else
-            {
-                foundIt = 1;
-                std::cout << "Connected to: " << str << '\n';
-                IP = str;
-                break;
-            }
+            continue;
+        }
+
+        if (val == 0)
+        {
+            puts("Cannot connect to this IP as its ssh port have to be cracked first with crackssh program");
+            return;
+        }
+        else
+        {
+            foundIt = 1;
+            std::cout << "Connected to: " << str << '\n';
+            IP = str;
+            break;
         }
     }
 
@@ -212,6 +234,7 @@ static void do_ssh(const std::string &str)
         std::cout << "The given ip " << str << " does not exist\n";
     }
 }
+
 static void do_crackssh(const std::string &str)
 {
     char foundIt = 0;
@@ -241,6 +264,45 @@ static void do_crackssh(const std::string &str)
         else
         {
             std::cout << "Port 22 already cracked for " << key << "\n";
+        }
+        break;
+    }
+
+    if (foundIt == 0)
+    {
+        std::cout << "The given ip " << str << " does not exist\n";
+    }
+}
+
+static void do_crackfw(const std::string &str)
+{
+    char foundIt = 0;
+
+    if (!strcmp(str.c_str(), ""))
+    {
+        puts("You need to provide IP");
+        return;
+    }
+
+    for (const auto &[key, val] : ipFwCracked)
+    {
+        if (key != str)
+        {
+            continue;
+        }
+
+        foundIt = 1;
+
+        if (val == 0)
+        {
+            std::cout << "Attempting to crack the firewall on " << str << "\n";
+            std::this_thread::sleep_for(std::chrono::milliseconds(5000));
+            std::cout << "Cracked the firewall on: " << str << '\n';
+            ipFwCracked[key] = 1;
+        }
+        else
+        {
+            std::cout << "The firewall is already cracked for " << str << "\n";
         }
         break;
     }
