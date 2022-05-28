@@ -297,8 +297,7 @@ static void do_help(const std::string &str)
                                   "ssh IP\n"
                                   "crackssh: Attempts to crack ip port 22\n"
                                   "crackssh IP\n"
-                                  "crackfw Attempts to crack given ip firewall
-\n"
+                                  "crackfw Attempts to crack given ip firewall\n"
                                   "crackfw ip\n"
                                   "\n"
                                   "Misc:\n"
