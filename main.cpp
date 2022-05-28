@@ -1,5 +1,4 @@
 /*
-
   05/24/2022
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -302,6 +301,5 @@ static void do_help(const std::string &str)
                                   "\n"
                                   "Misc:\n"
                                   "help: shows this helpful help page\n";
-
     puts(helpMsg);
 }
