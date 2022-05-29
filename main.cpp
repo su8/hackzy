@@ -235,45 +235,46 @@ static void do_ssh(const std::string &str)
     }
 }
 
-#define CRACK_PROGRAM(function, dicti, msg1, msg2, msg3) \
-static void do_##function(const std::string &str) \
-{ \
-    char foundIt = 0; \
- \
-    if (!strcmp(str.c_str(), "")) \
-    { \
-        puts("You need to provide IP"); \
-        return; \
-    } \
-\
-    for (const auto &[key, val] : dicti) \
-    { \
-        if (key != str) \
-        { \
-            continue; \
-        } \
-\
-        foundIt = 1; \
-\
-        if (val == 0) \
-        {\
-            std::cout << msg1 << str << "\n";\
-            std::this_thread::sleep_for(std::chrono::milliseconds(5000));\
-            std::cout << msg2 << str << '\n';\
-            dicti[key] = 1;\
-        }\
-        else\
-        {\
-            std::cout << msg3 << key << "\n";\
-        }\
-        break;\
-    }\
-\
-    if (foundIt == 0)\
-    {\
-        std::cout << "The given ip " << str << " does not exist\n";\
-    }\
-}
+#define CRACK_PROGRAM(function, dicti, msg1, msg2, msg3)                      \
+    static void do_##function(const std::string &str)                         \
+    {                                                                         \
+        char foundIt = 0;                                                     \
+                                                                              \
+        if (!strcmp(str.c_str(), ""))                                         \
+        {                                                                     \
+            puts("You need to provide IP");                                   \
+            return;                                                           \
+        }                                                                     \
+                                                                              \
+        for (const auto &[key, val] : dicti)                                  \
+        {                                                                     \
+            if (key != str)                                                   \
+            {                                                                 \
+                continue;                                                     \
+            }                                                                 \
+                                                                              \
+            foundIt = 1;                                                      \
+                                                                              \
+            if (val == 0)                                                     \
+            {                                                                 \
+                std::cout << msg1 << str << "\n";                             \
+                std::this_thread::sleep_for(std::chrono::milliseconds(5000)); \
+                std::cout << msg2 << str << '\n';                             \
+                dicti[key] = 1;                                               \
+            }                                                                 \
+            else                                                              \
+            {                                                                 \
+                std::cout << msg3 << key << "\n";                             \
+            }                                                                 \
+            break;                                                            \
+        }                                                                     \
+                                                                              \
+        if (foundIt == 0)                                                     \
+        {                                                                     \
+            std::cout << "The given ip " << str << " does not exist\n";       \
+        }                                                                     \
+    }
+
 
 CRACK_PROGRAM(crackssh, ipCracked, "Attempting to crack port 22 on ", "Cracked port 22 on ", "Port 22 already cracked for ")
 CRACK_PROGRAM(crackfw, ipFwCracked,  "Attempting to crack the firewall on ", "Cracked the firewall on: ", "The firewall is already cracked for ")
