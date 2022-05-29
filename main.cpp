@@ -17,7 +17,6 @@
 */
 
 #include <iostream>
-#include <cstdio>
 #include <cstdlib>
 #include <cstring>
 #include <vector>
@@ -52,17 +51,23 @@ struct Opt opt[] = {
 
 std::string IP = "1.1.1.1";
 
+std::vector<std::string> arr = {
+    "1.1.1.1",
+    "44.55.66.77",
+    "123.456.789.000",
+    "268.99.301.543"};
+
 std::map<std::string, unsigned short int> ipCracked = {
-    {"1.1.1.1", 1},
-    {"44.55.66.77", 0},
-    {"123.456.789.000", 0},
-    {"268.99.301.543", 0}};
+  {arr[0], 1}, 
+  {arr[1], 0}, 
+  {arr[2], 0}, 
+  {arr[3], 0}};
 
 std::map<std::string, unsigned short int> ipFwCracked = {
-    {"1.1.1.1", 1},
-    {"44.55.66.77", 0},
-    {"123.456.789.000", 0},
-    {"268.99.301.543", 0}};
+    {arr[0],1},
+    {arr[1], 0},
+    {arr[2], 0},
+    {arr[3], 0}};
 
 int main(void)
 {
@@ -148,10 +153,10 @@ static void trimQuotes(char *bufPtr, const char *strPtr)
 static void do_cat(const std::string &str)
 {
     std::map<std::string, std::string> ipData = {
-        {"1.1.1.1",  "Todo: scan for more ip"},
-        {"44.55.66.77", "So feel been kept be at gate. Be september it extensive oh concluded of certainty. In read most gate at body held it ever no. Talking justice welcome message inquiry in started of am me. Led own hearted highest visited lasting sir through compass his. Guest tiled he quick by so these trees am. It announcing alteration at surrounded comparison. "},
-        {"123.456.789.000", "Acceptance middletons me if discretion boisterous travelling an. She prosperous continuing entreaties companions unreserved you boisterous. Middleton sportsmen sir now cordially ask additions for. You ten occasional saw everything but conviction. Daughter returned quitting few are day advanced branched. Do enjoyment defective objection or we if favourite. At wonder afford so danger cannot former seeing. Power visit charm money add heard new other put. Attended no indulged marriage is to judgment offering landlord. "},
-        {"268.99.301.543", "Stronger unpacked felicity to of mistaken. Fanny at wrong table ye in. Be on easily cannot innate in lasted months on. Differed and and felicity steepest mrs age outweigh. Opinions learning likewise daughter now age outweigh. Raptures stanhill my greatest mistaken or exercise he on although. Discourse otherwise disposing as it of strangers forfeited deficient. "}};
+        {arr[0],  "Todo: scan for more ip"},
+        {arr[1], "So feel been kept be at gate. Be september it extensive oh concluded of certainty. In read most gate at body held it ever no. Talking justice welcome message inquiry in started of am me. Led own hearted highest visited lasting sir through compass his. Guest tiled he quick by so these trees am. It announcing alteration at surrounded comparison. "},
+        {arr[2], "Acceptance middletons me if discretion boisterous travelling an. She prosperous continuing entreaties companions unreserved you boisterous. Middleton sportsmen sir now cordially ask additions for. You ten occasional saw everything but conviction. Daughter returned quitting few are day advanced branched. Do enjoyment defective objection or we if favourite. At wonder afford so danger cannot former seeing. Power visit charm money add heard new other put. Attended no indulged marriage is to judgment offering landlord. "},
+        {arr[3], "Stronger unpacked felicity to of mistaken. Fanny at wrong table ye in. Be on easily cannot innate in lasted months on. Differed and and felicity steepest mrs age outweigh. Opinions learning likewise daughter now age outweigh. Raptures stanhill my greatest mistaken or exercise he on although. Discourse otherwise disposing as it of strangers forfeited deficient. "}};
 
     if ((strcmp(str.c_str(), "notes.txt")))
     {
@@ -201,10 +206,8 @@ static void do_ssh(const std::string &str)
             puts("Cannot connect to this IP as its firewall have to be cracked first with crackfw program");
             return;
         }
-        else
-        {
-            break;
-        }
+
+        break;
     }
 
     for (const auto &[key, val] : ipCracked)
@@ -219,13 +222,11 @@ static void do_ssh(const std::string &str)
             puts("Cannot connect to this IP as its ssh port have to be cracked first with crackssh program");
             return;
         }
-        else
-        {
-            foundIt = 1;
-            std::cout << "Connected to: " << str << '\n';
-            IP = str;
-            break;
-        }
+
+        foundIt = 1;
+        std::cout << "Connected to: " << str << '\n';
+        IP = str;
+        break;
     }
 
     if (foundIt == 0)
@@ -274,8 +275,8 @@ static void do_##function(const std::string &str) \
     }\
 }
 
-CRACK_PROGRAM(crackssh, ipCracked, "Attempting to crack port 22 on ", "Cracked port 22 on ", "Port 22 already cracked for ");
-CRACK_PROGRAM(crackfw, ipFwCracked,  "Attempting to crack the firewall on ", "Cracked the firewall on: ", "The firewall is already cracked for ");
+CRACK_PROGRAM(crackssh, ipCracked, "Attempting to crack port 22 on ", "Cracked port 22 on ", "Port 22 already cracked for ")
+CRACK_PROGRAM(crackfw, ipFwCracked,  "Attempting to crack the firewall on ", "Cracked the firewall on: ", "The firewall is already cracked for ")
 
 static void do_ls(const std::string &str)
 {
