@@ -23,12 +23,12 @@ all:
 	$(CXX) $(CFLAGS) -o $(PROGS) $(SRCS)
 
 install: 
-	install -D -s -m 755 hackzy $(BIN_DIR)/hackzy
+	install -D -s -m 755 $(PROGS) $(BIN_DIR)/$(PROGS)
 
 uninstall:
-	rm -f $(BIN_DIR)/hackzy
+	rm -f $(BIN_DIR)/$(PROGS)
 
 clean:
-	rm -f hackzy
+	rm -f $(PROGS)
 
 .PHONY: all install clean uninstall
