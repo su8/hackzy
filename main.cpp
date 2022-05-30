@@ -32,7 +32,10 @@ static void do_scan(const std::string &str);
 static void do_ssh(const std::string &str);
 static void do_crackssh(const std::string &str);
 static void do_crackfw(const std::string &str);
+static void do_bank(const std::string &str);
+static void do_crypto(const std::string &str);
 static inline void processInput(const std::string &str);
+static void updateCrypto(void);
 
 struct Opt
 {
@@ -47,9 +50,12 @@ struct Opt opt[] = {
     {"scan", do_scan},
     {"ssh", do_ssh},
     {"crackfw", do_crackfw},
+    {"crypto", do_crypto},
+    {"bank", do_bank},
     {"crackssh", do_crackssh}};
 
 std::string IP = "1.1.1.1";
+unsigned long int money = 0;
 
 std::vector<std::string> arr = {
     "1.1.1.1",
@@ -58,13 +64,19 @@ std::vector<std::string> arr = {
     "268.99.301.543"};
 
 std::map<std::string, unsigned short int> ipCracked = {
-  {arr[0], 1}, 
-  {arr[1], 0}, 
-  {arr[2], 0}, 
-  {arr[3], 0}};
+    {arr[0], 1},
+    {arr[1], 0},
+    {arr[2], 0},
+    {arr[3], 0}};
 
 std::map<std::string, unsigned short int> ipFwCracked = {
-    {arr[0],1},
+    {arr[0], 1},
+    {arr[1], 0},
+    {arr[2], 0},
+    {arr[3], 0}};
+
+std::map<std::string, unsigned short int> ipCrypto = {
+    {arr[0], 0},
     {arr[1], 0},
     {arr[2], 0},
     {arr[3], 0}};
@@ -115,7 +127,7 @@ static inline void processInput(const std::string &str)
     }
     *cmdPtr = '\0';
 
-    for (x = 0U; x < 7U; x++)
+    for (x = 0U; x < 9U; x++)
     {
         if (!(strcmp(opt[x].cmd, cmd)))
         {
@@ -235,7 +247,7 @@ static void do_ssh(const std::string &str)
     }
 }
 
-#define CRACK_PROGRAM(function, dicti, msg1, msg2, msg3)                      \
+#define CRACK_PROGRAM(function, dicti, msg1, msg2, msg3, launchCrypto)        \
     static void do_##function(const std::string &str)                         \
     {                                                                         \
         char foundIt = 0;                                                     \
@@ -257,14 +269,20 @@ static void do_ssh(const std::string &str)
                                                                               \
             if (val == 0)                                                     \
             {                                                                 \
-                std::cout << msg1 << str << "\n";                             \
+                std::cout << msg1 << str << '\n';                             \
                 std::this_thread::sleep_for(std::chrono::milliseconds(5000)); \
                 std::cout << msg2 << str << '\n';                             \
                 dicti[key] = 1;                                               \
+                if (launchCrypto == 1)                                        \
+                {                                                             \
+                    std::thread th(updateCrypto);                           \
+                    th.detach();                                              \
+                }                                                             \
             }                                                                 \
+                                                                              \
             else                                                              \
             {                                                                 \
-                std::cout << msg3 << key << "\n";                             \
+                std::cout << msg3 << key << '\n';                             \
             }                                                                 \
             break;                                                            \
         }                                                                     \
@@ -275,9 +293,22 @@ static void do_ssh(const std::string &str)
         }                                                                     \
     }
 
+CRACK_PROGRAM(crackssh, ipCracked, "Attempting to crack port 22 on ", "Cracked port 22 on ", "Port 22 already cracked for ", 0)
+CRACK_PROGRAM(crypto, ipCrypto, "Attempting to deploy crypto bot on ", "Crypto bot deployef on: ", "The crypto bot is already deployed for ", 1)
+CRACK_PROGRAM(crackfw, ipFwCracked, "Attempting to crack the firewall on ", "Cracked the firewall on: ", "The firewall is already cracked for ", 0)
 
-CRACK_PROGRAM(crackssh, ipCracked, "Attempting to crack port 22 on ", "Cracked port 22 on ", "Port 22 already cracked for ")
-CRACK_PROGRAM(crackfw, ipFwCracked,  "Attempting to crack the firewall on ", "Cracked the firewall on: ", "The firewall is already cracked for ")
+static void updateCrypto(void)
+{
+    std::this_thread::sleep_for(std::chrono::milliseconds(10000));
+    money++;
+    updateCrypto();
+}
+
+static void do_bank(const std::string &str)
+{
+    (void)str;
+    std::cout << "You have $ " << money << '\n';
+}
 
 static void do_ls(const std::string &str)
 {
@@ -302,6 +333,9 @@ static void do_help(const std::string &str)
                                   "crackfw ip\n"
                                   "\n"
                                   "Misc:\n"
+                                  "crypto Installs a crypto miner bot for given ip\n"
+                                  "crypto ip\n"
+                                  "bank See your bank account after you deploy a crypto miner\n"
                                   "help: shows this helpful help page\n";
     puts(helpMsg);
 }
