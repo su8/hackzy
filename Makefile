@@ -20,7 +20,7 @@ PROGS=hackzy
 BIN_DIR=/usr/bin
 
 all:
-	$(CXX) $(CFLAGS) -o $(PROGS) $(SRCS)
+	$(CXX) $(CFLAGS) -o $(PROGS) $(SRCS) -lpthread
 
 install: 
 	install -D -s -m 755 $(PROGS) $(BIN_DIR)/$(PROGS)
