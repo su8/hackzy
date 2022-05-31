@@ -278,14 +278,14 @@ static void do_ssh(const std::string &str)
                 }                                                                                                                               \
                 if (launchCrypto == 1)                                                                                                          \
                 {                                                                                                                               \
-                    for (const auto &[key, val] : ipFwCracked)                                                                                  \
+                    for (const auto &[keyx, valx] : ipFwCracked)                                                                                  \
                     {                                                                                                                           \
-                        if (key != str)                                                                                                         \
+                        if (keyx != str)                                                                                                         \
                         {                                                                                                                       \
                             continue;                                                                                                           \
                         }                                                                                                                       \
                                                                                                                                                 \
-                        if (val == 0)                                                                                                           \
+                        if (valx == 0)                                                                                                           \
                         {                                                                                                                       \
                             puts("Cannot deploy a crypto miner bot to this IP as its firewall have to be cracked first with crackfw program");  \
                             return;                                                                                                             \
@@ -294,14 +294,14 @@ static void do_ssh(const std::string &str)
                         break;                                                                                                                  \
                     }                                                                                                                           \
                                                                                                                                                 \
-                    for (const auto &[key, val] : ipCracked)                                                                                    \
+                    for (const auto &[keyz, valz] : ipCracked)                                                                                    \
                     {                                                                                                                           \
-                        if (key != str)                                                                                                         \
+                        if (keyz != str)                                                                                                         \
                         {                                                                                                                       \
                             continue;                                                                                                           \
                         }                                                                                                                       \
                                                                                                                                                 \
-                        if (val == 0)                                                                                                           \
+                        if (valz == 0)                                                                                                           \
                         {                                                                                                                       \
                             puts("Cannot deploy a crypto miner bot to this IP as its ssh port have to be cracked first with crackssh program"); \
                             return;                                                                                                             \
