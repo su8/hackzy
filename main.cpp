@@ -264,9 +264,9 @@ static void do_ssh(const std::string &str)
 
 static void do_analyze(const std::string &str)
 {
-    unsigned short int x = 50;
-    unsigned short int z = 50;
-    unsigned short int w = 0;
+    unsigned short int x = 50U;
+    unsigned short int z = 50U;
+    unsigned short int w = 0U;
     char foundIt = 0;
     char buf[30] = {'\0'};
     char *bufPtr = buf;
@@ -304,13 +304,13 @@ static void do_analyze(const std::string &str)
     }
     srandom(static_cast<unsigned int>(t) ^ static_cast<unsigned int>(getpid()));
 
-    for (x = 50; x < 256; x++, z++)
+    for (x = 50U; x < 256U; x++, z++)
     {
-        if (z & 1)
+        if (z & 1U)
         {
             putchar('1');
             *bufPtr = alphas[static_cast<unsigned short int>(rand()) % sizeof(alphas) - 1 / sizeof(char)];
-            if (w++ > 28)
+            if (w++ > 28U)
             {
                 break;
             }
@@ -336,7 +336,7 @@ static void do_analyze(const std::string &str)
 
 static void do_solve(const std::string &str)
 {
-    unsigned short int x = 0;
+    unsigned short int x = 0U;
     char foundIt = 0;
     char buf[10] = {'\0'};
     char *bufPtr = buf;
@@ -348,7 +348,7 @@ static void do_solve(const std::string &str)
         return;
     }
 
-    for (; *strPtr && x < 29U; strPtr++, x++)
+    for (; *strPtr && x < 9U; strPtr++, x++)
     {
         if (*strPtr == '@')
         {
@@ -367,8 +367,8 @@ static void do_solve(const std::string &str)
         }
 
         foundIt = 1;
-        ipFwCracked[key] = 1;
-        ipCracked[key] = 1;
+        ipFwCracked[key] = 1U;
+        ipCracked[key] = 1U;
         break;
     }
 
@@ -408,7 +408,7 @@ static void do_solve(const std::string &str)
                 if (launchCrypto == 0)                                                                                                      \
                 {                                                                                                                           \
                     std::cout << msg2 << str << '\n';                                                                                       \
-                    dicti[key] = 1;                                                                                                         \
+                    dicti[key] = 1U;                                                                                                         \
                 }                                                                                                                           \
                 if (launchCrypto == 1)                                                                                                      \
                 {                                                                                                                           \
@@ -423,7 +423,7 @@ static void do_solve(const std::string &str)
                         return;                                                                                                             \
                     }                                                                                                                       \
                     std::cout << msg2 << str << '\n';                                                                                       \
-                    dicti[key] = 1;                                                                                                         \
+                    dicti[key] = 1U;                                                                                                         \
                     std::thread th(updateCrypto);                                                                                           \
                     th.detach();                                                                                                            \
                 }                                                                                                                           \
