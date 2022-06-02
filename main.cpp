@@ -297,7 +297,7 @@ static void do_analyze(const std::string &str)
         return;
     }
 
-    if (-1 == (t = time(NULL)))
+    if ((t = time(NULL)) == -1)
     {
         puts("time(NULL) failed");
         return;
@@ -336,6 +336,7 @@ static void do_analyze(const std::string &str)
 
 static void do_solve(const std::string &str)
 {
+    unsigned short int x = 0;
     char foundIt = 0;
     char buf[10] = {'\0'};
     char *bufPtr = buf;
@@ -347,7 +348,7 @@ static void do_solve(const std::string &str)
         return;
     }
 
-    for (; *strPtr; strPtr++)
+    for (; *strPtr && x < 29U; strPtr++, x++)
     {
         if (*strPtr == '@')
         {
@@ -373,7 +374,7 @@ static void do_solve(const std::string &str)
 
     if (foundIt == 0)
     {
-        std::cout << "The given ip " << buf << " does not exist\n";
+        std::cout << "The given key@ip " << str << " does not exist\n";
         return;
     }
 
