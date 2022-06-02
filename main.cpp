@@ -326,7 +326,7 @@ static void do_analyze(const std::string &str)
             }
         }
 
-        z >>= 1;
+        z >>= 1U;
     }
     *bufPtr = '\0';
 
