@@ -17,6 +17,11 @@
 */
 
 #include <iostream>
+#include <time.h>
+#include <sys/types.h>
+#include <unistd.h>
+#include <cstdio>
+#include <string>
 #include <cstdlib>
 #include <cstring>
 #include <vector>
@@ -34,6 +39,8 @@ static void do_crackssh(const std::string &str);
 static void do_crackfw(const std::string &str);
 static void do_bank(const std::string &str);
 static void do_crypto(const std::string &str);
+static void do_analyze(const std::string &str);
+static void do_solve(const std::string &str);
 static inline void processInput(const std::string &str);
 static void updateCrypto(void);
 
@@ -43,7 +50,7 @@ struct Opt
     void (*my_func)(const std::string &str);
 };
 
-struct Opt opt[] = {
+static const struct Opt opt[] = {
     {"ls", do_ls},
     {"help", do_help},
     {"cat", do_cat},
@@ -52,34 +59,42 @@ struct Opt opt[] = {
     {"crackfw", do_crackfw},
     {"crypto", do_crypto},
     {"bank", do_bank},
+    {"analyze", do_analyze},
+    {"solve", do_solve},
     {"crackssh", do_crackssh}};
 
-std::string IP = "1.1.1.1";
-unsigned long int money = 0;
+static std::string IP = "1.1.1.1";
+static unsigned long int money = 0;
 
-std::vector<std::string> arr = {
+static const std::vector<std::string> arr = {
     "1.1.1.1",
     "44.55.66.77",
     "123.456.789.000",
     "268.99.301.543"};
 
-std::map<std::string, unsigned short int> ipCracked = {
+static std::map<std::string, unsigned short int> ipCracked = {
     {arr[0], 1},
     {arr[1], 0},
     {arr[2], 0},
     {arr[3], 0}};
 
-std::map<std::string, unsigned short int> ipFwCracked = {
+static std::map<std::string, unsigned short int> ipFwCracked = {
     {arr[0], 1},
     {arr[1], 0},
     {arr[2], 0},
     {arr[3], 0}};
 
-std::map<std::string, unsigned short int> ipCrypto = {
+static std::map<std::string, unsigned short int> ipCrypto = {
     {arr[0], 0},
     {arr[1], 0},
     {arr[2], 0},
     {arr[3], 0}};
+
+static std::map<std::string, std::string> ipSolved = {
+    {arr[0], ""},
+    {arr[1], ""},
+    {arr[2], ""},
+    {arr[3], ""}};
 
 int main(void)
 {
@@ -127,7 +142,7 @@ static inline void processInput(const std::string &str)
     }
     *cmdPtr = '\0';
 
-    for (x = 0U; x < 9U; x++)
+    for (x = 0U; x < 11U; x++)
     {
         if (!(strcmp(opt[x].cmd, cmd)))
         {
@@ -164,7 +179,7 @@ static void trimQuotes(char *bufPtr, const char *strPtr)
 
 static void do_cat(const std::string &str)
 {
-    std::map<std::string, std::string> ipData = {
+    static const std::map<std::string, std::string> ipData = {
         {arr[0],  "Todo: scan for more ip"},
         {arr[1], "So feel been kept be at gate. Be september it extensive oh concluded of certainty. In read most gate at body held it ever no. Talking justice welcome message inquiry in started of am me. Led own hearted highest visited lasting sir through compass his. Guest tiled he quick by so these trees am. It announcing alteration at surrounded comparison. "},
         {arr[2], "Acceptance middletons me if discretion boisterous travelling an. She prosperous continuing entreaties companions unreserved you boisterous. Middleton sportsmen sir now cordially ask additions for. You ten occasional saw everything but conviction. Daughter returned quitting few are day advanced branched. Do enjoyment defective objection or we if favourite. At wonder afford so danger cannot former seeing. Power visit charm money add heard new other put. Attended no indulged marriage is to judgment offering landlord. "},
@@ -245,6 +260,124 @@ static void do_ssh(const std::string &str)
     {
         std::cout << "The given ip " << str << " does not exist\n";
     }
+}
+
+static void do_analyze(const std::string &str)
+{
+    unsigned short int x = 50;
+    unsigned short int z = 50;
+    unsigned short int w = 0;
+    char foundIt = 0;
+    char buf[30] = {'\0'};
+    char *bufPtr = buf;
+    static const char alphas[] = "abcdefghijklmnopqrstuvwxyz";
+    std::string keyStr = "";
+    time_t t;
+
+    if (!strcmp(str.c_str(), ""))
+    {
+        puts("You need to provide IP");
+        return;
+    }
+
+    for (const auto &[key, val] : ipFwCracked)
+    {
+        if (key != str)
+        {
+            continue;
+        }
+        foundIt = 1;
+        keyStr = key;
+        break;
+    }
+
+    if (foundIt == 0)
+    {
+        std::cout << "The given ip " << str << " does not exist\n";
+        return;
+    }
+
+    if (-1 == (t = time(NULL)))
+    {
+        puts("time(NULL) failed");
+        return;
+    }
+    srandom(static_cast<unsigned int>(t) ^ static_cast<unsigned int>(getpid()));
+
+    for (x = 50; x < 256; x++, z++)
+    {
+        if (z & 1)
+        {
+            putchar('1');
+            *bufPtr = alphas[static_cast<unsigned short int>(rand()) % sizeof(alphas) - 1 / sizeof(char)];
+            if (w++ > 28)
+            {
+                break;
+            }
+            putchar(*bufPtr++);
+        }
+        else
+        {
+            putchar('0');
+            std::this_thread::sleep_for(std::chrono::milliseconds(10));
+            if (0 != (fflush(stdout)))
+            {
+                puts("fflush(stdout) failed!");
+            }
+        }
+
+        z >>= 1;
+    }
+    *bufPtr = '\0';
+
+    ipSolved[keyStr] = static_cast<std::string>(buf);
+    putchar('\n');
+}
+
+static void do_solve(const std::string &str)
+{
+    char foundIt = 0;
+    char buf[10] = {'\0'};
+    char *bufPtr = buf;
+    const char *strPtr = str.c_str();
+
+    if (!strcmp(str.c_str(), ""))
+    {
+        puts("You need to provide key@IP");
+        return;
+    }
+
+    for (; *strPtr; strPtr++)
+    {
+        if (*strPtr == '@')
+        {
+            strPtr++;
+            break;
+        }
+        *bufPtr++ = *strPtr;
+    }
+    *bufPtr = '\0';
+
+    for (const auto &[key, val] : ipSolved)
+    {
+        if (val != static_cast<std::string>(buf))
+        {
+            continue;
+        }
+
+        foundIt = 1;
+        ipFwCracked[key] = 1;
+        ipCracked[key] = 1;
+        break;
+    }
+
+    if (foundIt == 0)
+    {
+        std::cout << "The given ip " << buf << " does not exist\n";
+        return;
+    }
+
+    std::cout << "Successfully solved the key for " << str << '\n';
 }
 
 #define CRACK_PROGRAM(function, dicti, msg1, msg2, msg3, launchCrypto)                                                                      \
@@ -345,6 +478,10 @@ static void do_help(const std::string &str)
                                   "crackssh IP\n"
                                   "crackfw Attempts to crack given ip firewall\n"
                                   "crackfw ip\n"
+                                  "analyze Examine the key behind every ip firewall. Must use 'solve' command afterwards\n"
+                                  "analyze ip\n"
+                                  "solve will crack the ssh port as well the firewall\n"
+                                  "solve key@ip\n"
                                   "\n"
                                   "Misc:\n"
                                   "crypto Installs a crypto miner bot for given ip\n"
