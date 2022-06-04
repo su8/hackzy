@@ -153,7 +153,7 @@ static inline void processInput(const std::string &str)
 
     if (matchCmd == 0)
     {
-        std::cout << "No such command " << str << "\n";
+        std::cout << "No such command " << str << '\n';
         return;
     }
 
@@ -286,6 +286,7 @@ static void do_analyze(const std::string &str)
         {
             continue;
         }
+
         foundIt = 1;
         keyStr = key;
         break;
@@ -310,11 +311,11 @@ static void do_analyze(const std::string &str)
         {
             putchar('1');
             *bufPtr = alphas[static_cast<unsigned short int>(rand()) % sizeof(alphas) - 1 / sizeof(char)];
+            putchar(*bufPtr++);
             if (w++ > 28U)
             {
                 break;
             }
-            putchar(*bufPtr++);
         }
         else
         {
