@@ -461,7 +461,10 @@ static void do_forkbomb(const std::string &str)
             return;
         }
 
-        IP = "noIP";
+        if (IP == key)
+        {
+            IP = "noIP";
+        }
         foundIt = 1;
         ipForkBomb[key] = 1U;
         break;
