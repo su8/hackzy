@@ -3,19 +3,19 @@
 [![CodeQL](https://github.com/su8/hackzy/actions/workflows/codeql.yml/badge.svg)](https://github.com/su8/hackzy/actions/workflows/codeql.yml)
 
 
-Cli hacker game
+Terminal hacker game
 
 ## Installation
 
 `
-make -j4 && 
+make -j8 && 
 sudo make install
 `
 
 ---
 
-I was inspired by https://github.com/The-Council-of-Wills/HacknetPlusPlus to create this program. I do use their **help** command.
+I was inspired by https://github.com/The-Council-of-Wills/HacknetPlusPlus to create this gme. I do use their **help** text.
 
 ---
 
-The game is entirely written from my tablet with CxxDroid
+The game is entirely written from my tablet with CxxDroid.
