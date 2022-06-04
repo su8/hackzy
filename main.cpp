@@ -41,6 +41,7 @@ static void do_bank(const std::string &str);
 static void do_crypto(const std::string &str);
 static void do_analyze(const std::string &str);
 static void do_solve(const std::string &str);
+static void do_forkbomb(const std::string &str);
 static inline void processInput(const std::string &str);
 static void updateCrypto(void);
 
@@ -61,6 +62,7 @@ static const struct Opt opt[] = {
     {"bank", do_bank},
     {"analyze", do_analyze},
     {"solve", do_solve},
+    {"forkbomb", do_forkbomb},
     {"crackssh", do_crackssh}};
 
 static std::string IP = "1.1.1.1";
@@ -95,6 +97,12 @@ static std::map<std::string, std::string> ipSolved = {
     {arr[1], ""},
     {arr[2], ""},
     {arr[3], ""}};
+
+static std::map<std::string, unsigned short int> ipForkBomb = {
+    {arr[0], 0},
+    {arr[1], 0},
+    {arr[2], 0},
+    {arr[3], 0}};
 
 int main(void)
 {
@@ -142,7 +150,7 @@ static inline void processInput(const std::string &str)
     }
     *cmdPtr = '\0';
 
-    for (x = 0U; x < 11U; x++)
+    for (x = 0U; x < 12U; x++)
     {
         if (!(strcmp(opt[x].cmd, cmd)))
         {
@@ -180,7 +188,7 @@ static void trimQuotes(char *bufPtr, const char *strPtr)
 static void do_cat(const std::string &str)
 {
     static const std::map<std::string, std::string> ipData = {
-        {arr[0],  "Todo: scan for more ip"},
+        {arr[0], "Todo: scan for more ip"},
         {arr[1], "So feel been kept be at gate. Be september it extensive oh concluded of certainty. In read most gate at body held it ever no. Talking justice welcome message inquiry in started of am me. Led own hearted highest visited lasting sir through compass his. Guest tiled he quick by so these trees am. It announcing alteration at surrounded comparison. "},
         {arr[2], "Acceptance middletons me if discretion boisterous travelling an. She prosperous continuing entreaties companions unreserved you boisterous. Middleton sportsmen sir now cordially ask additions for. You ten occasional saw everything but conviction. Daughter returned quitting few are day advanced branched. Do enjoyment defective objection or we if favourite. At wonder afford so danger cannot former seeing. Power visit charm money add heard new other put. Attended no indulged marriage is to judgment offering landlord. "},
         {arr[3], "Stronger unpacked felicity to of mistaken. Fanny at wrong table ye in. Be on easily cannot innate in lasted months on. Differed and and felicity steepest mrs age outweigh. Opinions learning likewise daughter now age outweigh. Raptures stanhill my greatest mistaken or exercise he on although. Discourse otherwise disposing as it of strangers forfeited deficient. "}};
@@ -219,6 +227,21 @@ static void do_ssh(const std::string &str)
     {
         puts("You need to provide IP");
         return;
+    }
+
+    for (const auto &[key, val] : ipForkBomb)
+    {
+        if (key != str)
+        {
+            continue;
+        }
+
+        if (val == 1U)
+        {
+            std::cout << "The pc " << key << " is down due to fork bomb\n";
+            return;
+        }
+        break;
     }
 
     for (const auto &[key, val] : ipFwCracked)
@@ -278,6 +301,23 @@ static void do_analyze(const std::string &str)
     {
         puts("You need to provide IP");
         return;
+    }
+
+    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+
+    for (const auto &[key, val] : ipForkBomb)
+    {
+        if (key != str)
+        {
+            continue;
+        }
+
+        if (val == 1U)
+        {
+            std::cout << "The pc " << key << " is down due to fork bomb\n";
+            return;
+        }
+        break;
     }
 
     for (const auto &[key, val] : ipFwCracked)
@@ -349,6 +389,8 @@ static void do_solve(const std::string &str)
         return;
     }
 
+    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+
     for (; *strPtr && x < 9U; strPtr++, x++)
     {
         if (*strPtr == '@')
@@ -382,6 +424,58 @@ static void do_solve(const std::string &str)
     std::cout << "Successfully solved the key for " << str << '\n';
 }
 
+static void do_forkbomb(const std::string &str)
+{
+    char foundIt = 0;
+
+    if (!strcmp(str.c_str(), ""))
+    {
+        puts("You need to provide IP");
+        return;
+    }
+
+    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+
+    for (const auto &[key, val] : ipForkBomb)
+    {
+        if (key != str)
+        {
+            continue;
+        }
+
+        if (ipFwCracked[key] == 0U)
+        {
+            puts("Cannot connect to this IP as its firewall have to be cracked first with crackfw program");
+            return;
+        }
+
+        if (ipCracked[key] == 0U)
+        {
+            puts("Cannot connect to this IP as its ssh port have to be cracked first with crackssh program");
+            return;
+        }
+
+        if (val == 1U)
+        {
+            std::cout << "The pc " << key << " is down due to fork bomb\n";
+            return;
+        }
+
+        IP = "noIP";
+        foundIt = 1;
+        ipForkBomb[key] = 1U;
+        break;
+    }
+
+    if (foundIt == 0)
+    {
+        std::cout << "The given ip " << str << " does not exist\n";
+        return;
+    }
+
+    std::cout << "Successfully executed a fork bomb for " << str << '\n';
+}
+
 #define CRACK_PROGRAM(function, dicti, msg1, msg2, msg3, launchCrypto)                                                                      \
     static void do_##function(const std::string &str)                                                                                       \
     {                                                                                                                                       \
@@ -409,7 +503,7 @@ static void do_solve(const std::string &str)
                 if (launchCrypto == 0)                                                                                                      \
                 {                                                                                                                           \
                     std::cout << msg2 << str << '\n';                                                                                       \
-                    dicti[key] = 1U;                                                                                                         \
+                    dicti[key] = 1U;                                                                                                        \
                 }                                                                                                                           \
                 if (launchCrypto == 1)                                                                                                      \
                 {                                                                                                                           \
@@ -424,7 +518,7 @@ static void do_solve(const std::string &str)
                         return;                                                                                                             \
                     }                                                                                                                       \
                     std::cout << msg2 << str << '\n';                                                                                       \
-                    dicti[key] = 1U;                                                                                                         \
+                    dicti[key] = 1U;                                                                                                        \
                     std::thread th(updateCrypto);                                                                                           \
                     th.detach();                                                                                                            \
                 }                                                                                                                           \
@@ -443,7 +537,7 @@ static void do_solve(const std::string &str)
     }
 
 CRACK_PROGRAM(crackssh, ipCracked, "Attempting to crack port 22 on ", "Cracked port 22 on ", "Port 22 already cracked for ", 0)
-CRACK_PROGRAM(crypto, ipCrypto, "Attempting to deploy crypto bot on ", "Crypto bot deployef on: ", "The crypto bot is already deployed for ", 1)
+CRACK_PROGRAM(crypto, ipCrypto, "Attempting to deploy crypto bot on ", "Crypto bot deployed on: ", "The crypto bot is already deployed for ", 1)
 CRACK_PROGRAM(crackfw, ipFwCracked, "Attempting to crack the firewall on ", "Cracked the firewall on: ", "The firewall is already cracked for ", 0)
 
 static void updateCrypto(void)
@@ -488,6 +582,8 @@ static void do_help(const std::string &str)
                                   "Misc:\n"
                                   "crypto Installs a crypto miner bot for given ip\n"
                                   "crypto ip\n"
+                                  "forkbomb Will cause a shell fork bomb and shutdown given ip\n"
+                                  "forkbomb ip\n"
                                   "bank See your bank account after you deploy a crypto miner\n"
                                   "help: shows this helpful help page\n";
     puts(helpMsg);
