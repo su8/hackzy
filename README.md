@@ -2,6 +2,7 @@
 
 [![CodeQL](https://github.com/su8/hackzy/actions/workflows/codeql.yml/badge.svg)](https://github.com/su8/hackzy/actions/workflows/codeql.yml)
 
+![](a55546e2dd4259a2d18eca0ecb630177.jpg)
 
 Terminal hacker game
 
