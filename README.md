@@ -14,7 +14,7 @@ sudo make install
 
 ---
 
-I was inspired by https://github.com/The-Council-of-Wills/HacknetPlusPlus to create this gme. I do use their **help** text.
+I was inspired by https://github.com/The-Council-of-Wills/HacknetPlusPlus to create this game. I do use their **help** text.
 
 ---
 
