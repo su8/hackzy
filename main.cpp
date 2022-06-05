@@ -249,17 +249,7 @@ static void do_ssh(const std::string &str)
             return;
         }
 
-        break;
-    }
-
-    for (const auto &[key, val] : ipCracked)
-    {
-        if (key != str)
-        {
-            continue;
-        }
-
-        if (val == 0U)
+        if (ipCracked[key] == 0U)
         {
             puts("Cannot connect to this IP as its ssh port have to be cracked first with crackssh program");
             return;
