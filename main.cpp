@@ -44,6 +44,7 @@ static void do_solve(const std::string &str);
 static void do_forkbomb(const std::string &str);
 static inline void processInput(const std::string &str);
 static void updateCrypto(void);
+static unsigned short int checkForkBomb(const std::string &str);
 
 struct Opt
 {
@@ -229,19 +230,9 @@ static void do_ssh(const std::string &str)
         return;
     }
 
-    for (const auto &[key, val] : ipForkBomb)
+    if (checkForkBomb(str) == 1U)
     {
-        if (key != str)
-        {
-            continue;
-        }
-
-        if (val == 1U)
-        {
-            std::cout << "The pc " << key << " is down due to fork bomb\n";
-            return;
-        }
-        break;
+        return;
     }
 
     for (const auto &[key, val] : ipFwCracked)
@@ -251,7 +242,7 @@ static void do_ssh(const std::string &str)
             continue;
         }
 
-        if (val == 0)
+        if (val == 0U)
         {
             puts("Cannot connect to this IP as its firewall have to be cracked first with crackfw program");
             return;
@@ -267,7 +258,7 @@ static void do_ssh(const std::string &str)
             continue;
         }
 
-        if (val == 0)
+        if (val == 0U)
         {
             puts("Cannot connect to this IP as its ssh port have to be cracked first with crackssh program");
             return;
@@ -305,19 +296,9 @@ static void do_analyze(const std::string &str)
 
     std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 
-    for (const auto &[key, val] : ipForkBomb)
+    if (checkForkBomb(str) == 1U)
     {
-        if (key != str)
-        {
-            continue;
-        }
-
-        if (val == 1U)
-        {
-            std::cout << "The pc " << key << " is down due to fork bomb\n";
-            return;
-        }
-        break;
+        return;
     }
 
     for (const auto &[key, val] : ipFwCracked)
@@ -499,7 +480,7 @@ static void do_forkbomb(const std::string &str)
                                                                                                                                             \
             foundIt = 1;                                                                                                                    \
                                                                                                                                             \
-            if (val == 0)                                                                                                                   \
+            if (val == 0U)                                                                                                                  \
             {                                                                                                                               \
                 std::cout << msg1 << str << '\n';                                                                                           \
                 std::this_thread::sleep_for(std::chrono::milliseconds(5000));                                                               \
@@ -510,12 +491,12 @@ static void do_forkbomb(const std::string &str)
                 }                                                                                                                           \
                 if (launchCrypto == 1)                                                                                                      \
                 {                                                                                                                           \
-                    if (ipFwCracked[key] == 0)                                                                                              \
+                    if (ipFwCracked[key] == 0U)                                                                                             \
                     {                                                                                                                       \
                         puts("Cannot deploy a crypto miner bot to this IP as its firewall have to be cracked first with crackfw program");  \
                         return;                                                                                                             \
                     }                                                                                                                       \
-                    if (ipCracked[key] == 0)                                                                                                \
+                    if (ipCracked[key] == 0U)                                                                                               \
                     {                                                                                                                       \
                         puts("Cannot deploy a crypto miner bot to this IP as its ssh port have to be cracked first with crackssh program"); \
                         return;                                                                                                             \
@@ -542,6 +523,25 @@ static void do_forkbomb(const std::string &str)
 CRACK_PROGRAM(crackssh, ipCracked, "Attempting to crack port 22 on ", "Cracked port 22 on ", "Port 22 already cracked for ", 0)
 CRACK_PROGRAM(crypto, ipCrypto, "Attempting to deploy crypto bot on ", "Crypto bot deployed on: ", "The crypto bot is already deployed for ", 1)
 CRACK_PROGRAM(crackfw, ipFwCracked, "Attempting to crack the firewall on ", "Cracked the firewall on: ", "The firewall is already cracked for ", 0)
+
+static unsigned short int checkForkBomb(const std::string &str)
+{
+    for (const auto &[key, val] : ipForkBomb)
+    {
+        if (key != str)
+        {
+            continue;
+        }
+
+        if (val == 1U)
+        {
+            std::cout << "The pc " << key << " is down due to fork bomb\n";
+            return 1U;
+        }
+        break;
+    }
+    return 0U;
+}
 
 static void updateCrypto(void)
 {
