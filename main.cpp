@@ -45,6 +45,7 @@ static void do_forkbomb(const std::string &str);
 static inline void processInput(const std::string &str);
 static void updateCrypto(void);
 static unsigned short int checkForkBomb(const std::string &str);
+static unsigned short int checkFwSsh(const std::string &key);
 
 struct Opt
 {
@@ -424,15 +425,8 @@ static void do_forkbomb(const std::string &str)
             continue;
         }
 
-        if (ipFwCracked[key] == 0U)
+        if (checkFwSsh(key) == 1U)
         {
-            puts("Cannot connect to this IP as its firewall have to be cracked first with crackfw program");
-            return;
-        }
-
-        if (ipCracked[key] == 0U)
-        {
-            puts("Cannot connect to this IP as its ssh port have to be cracked first with crackssh program");
             return;
         }
 
@@ -460,69 +454,79 @@ static void do_forkbomb(const std::string &str)
     std::cout << "Successfully executed a fork bomb for " << str << '\n';
 }
 
-#define CRACK_PROGRAM(function, dicti, msg1, msg2, msg3, launchCrypto)                                                                      \
-    static void do_##function(const std::string &str)                                                                                       \
-    {                                                                                                                                       \
-        char foundIt = 0;                                                                                                                   \
-                                                                                                                                            \
-        if (!strcmp(str.c_str(), ""))                                                                                                       \
-        {                                                                                                                                   \
-            puts("You need to provide IP");                                                                                                 \
-            return;                                                                                                                         \
-        }                                                                                                                                   \
-                                                                                                                                            \
-        for (const auto &[key, val] : dicti)                                                                                                \
-        {                                                                                                                                   \
-            if (key != str)                                                                                                                 \
-            {                                                                                                                               \
-                continue;                                                                                                                   \
-            }                                                                                                                               \
-                                                                                                                                            \
-            foundIt = 1;                                                                                                                    \
-                                                                                                                                            \
-            if (val == 0U)                                                                                                                  \
-            {                                                                                                                               \
-                std::cout << msg1 << str << '\n';                                                                                           \
-                std::this_thread::sleep_for(std::chrono::milliseconds(5000));                                                               \
-                if (launchCrypto == 0)                                                                                                      \
-                {                                                                                                                           \
-                    std::cout << msg2 << str << '\n';                                                                                       \
-                    dicti[key] = 1U;                                                                                                        \
-                }                                                                                                                           \
-                if (launchCrypto == 1)                                                                                                      \
-                {                                                                                                                           \
-                    if (ipFwCracked[key] == 0U)                                                                                             \
-                    {                                                                                                                       \
-                        puts("Cannot deploy a crypto miner bot to this IP as its firewall have to be cracked first with crackfw program");  \
-                        return;                                                                                                             \
-                    }                                                                                                                       \
-                    if (ipCracked[key] == 0U)                                                                                               \
-                    {                                                                                                                       \
-                        puts("Cannot deploy a crypto miner bot to this IP as its ssh port have to be cracked first with crackssh program"); \
-                        return;                                                                                                             \
-                    }                                                                                                                       \
-                    std::cout << msg2 << str << '\n';                                                                                       \
-                    dicti[key] = 1U;                                                                                                        \
-                    std::thread th(updateCrypto);                                                                                           \
-                    th.detach();                                                                                                            \
-                }                                                                                                                           \
-            }                                                                                                                               \
-            else                                                                                                                            \
-            {                                                                                                                               \
-                std::cout << msg3 << key << '\n';                                                                                           \
-            }                                                                                                                               \
-            break;                                                                                                                          \
-        }                                                                                                                                   \
-                                                                                                                                            \
-        if (foundIt == 0)                                                                                                                   \
-        {                                                                                                                                   \
-            std::cout << "The given ip " << str << " does not exist\n";                                                                     \
-        }                                                                                                                                   \
+#define CRACK_PROGRAM(function, dicti, msg1, msg2, msg3, launchCrypto)        \
+    static void do_##function(const std::string &str)                         \
+    {                                                                         \
+        char foundIt = 0;                                                     \
+                                                                              \
+        if (!strcmp(str.c_str(), ""))                                         \
+        {                                                                     \
+            puts("You need to provide IP");                                   \
+            return;                                                           \
+        }                                                                     \
+                                                                              \
+        for (const auto &[key, val] : dicti)                                  \
+        {                                                                     \
+            if (key != str)                                                   \
+            {                                                                 \
+                continue;                                                     \
+            }                                                                 \
+                                                                              \
+            foundIt = 1;                                                      \
+                                                                              \
+            if (val == 0U)                                                    \
+            {                                                                 \
+                std::cout << msg1 << str << '\n';                             \
+                std::this_thread::sleep_for(std::chrono::milliseconds(5000)); \
+                if (launchCrypto == 0)                                        \
+                {                                                             \
+                    std::cout << msg2 << str << '\n';                         \
+                    dicti[key] = 1U;                                          \
+                }                                                             \
+                if (launchCrypto == 1)                                        \
+                {                                                             \
+                    if (checkFwSsh(key) == 1U)                                \
+                    {                                                         \
+                        return;                                               \
+                    }                                                         \
+                    std::cout << msg2 << str << '\n';                         \
+                    dicti[key] = 1U;                                          \
+                    std::thread th(updateCrypto);                             \
+                    th.detach();                                              \
+                }                                                             \
+            }                                                                 \
+            else                                                              \
+            {                                                                 \
+                std::cout << msg3 << key << '\n';                             \
+            }                                                                 \
+            break;                                                            \
+        }                                                                     \
+                                                                              \
+        if (foundIt == 0)                                                     \
+        {                                                                     \
+            std::cout << "The given ip " << str << " does not exist\n";       \
+        }                                                                     \
     }
 
 CRACK_PROGRAM(crackssh, ipCracked, "Attempting to crack port 22 on ", "Cracked port 22 on ", "Port 22 already cracked for ", 0)
 CRACK_PROGRAM(crypto, ipCrypto, "Attempting to deploy crypto bot on ", "Crypto bot deployed on: ", "The crypto bot is already deployed for ", 1)
 CRACK_PROGRAM(crackfw, ipFwCracked, "Attempting to crack the firewall on ", "Cracked the firewall on: ", "The firewall is already cracked for ", 0)
+
+static unsigned short int checkFwSsh(const std::string &key)
+{
+    if (ipFwCracked[key] == 0U)
+    {
+        puts("Cannot connect to this IP as its firewall have to be cracked first with crackfw program");
+        return 1U;
+    }
+
+    if (ipCracked[key] == 0U)
+    {
+        puts("Cannot connect to this IP as its ssh port have to be cracked first with crackssh program");
+        return 1U;
+    }
+    return 0U;
+}
 
 static unsigned short int checkForkBomb(const std::string &str)
 {
