@@ -4,7 +4,9 @@
 
 ![](a55546e2dd4259a2d18eca0ecb630177.jpg)
 
-Terminal hacker game
+The picture above does **NOT** represent this game.
+
+Terminal hacker game.
 
 ## Installation
 
