@@ -243,15 +243,8 @@ static void do_ssh(const std::string &str)
             continue;
         }
 
-        if (val == 0U)
+        if (checkFwSsh(key) == 1U)
         {
-            puts("Cannot connect to this IP as its firewall have to be cracked first with crackfw program");
-            return;
-        }
-
-        if (ipCracked[key] == 0U)
-        {
-            puts("Cannot connect to this IP as its ssh port have to be cracked first with crackssh program");
             return;
         }
 
