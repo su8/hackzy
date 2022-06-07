@@ -114,6 +114,7 @@ int main(void)
     {
         std::string userInput;
         std::cout << "frost@localhost " << IP << " > ";
+        fflush(stdout);
         getline(std::cin, userInput);
 
         if (userInput.size() == 0)
@@ -326,10 +327,7 @@ static void do_analyze(const std::string &str)
         {
             putchar('0');
             std::this_thread::sleep_for(std::chrono::milliseconds(10));
-            if (0 != (fflush(stdout)))
-            {
-                puts("fflush(stdout) failed!");
-            }
+            fflush(stdout);
         }
 
         z >>= 1U;
