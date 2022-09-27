@@ -10,6 +10,11 @@ Terminal hacker game.
 
 ## Installation
 
+If on windows, replace **srandom** with **srand**.
+
+https://github.com/su8/hackzy/blob/77bea1a91046c162bf2f786b07a4a0da618856ed/main.cpp#L312
+
+Linux, BSD
 `
 make -j8 && 
 sudo make install
