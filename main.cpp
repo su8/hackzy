@@ -42,6 +42,7 @@ static void do_crypto(const std::string &str);
 static void do_analyze(const std::string &str);
 static void do_solve(const std::string &str);
 static void do_forkbomb(const std::string &str);
+static void do_upgrade(const std::string &str);
 static inline void processInput(const std::string &str);
 static void updateCrypto(void);
 static unsigned short int checkForkBomb(const std::string &str);
@@ -65,10 +66,12 @@ static const struct Opt opt[] = {
     {"analyze", do_analyze},
     {"solve", do_solve},
     {"forkbomb", do_forkbomb},
-    {"crackssh", do_crackssh}};
+    {"crackssh", do_crackssh},
+    {"upgrade", do_upgrade}};
 
 static std::string IP = "1.1.1.1";
-static unsigned long int money = 0;
+static unsigned long int MONEY = 0U;
+static short int ConnectCrackDelay = 5000;
 
 static const std::vector<std::string> arr = {
     "1.1.1.1",
@@ -153,7 +156,7 @@ static inline void processInput(const std::string &str)
     }
     *cmdPtr = '\0';
 
-    for (x = 0U; x < 12U; x++)
+    for (x = 0U; x < 13U; x++)
     {
         if (!(strcmp(opt[x].cmd, cmd)))
         {
@@ -279,7 +282,7 @@ static void do_analyze(const std::string &str)
         return;
     }
 
-    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+    std::this_thread::sleep_for(std::chrono::milliseconds(ConnectCrackDelay));
 
     if (checkForkBomb(str) == 1U)
     {
@@ -352,7 +355,7 @@ static void do_solve(const std::string &str)
         return;
     }
 
-    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+    std::this_thread::sleep_for(std::chrono::milliseconds(ConnectCrackDelay));
 
     for (; *strPtr && x < 9U; strPtr++, x++)
     {
@@ -397,7 +400,7 @@ static void do_forkbomb(const std::string &str)
         return;
     }
 
-    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+    std::this_thread::sleep_for(std::chrono::milliseconds(ConnectCrackDelay));
 
     for (const auto &[key, val] : ipForkBomb)
     {
@@ -435,6 +438,32 @@ static void do_forkbomb(const std::string &str)
     std::cout << "Successfully executed a fork bomb for " << str << '\n';
 }
 
+static void do_upgrade(const std::string &str) {
+    if (!strcmp(str.c_str(), ""))
+    {
+        puts("You need to provide what PC part you want to upgrade. Currently we have available upgrades for the 'cpu'.");
+        return;
+    }
+    if (str == "cpu" || str == "CPU" || str == "Cpu"
+        || str == "cPu" || str == "cpU") {
+            if (ConnectCrackDelay == 5000 && MONEY >= 10U) {
+                ConnectCrackDelay = 1000;
+                MONEY -= 10U;
+                puts("Successfully purchased a CPU upgrade");
+                return;
+            }
+            if (ConnectCrackDelay == 1000) {
+                puts("You already upgraded the CPU.");
+                return;
+            }
+            if (MONEY < 10U) {
+                puts("You don't have $10 which are needed to upgrade your CPU.");
+                return;
+            }
+        }
+
+}
+
 #define CRACK_PROGRAM(function, dicti, msg1, msg2, msg3, launchCrypto)        \
     static void do_##function(const std::string &str)                         \
     {                                                                         \
@@ -458,7 +487,7 @@ static void do_forkbomb(const std::string &str)
             if (val == 0U)                                                    \
             {                                                                 \
                 std::cout << msg1 << str << '\n';                             \
-                std::this_thread::sleep_for(std::chrono::milliseconds(5000)); \
+                std::this_thread::sleep_for(std::chrono::milliseconds(ConnectCrackDelay)); \
                 if (launchCrypto == 0)                                        \
                 {                                                             \
                     std::cout << msg2 << str << '\n';                         \
@@ -490,7 +519,7 @@ static void do_forkbomb(const std::string &str)
     }
 
 CRACK_PROGRAM(crackssh, ipCracked, "Attempting to crack port 22 on ", "Cracked port 22 on ", "Port 22 already cracked for ", 0)
-CRACK_PROGRAM(crypto, ipCrypto, "Attempting to deploy crypto bot on ", "Crypto bot deployed on: ", "The crypto bot is already deployed for ", 1)
+CRACK_PROGRAM(crypto, ipCrypto, "Attempting to deploy a crypto bot on ", "Crypto bot deployed on: ", "The crypto bot is already deployed for ", 1)
 CRACK_PROGRAM(crackfw, ipFwCracked, "Attempting to crack the firewall on ", "Cracked the firewall on: ", "The firewall is already cracked for ", 0)
 
 static unsigned short int checkFwSsh(const std::string &key)
@@ -531,14 +560,14 @@ static unsigned short int checkForkBomb(const std::string &str)
 static void updateCrypto(void)
 {
     std::this_thread::sleep_for(std::chrono::milliseconds(10000));
-    money++;
+    MONEY++;
     updateCrypto();
 }
 
 static void do_bank(const std::string &str)
 {
     (void)str;
-    std::cout << "You have $ " << money << '\n';
+    std::cout << "You have $ " << MONEY << '\n';
 }
 
 static void do_ls(const std::string &str)
@@ -572,6 +601,8 @@ static void do_help(const std::string &str)
                                   "crypto ip\n"
                                   "forkbomb Will cause a shell fork bomb and shutdown given ip\n"
                                   "forkbomb ip\n"
+                                  "upgrade Will upgrade given PC part, must have enough money to purchase it, must install crypto bot first and wait till you have enough money to purchase it, once crypto bot is installed wait till you gain enough money and check them with the 'bank' program.\n"
+                                  "upgrade: given PC part\n"
                                   "bank See your bank account after you deploy a crypto miner\n"
                                   "help: shows this helpful help page\n";
     puts(helpMsg);
