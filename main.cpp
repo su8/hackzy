@@ -444,6 +444,7 @@ static void do_upgrade(const std::string &str) {
         puts("You need to provide what PC part you want to upgrade. Currently we have available upgrades for the 'cpu'.");
         return;
     }
+
     if (str == "cpu" || str == "CPU" || str == "Cpu"
         || str == "cPu" || str == "cpU") {
             if (ConnectCrackDelay == 5000 && MONEY >= 10U) {
@@ -461,7 +462,9 @@ static void do_upgrade(const std::string &str) {
                 return;
             }
         }
-
+        else {
+            std::cout << "We don't have any upgrades for this pc part " << "'" << str << "'" << '\n';
+        }
 }
 
 #define CRACK_PROGRAM(function, dicti, msg1, msg2, msg3, launchCrypto)        \
