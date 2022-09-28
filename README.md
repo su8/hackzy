@@ -12,9 +12,9 @@ Terminal hacker game.
 
 If on windows, replace **srandom** with **srand**.
 
-https://github.com/su8/hackzy/blob/77bea1a91046c162bf2f786b07a4a0da618856ed/main.cpp#L312
+https://github.com/su8/hackzy/blob/6b16bb5e3703d9085a33e6e075e9add6f5c32785/main.cpp#L315
 
-Linux, BSD
+Linux, *BSD
 `
 make -j8 && 
 sudo make install
