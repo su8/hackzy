@@ -28,4 +28,4 @@ I was inspired by https://github.com/The-Council-of-Wills/HacknetPlusPlus to cre
 
 ---
 
-The game is entirely written from my tablet with CxxDroid.
+The game is entirely written from my tablet with CxxDroid, true up until to the 59th commit, afterwards the game is written from my brand new windows laptop.
