@@ -611,7 +611,7 @@ static void do_help(const std::string &str)
                                   "forkbomb Will cause a shell fork bomb and shutdown given ip\n"
                                   "forkbomb ip\n"
                                   "upgrade Will upgrade given PC part, must have enough money to purchase it, must install crypto bot first and wait till you have enough money to purchase it, once crypto bot is installed wait till you gain enough money and check them with the 'bank' program.\n"
-                                  "upgrade: given PC part. Currently there's upgrade only for the 'cpu' only.\n"
+                                  "upgrade: given PC part. Currently there's upgrade only for the 'cpu'.\n"
                                   "bank See your bank account after you deploy a crypto miner\n"
                                   "help: shows this helpful help page\n";
     puts(helpMsg);
