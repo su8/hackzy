@@ -441,30 +441,36 @@ static void do_forkbomb(const std::string &str)
 static void do_upgrade(const std::string &str) {
     if (!strcmp(str.c_str(), ""))
     {
-        puts("You need to provide what PC part you want to upgrade. Currently we have available upgrades for the 'cpu'.");
+        puts("You need to provide what PC part you want to upgrade. Currently we have available upgrades only for the 'cpu'.");
         return;
     }
 
-    if (str == "cpu" || str == "CPU" || str == "Cpu"
-        || str == "cPu" || str == "cpU") {
-            if (ConnectCrackDelay == 5000 && MONEY >= 10U) {
-                ConnectCrackDelay = 1000;
-                MONEY -= 10U;
-                puts("Successfully purchased a CPU upgrade");
-                return;
-            }
-            if (ConnectCrackDelay == 1000) {
-                puts("You already upgraded the CPU.");
-                return;
-            }
-            if (MONEY < 10U) {
-                puts("You don't have $10 which are needed to upgrade your CPU.");
-                return;
-            }
+    if (str == "cpu" || str == "CPU" || str == "Cpu" || str == "cPu" || str == "cpU")
+    {
+        if (ConnectCrackDelay == 5000 && MONEY >= 10U)
+        {
+            ConnectCrackDelay = 1000;
+            MONEY -= 10U;
+            puts("Successfully purchased a CPU upgrade");
+            return;
         }
-        else {
-            std::cout << "We don't have any upgrades for this pc part " << "'" << str << "'" << '\n';
+
+        if (ConnectCrackDelay == 1000)
+        {
+            puts("You already upgraded the CPU.");
+            return;
         }
+        
+        if (MONEY < 10U)
+        {
+            puts("You don't have $10 which are needed to upgrade your CPU.");
+            return;
+        }
+    }
+    else
+    {
+        std::cout << "We don't have any upgrades for this pc part " << "'" << str << "'" << '\n';
+    }
 }
 
 #define CRACK_PROGRAM(function, dicti, msg1, msg2, msg3, launchCrypto)        \
@@ -605,7 +611,7 @@ static void do_help(const std::string &str)
                                   "forkbomb Will cause a shell fork bomb and shutdown given ip\n"
                                   "forkbomb ip\n"
                                   "upgrade Will upgrade given PC part, must have enough money to purchase it, must install crypto bot first and wait till you have enough money to purchase it, once crypto bot is installed wait till you gain enough money and check them with the 'bank' program.\n"
-                                  "upgrade: given PC part\n"
+                                  "upgrade: given PC part. Currently there's upgrade only for the 'cpu' only.\n"
                                   "bank See your bank account after you deploy a crypto miner\n"
                                   "help: shows this helpful help page\n";
     puts(helpMsg);
