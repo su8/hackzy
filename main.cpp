@@ -29,7 +29,6 @@
 #include <chrono>
 #include <thread>
 
-static void trimQuotes(char *bufPtr, const char *strPtr);
 static void do_ls(const std::string &str);
 static void do_help(const std::string &str);
 static void do_cat(const std::string &str);
@@ -44,6 +43,7 @@ static void do_solve(const std::string &str);
 static void do_forkbomb(const std::string &str);
 static void do_upgrade(const std::string &str);
 static inline void processInput(const std::string &str);
+static inline void trimQuotes(char *bufPtr, const char *strPtr);
 static void updateCrypto(void);
 static unsigned short int checkForkBomb(const std::string &str);
 static unsigned short int checkFwSsh(const std::string &key);
@@ -73,44 +73,36 @@ static std::string IP = "1.1.1.1";
 static unsigned long int MONEY = 0U;
 static short int ConnectCrackDelay = 5000;
 
-static const std::vector<std::string> arr = {
+static const std::vector<std::string> ipArr = {
     "1.1.1.1",
     "44.55.66.77",
     "123.456.789.000",
     "268.99.301.543"};
 
 static std::map<std::string, unsigned short int> ipCracked = {
-    {arr[0], 1},
-    {arr[1], 0},
-    {arr[2], 0},
-    {arr[3], 0}};
+    {ipArr[0], 1}};
 
 static std::map<std::string, unsigned short int> ipFwCracked = {
-    {arr[0], 1},
-    {arr[1], 0},
-    {arr[2], 0},
-    {arr[3], 0}};
+    {ipArr[0], 1}};
 
 static std::map<std::string, unsigned short int> ipCrypto = {
-    {arr[0], 0},
-    {arr[1], 0},
-    {arr[2], 0},
-    {arr[3], 0}};
-
-static std::map<std::string, std::string> ipSolved = {
-    {arr[0], ""},
-    {arr[1], ""},
-    {arr[2], ""},
-    {arr[3], ""}};
+    {ipArr[0], 0}};
 
 static std::map<std::string, unsigned short int> ipForkBomb = {
-    {arr[0], 0},
-    {arr[1], 0},
-    {arr[2], 0},
-    {arr[3], 0}};
+    {ipArr[0], 0}};
+
+static std::map<std::string, std::string> ipSolved = {
+    {ipArr[0], ""}};
 
 int main(void)
 {
+    for (unsigned short int x = 1U; x < 4U; x++) {
+        ipCracked.emplace(ipArr[x], 0U);
+        ipFwCracked.emplace(ipArr[x], 0U);
+        ipCrypto.emplace(ipArr[x], 0U);
+        ipForkBomb.emplace(ipArr[x], 0U);
+        ipSolved.emplace(ipArr[x], "");
+    }
     puts("Type 'help' to see the available commands");
 
     while (1)
@@ -175,7 +167,7 @@ static inline void processInput(const std::string &str)
     opt[x].my_func(static_cast<std::string>(buf));
 }
 
-static void trimQuotes(char *bufPtr, const char *strPtr)
+static inline void trimQuotes(char *bufPtr, const char *strPtr)
 {
     unsigned short int x = 0U;
 
@@ -194,10 +186,10 @@ static void trimQuotes(char *bufPtr, const char *strPtr)
 static void do_cat(const std::string &str)
 {
     static const std::map<std::string, std::string> ipData = {
-        {arr[0], "Todo: scan for more ip"},
-        {arr[1], "So feel been kept be at gate. Be september it extensive oh concluded of certainty. In read most gate at body held it ever no. Talking justice welcome message inquiry in started of am me. Led own hearted highest visited lasting sir through compass his. Guest tiled he quick by so these trees am. It announcing alteration at surrounded comparison. "},
-        {arr[2], "Acceptance middletons me if discretion boisterous travelling an. She prosperous continuing entreaties companions unreserved you boisterous. Middleton sportsmen sir now cordially ask additions for. You ten occasional saw everything but conviction. Daughter returned quitting few are day advanced branched. Do enjoyment defective objection or we if favourite. At wonder afford so danger cannot former seeing. Power visit charm money add heard new other put. Attended no indulged marriage is to judgment offering landlord. "},
-        {arr[3], "Stronger unpacked felicity to of mistaken. Fanny at wrong table ye in. Be on easily cannot innate in lasted months on. Differed and and felicity steepest mrs age outweigh. Opinions learning likewise daughter now age outweigh. Raptures stanhill my greatest mistaken or exercise he on although. Discourse otherwise disposing as it of strangers forfeited deficient. "}};
+        {ipArr[0], "Todo: scan for more ip"},
+        {ipArr[1], "So feel been kept be at gate. Be september it extensive oh concluded of certainty. In read most gate at body held it ever no. Talking justice welcome message inquiry in started of am me. Led own hearted highest visited lasting sir through compass his. Guest tiled he quick by so these trees am. It announcing alteration at surrounded comparison. "},
+        {ipArr[2], "Acceptance middletons me if discretion boisterous travelling an. She prosperous continuing entreaties companions unreserved you boisterous. Middleton sportsmen sir now cordially ask additions for. You ten occasional saw everything but conviction. Daughter returned quitting few are day advanced branched. Do enjoyment defective objection or we if favourite. At wonder afford so danger cannot former seeing. Power visit charm money add heard new other put. Attended no indulged marriage is to judgment offering landlord. "},
+        {ipArr[3], "Stronger unpacked felicity to of mistaken. Fanny at wrong table ye in. Be on easily cannot innate in lasted months on. Differed and and felicity steepest mrs age outweigh. Opinions learning likewise daughter now age outweigh. Raptures stanhill my greatest mistaken or exercise he on although. Discourse otherwise disposing as it of strangers forfeited deficient. "}};
 
     if ((strcmp(str.c_str(), "notes.txt")))
     {

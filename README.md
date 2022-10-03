@@ -2,7 +2,7 @@
 
 [![CodeQL](https://github.com/su8/hackzy/actions/workflows/codeql.yml/badge.svg)](https://github.com/su8/hackzy/actions/workflows/codeql.yml)
 
-![](a55546e2dd4259a2d18eca0ecb630177.jpg)
+![](snap.jpg)
 
 The picture above does **NOT** represent this game.
 
@@ -17,6 +17,7 @@ https://github.com/su8/hackzy/blob/6b16bb5e3703d9085a33e6e075e9add6f5c32785/main
 Tested with Visual Studio Code Editor, but you need to install MingW - https://github.com/niXman/mingw-builds-binaries/releases/download/12.2.0-rt_v10-rev0/x86_64-12.2.0-release-posix-seh-rt_v10-rev0.7z once downloaded extract it to the current folder and after that move it and rename it to **C:\MingW** then re-open Visual Studio Code Editor, you might want to install C\C++ extensions if you plan to write C\C++ code with the editor.
 
 If on Linux or *BSD
+
 `
 make -j8 && 
 sudo make install
@@ -28,4 +29,4 @@ I was inspired by https://github.com/The-Council-of-Wills/HacknetPlusPlus to cre
 
 ---
 
-The game is entirely written from my tablet with CxxDroid, true up until to the 59th commit, afterwards the game is written from my brand new windows laptop.
+The game is entirely written from my tablet with CxxDroid, only true up until to the 59th commit, afterwards the game is written from my brand new windows laptop.
