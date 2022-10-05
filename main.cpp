@@ -96,7 +96,7 @@ static std::map<std::string, std::string> ipSolved = {
 
 int main(void)
 {
-    for (unsigned short int x = 1U; x < 4U; x++) {
+    for (unsigned short int x = 1U; x < ipArr.size(); x++) {
         ipCracked.emplace(ipArr[x], 0U);
         ipFwCracked.emplace(ipArr[x], 0U);
         ipCrypto.emplace(ipArr[x], 0U);
@@ -148,7 +148,7 @@ static inline void processInput(const std::string &str)
     }
     *cmdPtr = '\0';
 
-    for (x = 0U; x < 13U; x++)
+    for (x = 0U; x < sizeof(opt) / sizeof(opt[0]); x++)
     {
         if (!(strcmp(opt[x].cmd, cmd)))
         {
