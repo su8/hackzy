@@ -191,7 +191,7 @@ static void do_cat(const std::string &str)
         {ipArr[2], "Acceptance middletons me if discretion boisterous travelling an. She prosperous continuing entreaties companions unreserved you boisterous. Middleton sportsmen sir now cordially ask additions for. You ten occasional saw everything but conviction. Daughter returned quitting few are day advanced branched. Do enjoyment defective objection or we if favourite. At wonder afford so danger cannot former seeing. Power visit charm money add heard new other put. Attended no indulged marriage is to judgment offering landlord. "},
         {ipArr[3], "Stronger unpacked felicity to of mistaken. Fanny at wrong table ye in. Be on easily cannot innate in lasted months on. Differed and and felicity steepest mrs age outweigh. Opinions learning likewise daughter now age outweigh. Raptures stanhill my greatest mistaken or exercise he on although. Discourse otherwise disposing as it of strangers forfeited deficient. "}};
 
-    if ((strcmp(str.c_str(), "notes.txt")))
+    if (str != "notes.txt")
     {
         std::cout << "No such " << str << " file\n";
         return;
@@ -221,7 +221,7 @@ static void do_ssh(const std::string &str)
 {
     char foundIt = 0;
 
-    if (!strcmp(str.c_str(), ""))
+    if (str.size() == 0)
     {
         puts("You need to provide IP");
         return;
@@ -268,7 +268,7 @@ static void do_analyze(const std::string &str)
     std::string keyStr = "";
     time_t t;
 
-    if (!strcmp(str.c_str(), ""))
+    if (str.size() == 0)
     {
         puts("You need to provide IP");
         return;
@@ -341,7 +341,7 @@ static void do_solve(const std::string &str)
     char *bufPtr = buf;
     const char *strPtr = str.c_str();
 
-    if (!strcmp(str.c_str(), ""))
+    if (str.size() == 0)
     {
         puts("You need to provide key@IP");
         return;
@@ -386,7 +386,7 @@ static void do_forkbomb(const std::string &str)
 {
     char foundIt = 0;
 
-    if (!strcmp(str.c_str(), ""))
+    if (str.size() == 0)
     {
         puts("You need to provide IP");
         return;
@@ -431,7 +431,7 @@ static void do_forkbomb(const std::string &str)
 }
 
 static void do_upgrade(const std::string &str) {
-    if (!strcmp(str.c_str(), ""))
+    if (str.size() == 0)
     {
         puts("You need to provide what PC part you want to upgrade. Currently we have available upgrades only for the 'cpu'.");
         return;
@@ -446,17 +446,13 @@ static void do_upgrade(const std::string &str) {
             puts("Successfully purchased a CPU upgrade");
             return;
         }
-
-        if (ConnectCrackDelay == 1000)
+        else if (ConnectCrackDelay == 1000)
         {
             puts("You already upgraded the CPU.");
-            return;
         }
-        
-        if (MONEY < 10U)
+        else if (MONEY < 10U)
         {
             puts("You don't have $10 which are needed to upgrade your CPU.");
-            return;
         }
     }
     else
@@ -470,7 +466,7 @@ static void do_upgrade(const std::string &str) {
     {                                                                         \
         char foundIt = 0;                                                     \
                                                                               \
-        if (!strcmp(str.c_str(), ""))                                         \
+        if (str.size() == 0)                                         \
         {                                                                     \
             puts("You need to provide IP");                                   \
             return;                                                           \
