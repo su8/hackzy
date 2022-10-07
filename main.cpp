@@ -96,7 +96,8 @@ static std::map<std::string, std::string> ipSolved = {
 
 int main(void)
 {
-    for (unsigned short int x = 1U; x < ipArr.size(); x++) {
+    unsigned short int ipArrSize = static_cast<unsigned short int> (ipArr.size());
+    for (unsigned short int x = 1U; x < ipArrSize; x++) {
         ipCracked.emplace(ipArr[x], 0U);
         ipFwCracked.emplace(ipArr[x], 0U);
         ipCrypto.emplace(ipArr[x], 0U);
@@ -408,7 +409,7 @@ static void do_forkbomb(const std::string &str)
 
         if (val == 1U)
         {
-            std::cout << "The pc " << key << " is down due to fork bomb\n";
+            std::cout << "The pc " << key << " is down due to a fork bomb\n";
             return;
         }
 
@@ -546,7 +547,7 @@ static unsigned short int checkForkBomb(const std::string &str)
 
         if (val == 1U)
         {
-            std::cout << "The pc " << key << " is down due to fork bomb\n";
+            std::cout << "The pc " << key << " is down due to a fork bomb\n";
             return 1U;
         }
         break;
