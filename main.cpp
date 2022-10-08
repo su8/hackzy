@@ -25,7 +25,7 @@
 #include <cstdlib>
 #include <cstring>
 #include <vector>
-#include <map>
+#include <unordered_map>
 #include <chrono>
 #include <thread>
 
@@ -42,6 +42,7 @@ static void do_analyze(const std::string &str);
 static void do_solve(const std::string &str);
 static void do_forkbomb(const std::string &str);
 static void do_upgrade(const std::string &str);
+static void do_addIp(const std::string &str);
 static inline void processInput(const std::string &str);
 static inline void trimQuotes(char *bufPtr, const char *strPtr);
 static void updateCrypto(void);
@@ -67,31 +68,32 @@ static const struct Opt opt[] = {
     {"solve", do_solve},
     {"forkbomb", do_forkbomb},
     {"crackssh", do_crackssh},
+    {"addip", do_addIp},
     {"upgrade", do_upgrade}};
 
 static std::string IP = "1.1.1.1";
 static unsigned long int MONEY = 0U;
 static short int ConnectCrackDelay = 5000;
 
-static const std::vector<std::string> ipArr = {
+static std::vector<std::string> ipArr = {
     "1.1.1.1",
     "44.55.66.77",
     "123.456.789.000",
     "268.99.301.543"};
 
-static std::map<std::string, unsigned short int> ipCracked = {
-    {ipArr[0], 1}};
+static std::unordered_map<std::string, unsigned short int> ipCracked = {
+    {ipArr[0], 1U}};
 
-static std::map<std::string, unsigned short int> ipFwCracked = {
-    {ipArr[0], 1}};
+static std::unordered_map<std::string, unsigned short int> ipFwCracked = {
+    {ipArr[0], 1U}};
 
-static std::map<std::string, unsigned short int> ipCrypto = {
-    {ipArr[0], 0}};
+static std::unordered_map<std::string, unsigned short int> ipCrypto = {
+    {ipArr[0], 0U}};
 
-static std::map<std::string, unsigned short int> ipForkBomb = {
-    {ipArr[0], 0}};
+static std::unordered_map<std::string, unsigned short int> ipForkBomb = {
+    {ipArr[0], 0U}};
 
-static std::map<std::string, std::string> ipSolved = {
+static std::unordered_map<std::string, std::string> ipSolved = {
     {ipArr[0], ""}};
 
 int main(void)
@@ -186,7 +188,7 @@ static inline void trimQuotes(char *bufPtr, const char *strPtr)
 
 static void do_cat(const std::string &str)
 {
-    static const std::map<std::string, std::string> ipData = {
+    static const std::unordered_map<std::string, std::string> ipData = {
         {ipArr[0], "Todo: scan for more ip"},
         {ipArr[1], "So feel been kept be at gate. Be september it extensive oh concluded of certainty. In read most gate at body held it ever no. Talking justice welcome message inquiry in started of am me. Led own hearted highest visited lasting sir through compass his. Guest tiled he quick by so these trees am. It announcing alteration at surrounded comparison. "},
         {ipArr[2], "Acceptance middletons me if discretion boisterous travelling an. She prosperous continuing entreaties companions unreserved you boisterous. Middleton sportsmen sir now cordially ask additions for. You ten occasional saw everything but conviction. Daughter returned quitting few are day advanced branched. Do enjoyment defective objection or we if favourite. At wonder afford so danger cannot former seeing. Power visit charm money add heard new other put. Attended no indulged marriage is to judgment offering landlord. "},
@@ -211,7 +213,7 @@ static void do_cat(const std::string &str)
 static void do_scan(const std::string &str)
 {
     (void)str;
-    for (const auto &[key, val] : ipCracked)
+    for (const auto key : ipArr)
     {
         std::this_thread::sleep_for(std::chrono::milliseconds(1000));
         std::cout << key << '\n';
@@ -368,9 +370,9 @@ static void do_solve(const std::string &str)
             continue;
         }
 
-        foundIt = 1;
         ipFwCracked[key] = 1U;
         ipCracked[key] = 1U;
+        foundIt = 1;
         break;
     }
 
@@ -462,12 +464,52 @@ static void do_upgrade(const std::string &str) {
     }
 }
 
+static void do_addIp(const std::string &str)
+{
+    char toAddIp = 0;
+    const char *strPtr = str.c_str();
+
+    std::this_thread::sleep_for(std::chrono::milliseconds(ConnectCrackDelay));
+
+    for (unsigned short int x = 0U;
+      x < static_cast<unsigned short int>(str.length()); x++, strPtr++)
+    {
+        if (!(isdigit(static_cast<unsigned char>(*strPtr))) && *strPtr == '.')
+        {
+            toAddIp = 1;
+            continue;
+        }
+        else if (isdigit(static_cast<unsigned char>(*strPtr)))
+        {
+            toAddIp = 1;
+        }
+        else
+        {
+            toAddIp = 0;
+            break;
+        }
+    }
+
+    if (toAddIp == 0)
+    {
+        std::cout << "The given IP address " << str << " can't be added because it contains letters or it's empty.\n";
+    }
+    else
+    {
+        ipArr.emplace_back(str);
+        ipFwCracked.emplace(str, 1U);
+        ipCracked.emplace(str, 1U);
+        ipCrypto.emplace(str, 0U);
+        std::cout << "Successfully added " << str << " to the IP database, now you can deploy a crypto miner bot to this IP.\n";
+    }
+}
+
 #define CRACK_PROGRAM(function, dicti, msg1, msg2, msg3, launchCrypto)        \
     static void do_##function(const std::string &str)                         \
     {                                                                         \
         char foundIt = 0;                                                     \
                                                                               \
-        if (str.size() == 0)                                         \
+        if (str.size() == 0)                                                  \
         {                                                                     \
             puts("You need to provide IP");                                   \
             return;                                                           \
@@ -602,6 +644,8 @@ static void do_help(const std::string &str)
                                   "upgrade Will upgrade given PC part, must have enough money to purchase it, must install crypto bot first and wait till you have enough money to purchase it, once crypto bot is installed wait till you gain enough money and check them with the 'bank' program.\n"
                                   "upgrade: given PC part. Currently there's upgrade only for the 'cpu'.\n"
                                   "bank See your bank account after you deploy a crypto miner\n"
+                                  "addip Add more IP's to the database, without the need to bypass firewalls and ssh protections, so you can deploy a crypto miner bot's on these IP's and upgrade your CPU sooner, and make some money\n"
+                                  "addip: 12.12.12.12\n"
                                   "help: shows this helpful help page\n";
     puts(helpMsg);
 }
