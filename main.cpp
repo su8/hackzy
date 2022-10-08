@@ -466,22 +466,19 @@ static void do_upgrade(const std::string &str) {
 
 static void do_addIp(const std::string &str)
 {
+    unsigned short int z = static_cast<unsigned short int>(str.length());
     char toAddIp = 0;
     const char *strPtr = str.c_str();
 
     std::this_thread::sleep_for(std::chrono::milliseconds(ConnectCrackDelay));
 
-    for (unsigned short int x = 0U;
-      x < static_cast<unsigned short int>(str.length()); x++, strPtr++)
+    for (unsigned short int x = 0U; x < z; x++, strPtr++)
     {
-        if (!(isdigit(static_cast<unsigned char>(*strPtr))) && *strPtr == '.')
+        if (!(isdigit(static_cast<unsigned char>(*strPtr))) && *strPtr == '.'
+          || isdigit(static_cast<unsigned char>(*strPtr)))
         {
             toAddIp = 1;
             continue;
-        }
-        else if (isdigit(static_cast<unsigned char>(*strPtr)))
-        {
-            toAddIp = 1;
         }
         else
         {
@@ -493,15 +490,14 @@ static void do_addIp(const std::string &str)
     if (toAddIp == 0)
     {
         std::cout << "The given IP address " << str << " can't be added because it contains letters or it's empty.\n";
+        return;
     }
-    else
-    {
-        ipArr.emplace_back(str);
-        ipFwCracked.emplace(str, 1U);
-        ipCracked.emplace(str, 1U);
-        ipCrypto.emplace(str, 0U);
-        std::cout << "Successfully added " << str << " to the IP database, now you can deploy a crypto miner bot to this IP.\n";
-    }
+
+    ipArr.emplace_back(str);
+    ipFwCracked.emplace(str, 1U);
+    ipCracked.emplace(str, 1U);
+    ipCrypto.emplace(str, 0U);
+    std::cout << "Successfully added " << str << " to the IP database, now you can deploy a crypto miner bot to this IP.\n";
 }
 
 #define CRACK_PROGRAM(function, dicti, msg1, msg2, msg3, launchCrypto)        \
