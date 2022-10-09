@@ -12,7 +12,7 @@ Terminal hacker game.
 
 If on windows, replace **srandom** with **srand**.
 
-https://github.com/su8/hackzy/blob/c60b6969460573096d83b9640c882abe0802d638/main.cpp#L304
+https://github.com/su8/hackzy/blob/edee5d3887808e365e7c6763a3695b40ab6dcfd8/main.cpp#L307
 
 Tested with Visual Studio Code Editor, but you need to install MingW - https://github.com/niXman/mingw-builds-binaries/releases/download/12.2.0-rt_v10-rev0/x86_64-12.2.0-release-posix-seh-rt_v10-rev0.7z once downloaded extract it to **C:\MingW**, then re-open Visual Studio Code Editor, you might want to install C\C++ extensions if you plan to write C\C++ code with the editor. If you plan to contribute to this project go to **File->Preferences->Settings** and type to search for **cppStandard** and set c++ to c17 to both c++ and C
 
