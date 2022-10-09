@@ -29,6 +29,7 @@
 #include <chrono>
 #include <thread>
 #include <ctype.h>
+#include <regex>
 
 static void do_ls(const std::string &str);
 static void do_help(const std::string &str);
@@ -45,6 +46,7 @@ static void do_forkbomb(const std::string &str);
 static void do_upgrade(const std::string &str);
 static void do_addIp(const std::string &str);
 static void do_addNote(const std::string &str);
+static void do_replace(const std::string &str);
 static inline void processInput(const std::string &str);
 static inline void trimQuotes(char *bufPtr, const char *strPtr);
 static void updateCrypto(void);
@@ -72,6 +74,7 @@ static const struct Opt opt[] = {
     {"crackssh", do_crackssh},
     {"addip", do_addIp},
     {"addnote", do_addNote},
+    {"replace", do_replace},
     {"upgrade", do_upgrade}};
 
 static std::string IP = "1.1.1.1";
@@ -514,6 +517,58 @@ static void do_addNote(const std::string &str)
     }
 }
 
+static void do_replace(const std::string &str)
+{
+    unsigned short int strLen = static_cast<unsigned short int>(str.length());
+    char foundIt = 0;
+    char gotFirstStr = 0;
+    char buf1[256] = {'\0'};
+    char buf2[256] = {'\0'};
+    char *bufPtr1 = buf1;
+    char *bufPtr2 = buf2;
+    const char *strPtr = str.c_str();
+
+    for (unsigned short int x = 0; x < strLen && x < 255U; x++)
+    {
+        if (gotFirstStr == 0)
+        {
+            if (*strPtr == ' ')
+            {
+                gotFirstStr = 1;
+                *strPtr++;
+                continue;
+            }
+            *bufPtr1++ = *strPtr++;
+        }
+        else
+        {
+            *bufPtr2++ = *strPtr++;
+        }
+    }
+    *bufPtr1 = '\0';
+    *bufPtr2 = '\0';
+
+    std::string bufStr = static_cast<std::string>(buf1);
+    for (const auto &[key, val] : NOTES)
+    {
+        if (key == IP)
+        {
+            std::size_t found = NOTES[key].find(buf1);
+            if (found != std::string::npos)
+            {
+                NOTES[key] = std::regex_replace(NOTES[key], std::regex(buf1), buf2);
+                foundIt = 1;
+                break;
+            }
+        }
+    }
+
+    if (foundIt == 0)
+    {
+        std::cout << "We couldn't find a note to replace for " << "' " << str << " '" << '\n';
+    }
+}
+
 #define CRACK_PROGRAM(function, dicti, msg1, msg2, msg3, launchCrypto)        \
     static void do_##function(const std::string &str)                         \
     {                                                                         \
@@ -658,6 +713,8 @@ static void do_help(const std::string &str)
                                   "addip: 12.12.12.12\n"
                                   "addnote Will cause addition to 'notes.txt' file for the particular ip. Make sure that you use 'quotes' around your text.\n"
                                   "addnote: 'Your text goes here'\n"
+                                  "replace Will replace text within notes.txt\n"
+                                  "replace old_text new_text\n"
                                   "help: shows this helpful help page\n";
     puts(helpMsg);
 }
