@@ -86,12 +86,12 @@ static std::vector<std::string> ipArr = {
     "noIP"
 };
 
-static std::unordered_map<std::string, unsigned short int> ipCracked = { {ipArr[0], 1U} };
+static std::unordered_map<std::string, unsigned short int> ipCracked   = { {ipArr[0], 1U} };
 static std::unordered_map<std::string, unsigned short int> ipFwCracked = { {ipArr[0], 1U} };
-static std::unordered_map<std::string, unsigned short int> ipCrypto = { {ipArr[0], 0U} };
-static std::unordered_map<std::string, unsigned short int> ipForkBomb = { {ipArr[0], 0U} };
-static std::unordered_map<std::string, std::string> ipSolved = { {ipArr[0], ""} };
-static std::unordered_map<std::string, std::string> NOTES = { {"1.1.1.1", ""} };
+static std::unordered_map<std::string, unsigned short int> ipCrypto    = { {ipArr[0], 0U} };
+static std::unordered_map<std::string, unsigned short int> ipForkBomb  = { {ipArr[0], 0U} };
+static std::unordered_map<std::string, std::string> ipSolved           = { {ipArr[0], ""} };
+static std::unordered_map<std::string, std::string> NOTES              = { {ipArr[0], ""} };
 
 int main(void)
 {
@@ -301,7 +301,7 @@ static void do_analyze(const std::string &str)
         puts("time(NULL) failed");
         return;
     }
-    srandom(static_cast<unsigned int>(t) ^ static_cast<unsigned int>(getpid()));
+    srand(static_cast<unsigned int>(t) ^ static_cast<unsigned int>(getpid()));
 
     for (x = 50U; x < 256U; x++, z++)
     {
