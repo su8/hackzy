@@ -186,7 +186,7 @@ static inline void trimQuotes(char *bufPtr, const char *strPtr)
 
 static void do_cat(const std::string &str)
 {
-   if (str != "notes.txt")
+    if (str != "notes.txt")
     {
         std::cout << "No such " << str << " file\n";
         return;
@@ -197,7 +197,8 @@ static void do_cat(const std::string &str)
     {
         if (key == IP)
         {
-            std::cout << val << '\n';
+            std::cout << val;
+            fflush(stdout);
             break;
         }
     }
@@ -500,7 +501,7 @@ static void do_addNote(const std::string &str)
     {
         if (key == IP)
         {
-            NOTES[key] = str;
+            NOTES[key] = NOTES[key] + str + '\n';
             puts("Done.");
             break;
         }
