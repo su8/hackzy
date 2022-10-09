@@ -474,8 +474,8 @@ static void do_addIp(const std::string &str)
 
     for (unsigned short int x = 0U; x < z; x++, strPtr++)
     {
-        if ((!(isdigit(static_cast<unsigned char>(*strPtr))) && *strPtr == '.')
-          || isdigit(static_cast<unsigned char>(*strPtr)))
+        unsigned char cStrPtr = static_cast<unsigned char>(*strPtr);
+        if ((!(isdigit(cStrPtr)) && *strPtr == '.') || isdigit(cStrPtr))
         {
             toAddIp = 1;
             continue;
