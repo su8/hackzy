@@ -535,7 +535,7 @@ static void do_replace(const std::string &str)
             if (*strPtr == ' ')
             {
                 gotFirstStr = 1;
-                *strPtr++;
+                strPtr++;
                 continue;
             }
             *bufPtr1++ = *strPtr++;
@@ -558,6 +558,7 @@ static void do_replace(const std::string &str)
             {
                 NOTES[key] = std::regex_replace(NOTES[key], std::regex(buf1), buf2);
                 foundIt = 1;
+                puts("Done.");
                 break;
             }
         }
@@ -565,7 +566,7 @@ static void do_replace(const std::string &str)
 
     if (foundIt == 0)
     {
-        std::cout << "We couldn't find a note to replace for " << "' " << str << " '" << '\n';
+        std::cout << "We couldn't find a text within your notes.txt to replace " << "' " << str << " '" << '\n';
     }
 }
 
