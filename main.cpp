@@ -487,6 +487,12 @@ static void do_addIp(const std::string &str)
         return;
     }
 
+    if (ipCrypto.count(str))
+    {
+        std::cout << "The given ip " << str << " already exist, no further actions will be taken.\n";
+        return;
+    }
+
     ipArr.emplace_back(str);
     ipFwCracked.emplace(str, 1U);
     ipCracked.emplace(str, 1U);
