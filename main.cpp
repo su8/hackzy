@@ -135,7 +135,7 @@ int main(void)
 static inline void processInput(const std::string &str)
 {
     unsigned short int x = 0U;
-    char buf[30] = {'\0'};
+    char buf[128] = {'\0'};
     char cmd[10] = {'\0'};
     char matchCmd = 0;
     const char *strPtr = str.c_str();
@@ -173,9 +173,7 @@ static inline void processInput(const std::string &str)
 
 static inline void trimQuotes(char *bufPtr, const char *strPtr)
 {
-    unsigned short int x = 0U;
-
-    for (; x < 29U && *strPtr; x++, strPtr++)
+    for (unsigned short int x = 0U; x < 127U && *strPtr; x++, strPtr++)
     {
         if (*strPtr == '"' || *strPtr == '\'')
         {
@@ -522,13 +520,13 @@ static void do_replace(const std::string &str)
     unsigned short int strLen = static_cast<unsigned short int>(str.length());
     char foundIt = 0;
     char gotFirstStr = 0;
-    char buf1[256] = {'\0'};
-    char buf2[256] = {'\0'};
+    char buf1[128] = {'\0'};
+    char buf2[128] = {'\0'};
     char *bufPtr1 = buf1;
     char *bufPtr2 = buf2;
     const char *strPtr = str.c_str();
 
-    for (unsigned short int x = 0; x < strLen && x < 255U; x++)
+    for (unsigned short int x = 0U; x < strLen && x < 127U; x++)
     {
         if (gotFirstStr == 0)
         {
