@@ -193,7 +193,6 @@ static void do_cat(const std::string &str)
     {
         std::cout << "No such " << str << " file\n";
         return;
-
     }
     
     for (const auto &[key, val] : NOTES)
@@ -209,7 +208,7 @@ static void do_cat(const std::string &str)
 
 static void do_scan(const std::string &str)
 {
-    (void)str;
+    static_cast<void>(str);
     for (const auto key : ipArr)
     {
         std::this_thread::sleep_for(std::chrono::milliseconds(1000));
@@ -360,9 +359,10 @@ static void do_solve(const std::string &str)
     }
     *bufPtr = '\0';
 
+    std::string bufStr = static_cast<std::string>(buf);
     for (const auto &[key, val] : ipSolved)
     {
-        if (val != static_cast<std::string>(buf))
+        if (val != bufStr)
         {
             continue;
         }
@@ -672,19 +672,19 @@ static void updateCrypto(void)
 
 static void do_bank(const std::string &str)
 {
-    (void)str;
+    static_cast<void>(str);
     std::cout << "You have $ " << MONEY << '\n';
 }
 
 static void do_ls(const std::string &str)
 {
-    (void)str;
+    static_cast<void>(str);
     puts("notes.txt");
 }
 
 static void do_help(const std::string &str)
 {
-    (void)str;
+    static_cast<void>(str);
     static const char helpMsg[] = "ls: lists all directories and files in the current directory\n"
                                   "cat: reads the contents of the given file\n"
                                   "cat file.txt\n"
