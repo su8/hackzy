@@ -47,6 +47,7 @@ static void do_upgrade(const std::string &str);
 static void do_addIp(const std::string &str);
 static void do_addNote(const std::string &str);
 static void do_replace(const std::string &str);
+static void do_delNotes(const std::string &str);
 static inline void processInput(const std::string &str);
 static inline void trimQuotes(char *bufPtr, const char *strPtr);
 static void updateCrypto(void);
@@ -75,6 +76,7 @@ static const struct Opt opt[] = {
     {"addip", do_addIp},
     {"addnote", do_addNote},
     {"replace", do_replace},
+    {"delnotes", do_delNotes},
     {"upgrade", do_upgrade}};
 
 static std::string IP = "1.1.1.1";
@@ -568,6 +570,13 @@ static void do_replace(const std::string &str)
     }
 }
 
+static void do_delNotes(const std::string &str)
+{
+    static_cast<void>(str);
+    NOTES[IP] = "";
+    puts("Done.");
+}
+
 #define CRACK_PROGRAM(function, dicti, msg1, msg2, msg3, launchCrypto)        \
     static void do_##function(const std::string &str)                         \
     {                                                                         \
@@ -714,6 +723,7 @@ static void do_help(const std::string &str)
                                   "addnote: 'Your text goes here'\n"
                                   "replace Will replace text within notes.txt\n"
                                   "replace old_text new_text\n"
+                                  "delnotes Will delete the entire notes.txt for the connected IP address.\n"
                                   "help: shows this helpful help page\n";
     puts(helpMsg);
 }
