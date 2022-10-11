@@ -572,8 +572,7 @@ static void do_replace(const std::string &str)
 
 static void do_delNotes(const std::string &str)
 {
-    static_cast<void>(str);
-    NOTES[IP] = "";
+    (str.size() != 0 ? NOTES[str] = "" : NOTES[IP] = "");
     puts("Done.");
 }
 
@@ -723,7 +722,7 @@ static void do_help(const std::string &str)
                                   "addnote: 'Your text goes here'\n"
                                   "replace Will replace text within notes.txt\n"
                                   "replace old_text new_text\n"
-                                  "delnotes Will delete the entire notes.txt for the connected IP address.\n"
+                                  "delnotes Will delete the entire notes.txt for the connected IP address. Optionally you can specify IP argument and it will delete the notes.txt file for the give IP address.\n"
                                   "help: shows this helpful help page\n";
     puts(helpMsg);
 }
