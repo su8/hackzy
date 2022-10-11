@@ -548,7 +548,6 @@ static void do_replace(const std::string &str)
     *bufPtr1 = '\0';
     *bufPtr2 = '\0';
 
-    std::string bufStr = static_cast<std::string>(buf1);
     for (const auto &[key, val] : NOTES)
     {
         if (key == IP)
