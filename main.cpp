@@ -117,7 +117,7 @@ int main(void)
         std::cout << "frost@localhost " << IP << " > " << std::flush;
         getline(std::cin, userInput);
 
-        if (userInput.size() == 0)
+        if (userInput.empty())
         {
             continue;
         }
@@ -218,7 +218,7 @@ static void do_ssh(const std::string &str)
 {
     char foundIt = 0;
 
-    if (str.size() == 0)
+    if (str.empty())
     {
         puts("You need to provide IP");
         return;
@@ -265,7 +265,7 @@ static void do_analyze(const std::string &str)
     std::string keyStr = "";
     time_t t;
 
-    if (str.size() == 0)
+    if (str.empty())
     {
         puts("You need to provide IP");
         return;
@@ -338,7 +338,7 @@ static void do_solve(const std::string &str)
     char *bufPtr = buf;
     const char *strPtr = str.c_str();
 
-    if (str.size() == 0)
+    if (str.empty())
     {
         puts("You need to provide key@IP");
         return;
@@ -384,7 +384,7 @@ static void do_forkbomb(const std::string &str)
 {
     char foundIt = 0;
 
-    if (str.size() == 0)
+    if (str.empty())
     {
         puts("You need to provide IP");
         return;
@@ -429,13 +429,14 @@ static void do_forkbomb(const std::string &str)
 }
 
 static void do_upgrade(const std::string &str) {
-    if (str.size() == 0)
+    if (str.empty())
     {
         puts("You need to provide what PC part you want to upgrade. Currently we have available upgrades only for the 'cpu'.");
         return;
     }
 
-    if (str == "cpu" || str == "CPU" || str == "Cpu" || str == "cPu" || str == "cpU")
+    if (str == "cpu" || str == "CPU" || str == "Cpu"
+      || str == "cPu" || str == "cpU" || str == "cPU" || str == "CPu")
     {
         if (ConnectCrackDelay == 5000 && MONEY >= 10U)
         {
@@ -569,7 +570,7 @@ static void do_replace(const std::string &str)
 
 static void do_delNotes(const std::string &str)
 {
-    (str.size() != 0 ? NOTES[str] = "" : NOTES[IP] = "");
+    (!str.empty() ? NOTES[str] = "" : NOTES[IP] = "");
     puts("Done.");
 }
 
@@ -578,7 +579,7 @@ static void do_delNotes(const std::string &str)
     {                                                                         \
         char foundIt = 0;                                                     \
                                                                               \
-        if (str.size() == 0)                                                  \
+        if (str.empty())                                                      \
         {                                                                     \
             puts("You need to provide IP");                                   \
             return;                                                           \
