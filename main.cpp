@@ -324,7 +324,7 @@ static void do_analyze(const std::string &str)
             fflush(stdout);
         }
 
-        z >>= 1U;
+        z >>= static_cast<unsigned short int>(1U);
     }
     *bufPtr = '\0';
 
