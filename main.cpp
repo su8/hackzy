@@ -100,7 +100,7 @@ static std::unordered_map<std::string, std::string> NOTES              = { {ipAr
 
 int main(void)
 {
-    unsigned short int ipArrSize = static_cast<unsigned short int> (ipArr.size());
+    unsigned short int ipArrSize = static_cast<unsigned short int>(ipArr.size());
     for (unsigned short int x = 1U; x < ipArrSize; x++) {
         ipCracked.emplace(ipArr[x], 0U);
         ipFwCracked.emplace(ipArr[x], 0U);
@@ -510,7 +510,7 @@ static void do_addNote(const std::string &str)
     {
         if (key == IP)
         {
-            NOTES[key] = NOTES[key] + str + '\n';
+            NOTES[key] += str + '\n';
             puts("Done.");
             break;
         }
@@ -719,7 +719,7 @@ static void do_help(const std::string &str)
                                   "bank See your bank account after you deploy a crypto miner\n"
                                   "addip Add more IP's to the database, without the need to bypass firewalls and ssh protections, so you can deploy a crypto miner bot's on these IP's and upgrade your CPU sooner, and make some money\n"
                                   "addip: 12.12.12.12\n"
-                                  "addnote Will cause addition to 'notes.txt' file for the particular ip. Make sure that you use 'quotes' around your text.\n"
+                                  "addnote Will cause addition to 'notes.txt' file for the particular IP.\n"
                                   "addnote: 'Your text goes here'\n"
                                   "replace Will replace text within notes.txt\n"
                                   "replace old_text new_text\n"
