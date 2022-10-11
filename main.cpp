@@ -114,8 +114,7 @@ int main(void)
     while (1)
     {
         std::string userInput;
-        std::cout << "frost@localhost " << IP << " > ";
-        fflush(stdout);
+        std::cout << "frost@localhost " << IP << " > " << std::flush;
         getline(std::cin, userInput);
 
         if (userInput.size() == 0)
@@ -165,7 +164,7 @@ static inline void processInput(const std::string &str)
 
     if (matchCmd == 0)
     {
-        std::cout << "No such command " << str << '\n';
+        std::cout << "No such command " << str << '\n' << std::flush;
         return;
     }
 
@@ -199,8 +198,7 @@ static void do_cat(const std::string &str)
     {
         if (key == IP)
         {
-            std::cout << val;
-            fflush(stdout);
+            std::cout << val << std::flush;
             break;
         }
     }
@@ -212,7 +210,7 @@ static void do_scan(const std::string &str)
     for (const auto key : ipArr)
     {
         std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-        std::cout << key << '\n';
+        std::cout << key << '\n' << std::flush;
     }
 }
 
@@ -244,14 +242,14 @@ static void do_ssh(const std::string &str)
         }
 
         foundIt = 1;
-        std::cout << "Connected to: " << str << '\n';
+        std::cout << "Connected to: " << str << '\n' << std::flush;
         IP = str;
         break;
     }
 
     if (foundIt == 0)
     {
-        std::cout << "The given ip " << str << " does not exist\n";
+        std::cout << "The given ip " << str << " does not exist\n" << std::flush;
     }
 }
 
@@ -294,7 +292,7 @@ static void do_analyze(const std::string &str)
 
     if (foundIt == 0)
     {
-        std::cout << "The given ip " << str << " does not exist\n";
+        std::cout << "The given ip " << str << " does not exist\n" << std::flush;
         return;
     }
 
@@ -375,11 +373,11 @@ static void do_solve(const std::string &str)
 
     if (foundIt == 0)
     {
-        std::cout << "The given key@ip " << str << " does not exist\n";
+        std::cout << "The given key@ip " << str << " does not exist\n" << std::flush;
         return;
     }
 
-    std::cout << "Successfully solved the key for " << str << '\n';
+    std::cout << "Successfully solved the key for " << str << '\n' << std::flush;
 }
 
 static void do_forkbomb(const std::string &str)
@@ -408,7 +406,7 @@ static void do_forkbomb(const std::string &str)
 
         if (val == 1U)
         {
-            std::cout << "The pc " << key << " is down due to a fork bomb\n";
+            std::cout << "The pc " << key << " is down due to a fork bomb\n" << std::flush;
             return;
         }
 
@@ -423,11 +421,11 @@ static void do_forkbomb(const std::string &str)
 
     if (foundIt == 0)
     {
-        std::cout << "The given ip " << str << " does not exist\n";
+        std::cout << "The given ip " << str << " does not exist\n" << std::flush;
         return;
     }
 
-    std::cout << "Successfully executed a fork bomb for " << str << '\n';
+    std::cout << "Successfully executed a fork bomb for " << str << '\n' << std::flush;
 }
 
 static void do_upgrade(const std::string &str) {
@@ -457,7 +455,7 @@ static void do_upgrade(const std::string &str) {
     }
     else
     {
-        std::cout << "We don't have any upgrades for this pc part " << "'" << str << "'" << '\n';
+        std::cout << "We don't have any upgrades for this pc part " << "'" << str << "'" << '\n' << std::flush;
     }
 }
 
@@ -486,13 +484,13 @@ static void do_addIp(const std::string &str)
 
     if (toAddIp == 0)
     {
-        std::cout << "The given IP address " << str << " can't be added because it contains letters or it's empty.\n";
+        std::cout << "The given IP address " << str << " can't be added because it contains letters or it's empty.\n" << std::flush;
         return;
     }
 
     if (ipCrypto.count(str))
     {
-        std::cout << "The given ip " << str << " already exist, no further actions will be taken.\n";
+        std::cout << "The given ip " << str << " already exist, no further actions will be taken.\n" << std::flush;
         return;
     }
 
@@ -501,7 +499,7 @@ static void do_addIp(const std::string &str)
     ipCracked.emplace(str, 1U);
     ipCrypto.emplace(str, 0U);
     NOTES.emplace(str, "");
-    std::cout << "Successfully added " << str << " to the IP database, now you can deploy a crypto miner bot to this IP.\n";
+    std::cout << "Successfully added " << str << " to the IP database, now you can deploy a crypto miner bot to this IP.\n" << std::flush;
 }
 
 static void do_addNote(const std::string &str)
@@ -565,7 +563,7 @@ static void do_replace(const std::string &str)
 
     if (foundIt == 0)
     {
-        std::cout << "We couldn't find a text within your notes.txt to replace " << "' " << str << " '" << '\n';
+        std::cout << "We couldn't find a text within your notes.txt to replace " << "' " << str << " '" << '\n' << std::flush;
     }
 }
 
@@ -597,11 +595,11 @@ static void do_delNotes(const std::string &str)
                                                                               \
             if (val == 0U)                                                    \
             {                                                                 \
-                std::cout << msg1 << str << '\n';                             \
+                std::cout << msg1 << str << '\n' << std::flush;               \
                 std::this_thread::sleep_for(std::chrono::milliseconds(ConnectCrackDelay)); \
                 if (launchCrypto == 0)                                        \
                 {                                                             \
-                    std::cout << msg2 << str << '\n';                         \
+                    std::cout << msg2 << str << '\n' << std::flush;           \
                     dicti[key] = 1U;                                          \
                 }                                                             \
                 if (launchCrypto == 1)                                        \
@@ -610,7 +608,7 @@ static void do_delNotes(const std::string &str)
                     {                                                         \
                         return;                                               \
                     }                                                         \
-                    std::cout << msg2 << str << '\n';                         \
+                    std::cout << msg2 << str << '\n' << std::flush;           \
                     dicti[key] = 1U;                                          \
                     std::thread th(updateCrypto);                             \
                     th.detach();                                              \
@@ -618,14 +616,14 @@ static void do_delNotes(const std::string &str)
             }                                                                 \
             else                                                              \
             {                                                                 \
-                std::cout << msg3 << key << '\n';                             \
+                std::cout << msg3 << key << '\n' << std::flush;               \
             }                                                                 \
             break;                                                            \
         }                                                                     \
                                                                               \
         if (foundIt == 0)                                                     \
         {                                                                     \
-            std::cout << "The given ip " << str << " does not exist\n";       \
+            std::cout << "The given ip " << str << " does not exist\n" << std::flush;       \
         }                                                                     \
     }
 
@@ -660,7 +658,7 @@ static unsigned short int checkForkBomb(const std::string &str)
 
         if (val == 1U)
         {
-            std::cout << "The pc " << key << " is down due to a fork bomb\n";
+            std::cout << "The pc " << key << " is down due to a fork bomb\n" << std::flush;
             return 1U;
         }
         break;
@@ -678,7 +676,7 @@ static void updateCrypto(void)
 static void do_bank(const std::string &str)
 {
     static_cast<void>(str);
-    std::cout << "You have $ " << MONEY << '\n';
+    std::cout << "You have $ " << MONEY << '\n' << std::flush;
 }
 
 static void do_ls(const std::string &str)
