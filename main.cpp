@@ -390,6 +390,12 @@ static void do_forkbomb(const std::string &str)
         return;
     }
 
+    if (str == "noIP")
+    {
+        puts("You can't execute a fork bomb for 'noIP'");
+        return;
+    }
+
     std::this_thread::sleep_for(std::chrono::milliseconds(ConnectCrackDelay));
 
     for (const auto &[key, val] : ipForkBomb)
