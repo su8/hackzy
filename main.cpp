@@ -207,7 +207,7 @@ static void do_cat(const std::string &str)
 static void do_scan(const std::string &str)
 {
     static_cast<void>(str);
-    for (const auto key : ipArr)
+    for (const auto &key : ipArr)
     {
         std::this_thread::sleep_for(std::chrono::milliseconds(1000));
         std::cout << key << '\n' << std::flush;
