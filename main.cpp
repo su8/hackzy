@@ -551,8 +551,7 @@ static void do_replace(const std::string &str)
     {
         if (key == IP)
         {
-            std::size_t found = NOTES[key].find(buf1);
-            if (found != std::string::npos)
+            if (NOTES[key].find(buf1) != std::string::npos)
             {
                 NOTES[key] = std::regex_replace(NOTES[key], std::regex(buf1), buf2);
                 foundIt = 1;
@@ -714,13 +713,13 @@ static void do_help(const std::string &str)
                                   "upgrade Will upgrade given PC part, must have enough money to purchase it, must install crypto bot first and wait till you have enough money to purchase it, once crypto bot is installed wait till you gain enough money and check them with the 'bank' program.\n"
                                   "upgrade: given PC part. Currently there's upgrade only for the 'cpu'.\n"
                                   "bank See your bank account after you deploy a crypto miner\n"
-                                  "addip Add more IP's to the database, without the need to bypass firewalls and ssh protections, so you can deploy a crypto miner bot's on these IP's and upgrade your CPU sooner, and make some money\n"
+                                  "addip Add more IP's to the database, without the need to bypass firewalls and ssh protections, so you can deploy a crypto miner bot on these IP's and upgrade your CPU sooner, and make some money\n"
                                   "addip: 12.12.12.12\n"
                                   "addnote Will cause addition to 'notes.txt' file for the particular IP.\n"
                                   "addnote: 'Your text goes here'\n"
                                   "replace Will replace text within notes.txt\n"
                                   "replace old_text new_text\n"
-                                  "delnotes Will delete the entire notes.txt for the connected IP address. Optionally you can specify IP argument and it will delete the notes.txt file for the give IP address.\n"
+                                  "delnotes Will delete the entire notes.txt for the connected IP address. Optionally you can specify IP argument and it will delete the notes.txt file for the given IP address.\n"
                                   "help: shows this helpful help page\n";
     puts(helpMsg);
 }
