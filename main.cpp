@@ -575,7 +575,19 @@ static void do_replace(const std::string &str)
 
 static void do_delNotes(const std::string &str)
 {
-    (!str.empty() ? NOTES[str] = "" : NOTES[IP] = "");
+    if (str.empty())
+    {
+        NOTES[IP] = "";
+    }
+    else if (!(NOTES.count(str)))
+    {
+        std::cout << "No such IP address " << str << '\n' << std::flush;
+        return;
+    }
+    else
+    {
+        NOTES[str] = "";
+    }
     puts("Done.");
 }
 
