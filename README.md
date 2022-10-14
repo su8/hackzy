@@ -110,13 +110,12 @@ In Visual Studio Code, go to **Terminal->Configure Tasks...->Create tasks.json f
 }
 ```
 
-To compile the program press **CTRL** + **SHIFT** + **B** , wait until it compiles, after that press **CTRL** + **`** and paste this `cp -r C:\Users\YOUR_USERNAME_GOES_HERE\Desktop\main.exe C:\MingW\bin;cd C:\MingW\bin;.\main.exe`
+To compile the program press **CTRL** + **SHIFT** + **B** , wait until it compiles, after that press **CTRL** + **\`** and paste this `cp -r C:\Users\YOUR_USERNAME_GOES_HERE\Desktop\main.exe C:\MingW\bin;cd C:\MingW\bin;.\main.exe`
 
 If on Linux or *BSD
 
 ```bash
-make -j8 && 
-sudo make install
+make -j8 && sudo make install
 ```
 
 ---
