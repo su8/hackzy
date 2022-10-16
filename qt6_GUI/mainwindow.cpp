@@ -320,10 +320,10 @@ static void do_analyze(const std::string &str)
 
     if ((t = time(NULL)) == -1)
     {
-        puts("time(NULL) failed");
+        UI->textEdit->setText("time(NULL) failed.");
         return;
     }
-    srand(static_cast<unsigned int>(t) ^ static_cast<unsigned int>(getpid()));
+    srandom(static_cast<unsigned int>(t) ^ static_cast<unsigned int>(getpid()));
 
     for (x = 50U; x < 256U; x++, z++)
     {
