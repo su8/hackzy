@@ -31,6 +31,7 @@
 #include <regex>
 
 #include "mainwindow.h"
+#include <QApplication>
 #include "./ui_mainwindow.h"
 
 static void do_ls(const std::string &str);
@@ -141,6 +142,14 @@ void MainWindow::on_pushButton_clicked()
     ui->textEdit->setText(inputStr + '\n' + oldText);
     ui->lineEdit->setText("");
     processInput(inputStr.toStdString());
+}
+
+int main(int argc, char *argv[])
+{
+    QApplication a(argc, argv);
+    MainWindow w;
+    w.show();
+    return a.exec();
 }
 
 static inline void processInput(const std::string &str)
