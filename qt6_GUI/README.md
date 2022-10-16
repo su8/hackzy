@@ -1,4 +1,4 @@
-This is Qt 6 version of **hackzy**. It doesn't provide `analyze` and `solve` programs. 
+This is Qt 6 version of **hackzy**. 
 
 ---
 
@@ -6,7 +6,7 @@ This is Qt 6 version of **hackzy**. It doesn't provide `analyze` and `solve` pro
 
 ```bash
 cmake
-make -j8
+make -j8 # 8 cores to use in parallel compile
 sudo make install # if on linux or *BSD
 ```
 

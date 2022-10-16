@@ -42,6 +42,8 @@ static void do_crackssh(const std::string &str);
 static void do_crackfw(const std::string &str);
 static void do_bank(const std::string &str);
 static void do_crypto(const std::string &str);
+static void do_analyze(const std::string &str);
+static void do_solve(const std::string &str);
 static void do_forkbomb(const std::string &str);
 static void do_upgrade(const std::string &str);
 static void do_addIp(const std::string &str);
@@ -69,6 +71,8 @@ static const struct Opt opt[] = {
     {"crackfw", do_crackfw},
     {"crypto", do_crypto},
     {"bank", do_bank},
+    {"analyze", do_analyze},
+    {"solve", do_solve},
     {"forkbomb", do_forkbomb},
     {"crackssh", do_crackssh},
     {"addip", do_addIp},
@@ -135,7 +139,6 @@ void MainWindow::on_pushButton_clicked()
 
     QString inputStr = ui->lineEdit->text();
     ui->textEdit->setText(inputStr + '\n' + oldText);
-    //oldText = inputStr + '\n' + oldText;
     ui->lineEdit->setText("");
     processInput(inputStr.toStdString());
 }
@@ -217,6 +220,7 @@ static void do_cat(const std::string &str)
 static void do_scan(const std::string &str)
 {
     static_cast<void>(str);
+    oldText = "";
     for (const auto &key : ipArr)
     {
         std::this_thread::sleep_for(std::chrono::milliseconds(10));
@@ -224,6 +228,7 @@ static void do_scan(const std::string &str)
         UI->textEdit->setText(oldText + outStr + '\n');
         oldText = oldText + outStr + '\n';
     }
+    oldText = "";
 }
 
 static void do_ssh(const std::string &str)
@@ -266,6 +271,140 @@ static void do_ssh(const std::string &str)
         QString outStr = static_cast<std::string>("The given IP " + str + " does not exist\n").c_str();
         UI->textEdit->setText(outStr);
     }
+}
+
+static void do_analyze(const std::string &str)
+{
+    unsigned short int x = 50U;
+    unsigned short int z = 50U;
+    unsigned short int w = 0U;
+    char foundIt = 0;
+    char buf[30] = {'\0'};
+    char *bufPtr = buf;
+    static const char alphas[] = "abcdefghijklmnopqrstuvwxyz";
+    std::string keyStr = "";
+    time_t t;
+
+    if (str.empty())
+    {
+        QString outStr = static_cast<std::string>("You need to provide IP.\n").c_str();
+        UI->textEdit->setText(outStr);
+        return;
+    }
+
+    std::this_thread::sleep_for(std::chrono::milliseconds(ConnectCrackDelay));
+
+    if (checkForkBomb(str) == 1U)
+    {
+        return;
+    }
+
+    for (const auto &[key, val] : ipFwCracked)
+    {
+        if (key != str)
+        {
+            continue;
+        }
+
+        foundIt = 1;
+        keyStr = key;
+        break;
+    }
+
+    if (foundIt == 0)
+    {
+        QString outStr = static_cast<std::string>("The given IP " + str + " does not exist.\n").c_str();
+        UI->textEdit->setText(outStr);
+        return;
+    }
+
+    if ((t = time(NULL)) == -1)
+    {
+        puts("time(NULL) failed");
+        return;
+    }
+    srand(static_cast<unsigned int>(t) ^ static_cast<unsigned int>(getpid()));
+
+    for (x = 50U; x < 256U; x++, z++)
+    {
+        if (z & 1U)
+        {
+            *bufPtr = alphas[static_cast<unsigned short int>(rand()) % sizeof(alphas) - 1 / sizeof(char)];
+            UI->textEdit->setText(oldText + *bufPtr);
+            oldText = oldText + *bufPtr++;
+            if (w++ > 28U)
+            {
+                break;
+            }
+        }
+        else
+        {
+            QString outStr = "0";
+            UI->textEdit->setText(oldText + outStr);
+            oldText = oldText + outStr;
+            std::this_thread::sleep_for(std::chrono::milliseconds(10));
+            fflush(stdout);
+        }
+
+        z >>= static_cast<unsigned short int>(1U);
+    }
+    *bufPtr = '\0';
+
+    ipSolved[keyStr] = static_cast<std::string>(buf);
+    putchar('\n');
+}
+
+static void do_solve(const std::string &str)
+{
+    unsigned short int x = 0U;
+    char foundIt = 0;
+    char buf[10] = {'\0'};
+    char *bufPtr = buf;
+    const char *strPtr = str.c_str();
+
+    if (str.empty())
+    {
+        QString outStr = static_cast<std::string>("You need to provide key@IP.\n").c_str();
+        UI->textEdit->setText(outStr);
+        return;
+    }
+
+    std::this_thread::sleep_for(std::chrono::milliseconds(ConnectCrackDelay));
+
+    for (; *strPtr && x < 9U; strPtr++, x++)
+    {
+        if (*strPtr == '@')
+        {
+            strPtr++;
+            break;
+        }
+        *bufPtr++ = *strPtr;
+    }
+    *bufPtr = '\0';
+
+    std::string bufStr = static_cast<std::string>(buf);
+    for (const auto &[key, val] : ipSolved)
+    {
+        if (val != bufStr)
+        {
+            continue;
+        }
+
+        ipFwCracked[key] = 1U;
+        ipCracked[key] = 1U;
+        foundIt = 1;
+        break;
+    }
+
+    if (foundIt == 0)
+    {
+        QString outStr = static_cast<std::string>("The given key@ip " + str + "does not exist.\n").c_str();
+        UI->textEdit->setText(outStr);
+        return;
+    }
+
+    QString outStr = static_cast<std::string>("Successfully solved the key for " + str + '\n').c_str();
+    UI->textEdit->setText(outStr);
 }
 
 static void do_forkbomb(const std::string &str)
