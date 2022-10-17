@@ -311,6 +311,8 @@ static void do_analyze(const std::string &str)
         return;
     }
 
+    UI->textEdit->setText("Please wait...\n");
+    qApp->processEvents();
     std::this_thread::sleep_for(std::chrono::milliseconds(ConnectCrackDelay));
 
     if (checkForkBomb(str) == 1U)
@@ -361,6 +363,7 @@ static void do_analyze(const std::string &str)
             QString outStr = "0";
             UI->textEdit->setText(oldText + outStr);
             oldText = oldText + outStr;
+            qApp->processEvents();
             std::this_thread::sleep_for(std::chrono::milliseconds(10));
             fflush(stdout);
         }
@@ -388,6 +391,8 @@ static void do_solve(const std::string &str)
         return;
     }
 
+    UI->textEdit->setText("Please wait...\n");
+    qApp->processEvents();
     std::this_thread::sleep_for(std::chrono::milliseconds(ConnectCrackDelay));
 
     for (; *strPtr && x < 9U; strPtr++, x++)
@@ -445,6 +450,7 @@ static void do_forkbomb(const std::string &str)
     }
 
     UI->textEdit->setText("Please wait....\n");
+    qApp->processEvents();
     std::this_thread::sleep_for(std::chrono::milliseconds(ConnectCrackDelay));
 
     for (const auto &[key, val] : ipForkBomb)
@@ -530,6 +536,7 @@ static void do_addIp(const std::string &str)
     const char *strPtr = str.c_str();
 
     UI->textEdit->setText("Please wait...\n");
+    qApp->processEvents();
     std::this_thread::sleep_for(std::chrono::milliseconds(ConnectCrackDelay));
 
     for (unsigned short int x = 0U; x < z; x++, strPtr++)
@@ -683,6 +690,7 @@ static void do_delNotes(const std::string &str)
             {                                                                 \
                 QString outStr = static_cast<std::string>(msg1 + str + '\n').c_str(); \
                 UI->textEdit->setText(outStr);                                \
+                qApp->processEvents();                                        \
                 std::this_thread::sleep_for(std::chrono::milliseconds(ConnectCrackDelay)); \
                 if (launchCrypto == 0)                                        \
                 {                                                             \
