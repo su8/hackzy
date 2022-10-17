@@ -121,6 +121,7 @@ MainWindow::MainWindow(QWidget *parent)
         ipSolved.emplace(ipArr[x], "");
         NOTES.emplace(ipArr[x], "");
     }
+    connect(ui->lineEdit, &QLineEdit::returnPressed, this, &MainWindow::on_pushButton_clicked);
 }
 
 MainWindow::~MainWindow()
