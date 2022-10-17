@@ -16,4 +16,4 @@ If on windows, you'll have to download the online installer and install qt 6 man
 
 If on windows, replace **srandom** with **srand**:
 
-https://github.com/su8/hackzy/blob/b2162910868b6bfa2e5522a8836c5f61d38183c5/qt6_GUI/mainwindow.cpp#L347
+https://github.com/su8/hackzy/blob/08577f78931003fb75c36d6f15af64835470a9a7/qt6_GUI/mainwindow.cpp#L355
