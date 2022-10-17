@@ -352,7 +352,7 @@ static void do_analyze(const std::string &str)
         UI->textEdit->setText("time(NULL) failed.");
         return;
     }
-    srand(static_cast<unsigned int>(t) ^ static_cast<unsigned int>(getpid()));
+    srandom(static_cast<unsigned int>(t) ^ static_cast<unsigned int>(getpid()));
 
     oldText = "";
     for (x = 50U; x < 256U; x++, z++)
