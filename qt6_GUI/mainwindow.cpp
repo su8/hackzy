@@ -32,6 +32,8 @@
 
 #include "mainwindow.h"
 #include <QApplication>
+#include <QCompleter>
+#include <QStringList>
 #include "./ui_mainwindow.h"
 
 static void do_ls(const std::string &str);
@@ -102,6 +104,11 @@ static std::unordered_map<std::string, unsigned short int> ipForkBomb  = { {ipAr
 static std::unordered_map<std::string, std::string> ipSolved           = { {ipArr[0], ""} };
 static std::unordered_map<std::string, std::string> NOTES              = { {ipArr[0], ""} };
 
+QStringList wordList = {"scan", "help", "forkbomb", "cat", "ssh", "crypto",
+                        "crackssh", "crackfw", "analyze", "solve", "upgrade", "addip",
+                        "addnote", "delnotes", "bank", "ls"};
+QCompleter *completer = new QCompleter(wordList, nullptr);
+
 Ui::MainWindow *UI;
 
 MainWindow::MainWindow(QWidget *parent)
@@ -121,6 +128,7 @@ MainWindow::MainWindow(QWidget *parent)
         ipSolved.emplace(ipArr[x], "");
         NOTES.emplace(ipArr[x], "");
     }
+    ui->lineEdit->setCompleter(completer);
     connect(ui->lineEdit, &QLineEdit::returnPressed, this, &MainWindow::on_pushButton_clicked);
 }
 
@@ -128,6 +136,7 @@ MainWindow::~MainWindow()
 {
     delete ui;
     delete UI;
+    delete completer;
 }
 
 void MainWindow::on_pushButton_clicked()
