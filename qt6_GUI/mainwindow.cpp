@@ -1,5 +1,5 @@
 /*
-  05/24/2022
+  10/17/2022 https://github.com/su8/hackzy
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation; either version 2 of the License, or
@@ -311,7 +311,7 @@ static void do_analyze(const std::string &str)
         return;
     }
 
-    UI->textEdit->setText("Please wait...\n");
+    UI->textEdit->setText(static_cast<QString>("Please wait..."));
     qApp->processEvents();
     std::this_thread::sleep_for(std::chrono::milliseconds(ConnectCrackDelay));
 
@@ -346,6 +346,7 @@ static void do_analyze(const std::string &str)
     }
     srandom(static_cast<unsigned int>(t) ^ static_cast<unsigned int>(getpid()));
 
+    oldText = "";
     for (x = 50U; x < 256U; x++, z++)
     {
         if (z & 1U)
@@ -365,15 +366,12 @@ static void do_analyze(const std::string &str)
             oldText = oldText + outStr;
             qApp->processEvents();
             std::this_thread::sleep_for(std::chrono::milliseconds(10));
-            fflush(stdout);
         }
 
         z >>= static_cast<unsigned short int>(1U);
     }
     *bufPtr = '\0';
-
     ipSolved[keyStr] = static_cast<std::string>(buf);
-    putchar('\n');
 }
 
 static void do_solve(const std::string &str)
@@ -391,7 +389,7 @@ static void do_solve(const std::string &str)
         return;
     }
 
-    UI->textEdit->setText("Please wait...\n");
+    UI->textEdit->setText(static_cast<QString>("Please wait..."));
     qApp->processEvents();
     std::this_thread::sleep_for(std::chrono::milliseconds(ConnectCrackDelay));
 
@@ -449,7 +447,7 @@ static void do_forkbomb(const std::string &str)
         return;
     }
 
-    UI->textEdit->setText("Please wait....\n");
+    UI->textEdit->setText(static_cast<QString>("Please wait...."));
     qApp->processEvents();
     std::this_thread::sleep_for(std::chrono::milliseconds(ConnectCrackDelay));
 
@@ -535,7 +533,7 @@ static void do_addIp(const std::string &str)
     char toAddIp = 0;
     const char *strPtr = str.c_str();
 
-    UI->textEdit->setText("Please wait...\n");
+    UI->textEdit->setText(static_cast<QString>("Please wait..."));
     qApp->processEvents();
     std::this_thread::sleep_for(std::chrono::milliseconds(ConnectCrackDelay));
 
