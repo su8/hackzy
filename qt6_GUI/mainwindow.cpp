@@ -34,6 +34,8 @@
 #include <QApplication>
 #include <QCompleter>
 #include <QStringList>
+#include <QColor>
+#include <QPalette>
 #include "./ui_mainwindow.h"
 
 static void do_ls(const std::string &str);
@@ -117,6 +119,12 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     UI = ui;
+
+    QPalette p = ui->textEdit->palette();
+    p.setColor(QPalette::Base, Qt::black);
+    p.setColor(QPalette::Text, Qt::white);
+    ui->textEdit->setPalette(p);
+
     ui->textEdit->setText("Type 'help' to see the available commands");
 
     unsigned short int ipArrSize = static_cast<unsigned short int>(ipArr.size());
@@ -344,7 +352,7 @@ static void do_analyze(const std::string &str)
         UI->textEdit->setText("time(NULL) failed.");
         return;
     }
-    srandom(static_cast<unsigned int>(t) ^ static_cast<unsigned int>(getpid()));
+    srand(static_cast<unsigned int>(t) ^ static_cast<unsigned int>(getpid()));
 
     oldText = "";
     for (x = 50U; x < 256U; x++, z++)
