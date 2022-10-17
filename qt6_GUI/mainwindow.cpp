@@ -106,7 +106,7 @@ static std::unordered_map<std::string, std::string> NOTES              = { {ipAr
 
 QStringList wordList = {"scan", "help", "forkbomb", "cat", "ssh", "crypto",
                         "crackssh", "crackfw", "analyze", "solve", "upgrade", "addip",
-                        "addnote", "delnotes", "bank", "ls"};
+                        "addnote", "delnotes", "bank", "ls", "replace"};
 QCompleter *completer = new QCompleter(wordList, nullptr);
 
 Ui::MainWindow *UI;
