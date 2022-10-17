@@ -13,11 +13,5 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - name: make
-      run: make -j8
-    - name: cd qt6_GUI
-      run: cd qt6_GUI
-    - name: cmake .
-      run: cmake .
-    - name: make
+    - name: make -j8
       run: make -j8
