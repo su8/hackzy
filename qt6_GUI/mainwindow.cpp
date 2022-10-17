@@ -36,6 +36,7 @@
 #include <QStringList>
 #include <QColor>
 #include <QPalette>
+#include <QAbstractItemView>
 #include "./ui_mainwindow.h"
 
 static void do_ls(const std::string &str);
@@ -126,7 +127,6 @@ MainWindow::MainWindow(QWidget *parent)
     ui->textEdit->setPalette(p);
 
     ui->textEdit->setText("Type 'help' to see the available commands");
-
     unsigned short int ipArrSize = static_cast<unsigned short int>(ipArr.size());
     for (unsigned short int x = 1U; x < ipArrSize; x++) {
         ipCracked.emplace(ipArr[x], 0U);
@@ -137,6 +137,8 @@ MainWindow::MainWindow(QWidget *parent)
         NOTES.emplace(ipArr[x], "");
     }
     ui->lineEdit->setCompleter(completer);
+    completer->popup()->setStyleSheet("background-color:rgb(54, 57, 63); color:white;");
+
     connect(ui->lineEdit, &QLineEdit::returnPressed, this, &MainWindow::on_pushButton_clicked);
 }
 
