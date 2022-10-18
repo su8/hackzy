@@ -126,7 +126,7 @@ MainWindow::MainWindow(QWidget *parent)
     p.setColor(QPalette::Text, Qt::white);
     ui->textEdit->setPalette(p);
 
-    ui->textEdit->setText("Type 'help' to see the available commands");
+    ui->textEdit->setText(static_cast<QString>("Type 'help' to see the available commands"));
     unsigned short int ipArrSize = static_cast<unsigned short int>(ipArr.size());
     for (unsigned short int x = 1U; x < ipArrSize; x++) {
         ipCracked.emplace(ipArr[x], 0U);
