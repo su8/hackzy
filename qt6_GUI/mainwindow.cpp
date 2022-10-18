@@ -160,7 +160,7 @@ void MainWindow::on_pushButton_clicked()
 
     QString inputStr = ui->lineEdit->text();
     ui->textEdit->setText(inputStr + static_cast<QString>('\n') + oldText);
-    ui->lineEdit->setText("");
+    ui->lineEdit->setText(static_cast<QString>(""));
     processInput(userInput);
 }
 
@@ -831,5 +831,5 @@ static void do_help(const std::string &str)
                                   "replace old_text new_text\n"
                                   "delnotes Will delete the entire notes.txt for the connected IP address. Optionally you can specify IP argument and it will delete the notes.txt file for the given IP address.\n"
                                   "help: shows this helpful help page\n";
-    UI->textEdit->setText(helpMsg);
+    UI->textEdit->setText(static_cast<QString>(helpMsg));
 }
