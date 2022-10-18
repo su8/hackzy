@@ -161,7 +161,7 @@ void MainWindow::on_pushButton_clicked()
     QString inputStr = ui->lineEdit->text();
     ui->textEdit->setText(inputStr + '\n' + oldText);
     ui->lineEdit->setText("");
-    processInput(inputStr.toStdString());
+    processInput(userInput);
 }
 
 int main(int argc, char *argv[])
@@ -252,9 +252,10 @@ static void do_scan(const std::string &str)
     oldText = "";
     for (const auto &key : ipArr)
     {
-        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+        std::this_thread::sleep_for(std::chrono::milliseconds(500));
+        qApp->processEvents();
         QString outStr = static_cast<std::string>(key).c_str();
-        UI->textEdit->setText(oldText + outStr + '\n');
+        UI->textEdit->setText(oldText + outStr + static_cast<QString>('\n'));
         oldText = oldText + outStr + '\n';
     }
     oldText = "";
@@ -351,7 +352,7 @@ static void do_analyze(const std::string &str)
 
     if ((t = time(NULL)) == -1)
     {
-        UI->textEdit->setText("time(NULL) failed.");
+        UI->textEdit->setText(static_cast<QString>("time(NULL) failed."));
         return;
     }
     srandom(static_cast<unsigned int>(t) ^ static_cast<unsigned int>(getpid()));
@@ -362,7 +363,7 @@ static void do_analyze(const std::string &str)
         if (z & 1U)
         {
             *bufPtr = alphas[static_cast<unsigned short int>(rand()) % sizeof(alphas) - 1 / sizeof(char)];
-            UI->textEdit->setText(oldText + *bufPtr);
+            UI->textEdit->setText(oldText + static_cast<QString>(*bufPtr));
             oldText = oldText + *bufPtr++;
             if (w++ > 28U)
             {
