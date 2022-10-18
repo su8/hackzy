@@ -159,7 +159,7 @@ void MainWindow::on_pushButton_clicked()
     }
 
     QString inputStr = ui->lineEdit->text();
-    ui->textEdit->setText(inputStr + '\n' + oldText);
+    ui->textEdit->setText(inputStr + static_cast<QString>('\n') + oldText);
     ui->lineEdit->setText("");
     processInput(userInput);
 }
@@ -240,7 +240,7 @@ static void do_cat(const std::string &str)
         if (key == IP)
         {
             QString outStr = static_cast<std::string>(val).c_str();
-            UI->textEdit->setText(outStr + '\n');
+            UI->textEdit->setText(outStr + static_cast<QString>('\n'));
             break;
         }
     }
@@ -252,11 +252,11 @@ static void do_scan(const std::string &str)
     oldText = "";
     for (const auto &key : ipArr)
     {
-        std::this_thread::sleep_for(std::chrono::milliseconds(500));
-        qApp->processEvents();
         QString outStr = static_cast<std::string>(key).c_str();
         UI->textEdit->setText(oldText + outStr + static_cast<QString>('\n'));
         oldText = oldText + outStr + '\n';
+        std::this_thread::sleep_for(std::chrono::milliseconds(500));
+        qApp->processEvents();
     }
     oldText = "";
 }
@@ -731,7 +731,7 @@ static void do_delNotes(const std::string &str)
         if (foundIt == 0)                                                     \
         {                                                                     \
             QString outStr = static_cast<std::string>("The given IP " + str + " does not exist").c_str(); \
-            UI->textEdit->setText(outStr + '\n');                             \
+            UI->textEdit->setText(outStr + static_cast<QString>('\n'));       \
         }                                                                     \
     }
 
