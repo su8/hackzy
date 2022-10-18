@@ -491,7 +491,7 @@ static void do_forkbomb(const std::string &str)
 
     if (foundIt == 0)
     {
-        QString outStr = static_cast<std::string>("The given ip " + str + "does not exist\n").c_str();
+        QString outStr = static_cast<std::string>("The given ip " + str + " does not exist\n").c_str();
         UI->textEdit->setText(outStr);
         return;
     }
