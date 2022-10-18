@@ -203,7 +203,7 @@ static inline void processInput(const std::string &str)
 
     if (matchCmd == 0)
     {
-        QString outStr = "Couldn't find the entered command.\n";
+        QString outStr = static_cast<std::string>("Couldn't find the entered " + str + " command.\n").c_str();
         UI->textEdit->setText(outStr);
         return;
     }
