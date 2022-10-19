@@ -85,7 +85,8 @@ static const struct Opt opt[] = {
     {"addnote", do_addNote},
     {"replace", do_replace},
     {"delnotes", do_delNotes},
-    {"upgrade", do_upgrade}};
+    {"upgrade", do_upgrade}
+};
 
 static std::string IP = "1.1.1.1";
 static unsigned long int MONEY = 0U;
@@ -107,9 +108,11 @@ static std::unordered_map<std::string, unsigned short int> ipForkBomb  = { {ipAr
 static std::unordered_map<std::string, std::string> ipSolved           = { {ipArr[0], ""} };
 static std::unordered_map<std::string, std::string> NOTES              = { {ipArr[0], ""} };
 
-QStringList wordList = {"scan", "help", "forkbomb", "cat", "ssh", "crypto",
-                        "crackssh", "crackfw", "analyze", "solve", "upgrade", "addip",
-                        "addnote", "delnotes", "bank", "ls", "replace"};
+QStringList wordList = {
+    "scan", "help", "forkbomb", "cat", "ssh", "crypto",
+    "crackssh", "crackfw", "analyze", "solve", "upgrade", "addip",
+    "addnote", "delnotes", "bank", "ls", "replace"
+};
 QCompleter *completer = new QCompleter(wordList, nullptr);
 
 Ui::MainWindow *UI;
