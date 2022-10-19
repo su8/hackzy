@@ -37,7 +37,8 @@
 #include <QColor>
 #include <QPalette>
 #include <QAbstractItemView>
-//#include <QMediaPlayer>
+#include <QMediaPlayer>
+#include <QAudioOutput>
 #include "./ui_mainwindow.h"
 
 static void do_ls(const std::string &str);
@@ -116,10 +117,9 @@ QStringList wordList = {
 };
 QCompleter *completer = new QCompleter(wordList, nullptr);
 
-/*QMediaPlayer *music = new QMediaPlayer();
-music->setMedia(QUrl("qrc:/music.mp3"));
-music->setVolume(100);
-music->play();*/
+QMediaPlayer *player = new QMediaPlayer();
+QAudioOutput *audioOutput = new QAudioOutput();
+
 
 Ui::MainWindow *UI;
 
@@ -148,6 +148,11 @@ MainWindow::MainWindow(QWidget *parent)
     ui->lineEdit->setCompleter(completer);
     completer->popup()->setStyleSheet("background-color:rgb(54, 57, 63); color:white;");
 
+    player->setAudioOutput(audioOutput);
+    player->setSource(QUrl::fromLocalFile("media/Whitesnake.mp3"));
+    audioOutput->setVolume(100);
+    player->play();
+
     connect(ui->lineEdit, &QLineEdit::returnPressed, this, &MainWindow::on_pushButton_clicked);
 }
 
@@ -156,8 +161,9 @@ MainWindow::~MainWindow()
     delete ui;
     delete UI;
     delete completer;
-    /*music->stop();
-    delete music;*/
+    player->stop();
+    delete player;
+    delete audioOutput;
 }
 
 void MainWindow::on_pushButton_clicked()

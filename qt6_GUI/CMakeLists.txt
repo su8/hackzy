@@ -13,8 +13,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
-#find_package(Qt6 REQUIRED COMPONENTS Multimedia)
-#set(Qt6_FOUND True)
+find_package(Qt6 REQUIRED COMPONENTS Multimedia)
 
 set(PROJECT_SOURCES
         mainwindow.cpp
@@ -40,7 +39,7 @@ else()
 endif()
 
 target_link_libraries(main PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
-#target_link_libraries(main PRIVATE Qt6::Multimedia)
+target_link_libraries(main PRIVATE Qt6::Multimedia)
 
 set_target_properties(main PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com
