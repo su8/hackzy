@@ -805,7 +805,7 @@ static void do_ls(const std::string &str)
 static void do_help(const std::string &str)
 {
     static_cast<void>(str);
-    static const char helpMsg[] = "ls: lists all directories and files in the current directory\n"
+    static const QString helpMsg = "ls: lists all directories and files in the current directory\n"
                                   "cat: reads the contents of the given file\n"
                                   "cat file.txt\n"
                                   "\n"
@@ -834,5 +834,5 @@ static void do_help(const std::string &str)
                                   "replace old_text new_text\n"
                                   "delnotes Will delete the entire notes.txt for the connected IP address. Optionally you can specify IP argument and it will delete the notes.txt file for the given IP address.\n"
                                   "help: shows this helpful help page\n";
-    UI->textEdit->setText(static_cast<QString>(helpMsg));
+    UI->textEdit->setText(helpMsg);
 }
