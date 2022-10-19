@@ -5,7 +5,7 @@ This is Qt 6 version of **hackzy**.
 # Compile with:
 
 ```bash
-cmake
+cmake --build .
 make -j8 # 8 cores to use in parallel compile
 sudo make install # if on linux or *BSD
 ```
