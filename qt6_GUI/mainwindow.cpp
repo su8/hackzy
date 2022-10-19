@@ -37,6 +37,7 @@
 #include <QColor>
 #include <QPalette>
 #include <QAbstractItemView>
+//#include <QMediaPlayer>
 #include "./ui_mainwindow.h"
 
 static void do_ls(const std::string &str);
@@ -115,6 +116,11 @@ QStringList wordList = {
 };
 QCompleter *completer = new QCompleter(wordList, nullptr);
 
+/*QMediaPlayer *music = new QMediaPlayer();
+music->setMedia(QUrl("qrc:/music.mp3"));
+music->setVolume(100);
+music->play();*/
+
 Ui::MainWindow *UI;
 
 MainWindow::MainWindow(QWidget *parent)
@@ -150,6 +156,8 @@ MainWindow::~MainWindow()
     delete ui;
     delete UI;
     delete completer;
+    /*music->stop();
+    delete music;*/
 }
 
 void MainWindow::on_pushButton_clicked()
