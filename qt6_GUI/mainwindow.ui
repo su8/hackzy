@@ -15,7 +15,7 @@
   </property>
   <property name="windowIcon">
    <iconset>
-    <normaloff>icon.xpm</normaloff>icon.xpm</iconset>
+    <normaloff>media/icon.xpm</normaloff>media/icon.xpm</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QLineEdit" name="lineEdit">

@@ -153,6 +153,7 @@ MainWindow::MainWindow(QWidget *parent)
     audioOutput->setVolume(100);
     player->play();
 
+    connect(player, &QMediaPlayer::mediaStatusChanged, player, &QMediaPlayer::play);
     connect(ui->lineEdit, &QLineEdit::returnPressed, this, &MainWindow::on_pushButton_clicked);
 }
 
