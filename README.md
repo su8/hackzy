@@ -62,49 +62,6 @@ In Visual Studio Code, go to **Terminal->Configure Tasks...->Create tasks.json f
             "isDefault": true
         },
         "detail": "compiler: C:\\MingW\\bin\\g++.exe"
-    },
-    {
-        "type": "cppbuild",
-        "label": "C/C++",
-        "command": "C:\\MingW\\bin\\g++.exe",
-        "args": [
-            "-fdiagnostics-color=always",
-            "-std=c++17",
-            "-ggdb",
-            "-lpthread",
-            "-Wall",
-            "-Wextra",
-            "-O2",
-            "-pipe",
-            "-pedantic",
-            "-Wundef",
-            "-Wshadow",
-            "-W",
-            "-Wwrite-strings",
-            "-Wcast-align",
-            "-Wstrict-overflow=5",
-            "-Wconversion",
-            "-Wpointer-arith",
-            "-Wformat=2",
-            "-Wsign-compare",
-            "-Wendif-labels",
-            "-Wredundant-decls",
-            "-Winit-self",
-            "${file}",
-            "-o",
-            "${fileDirname}/${fileBasenameNoExtension}"
-        ],
-        "options": {
-            "cwd": "C:\\MingW\\bin"
-        },
-        "problemMatcher": [
-            "$gcc"
-        ],
-        "group": {
-            "kind": "build",
-            "isDefault": true
-        },
-        "detail": "compiler: C:\\MingW\\bin\\g++.exe"
     }
 ]
 }
