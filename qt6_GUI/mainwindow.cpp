@@ -39,6 +39,7 @@
 #include <QAbstractItemView>
 #include <QMediaPlayer>
 #include <QAudioOutput>
+#include <QRandomGenerator>
 #include "./ui_mainwindow.h"
 
 static void do_ls(const std::string &str);
@@ -159,12 +160,12 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
-    delete ui;
-    delete UI;
     delete completer;
     player->stop();
     delete player;
     delete audioOutput;
+    delete ui;
+    delete UI;
 }
 
 void MainWindow::on_pushButton_clicked()
@@ -373,14 +374,14 @@ static void do_analyze(const std::string &str)
         UI->textEdit->setText(static_cast<QString>("time(NULL) failed."));
         return;
     }
-    srandom(static_cast<unsigned int>(t) ^ static_cast<unsigned int>(getpid()));
+    QRandomGenerator(static_cast<unsigned int>(t) ^ static_cast<unsigned int>(getpid()));
 
     oldText = "";
     for (x = 50U; x < 256U; x++, z++)
     {
         if (z & 1U)
         {
-            *bufPtr = alphas[static_cast<unsigned short int>(rand()) % sizeof(alphas) - 1 / sizeof(char)];
+            *bufPtr = alphas[static_cast<unsigned short int>(QRandomGenerator::global()->bounded(0, 26)) % sizeof(alphas) - 1 / sizeof(char)];
             UI->textEdit->setText(oldText + static_cast<QString>(*bufPtr));
             oldText = oldText + *bufPtr++;
             if (w++ > 28U)

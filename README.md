@@ -4,7 +4,7 @@
 
 The picture above does **NOT** represent this game.
 
-Terminal hacker game. There is a **GUI** version of `hackzy`, go to the qt6_gui folder and compile it according to the README.md docs.
+Terminal hacker game. There is a **GUI** version of `hackzy`, go to the [qt6_GUI](https://github.com/su8/hackzy/tree/main/qt6_GUI) folder and compile it according to the README.md docs.
 
 ## Installation
 
