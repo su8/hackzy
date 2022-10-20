@@ -27,4 +27,4 @@ If on windows, you'll have to download the online [Qt installer](https://www.qt.
 
 If on windows, replace **srandom** with **srand**:
 
-https://github.com/su8/hackzy/blob/01c5e64bcada358352ba06963d1bf71e5a8abb46/qt6_GUI/mainwindow.cpp#L369
+https://github.com/su8/hackzy/blob/e7f628e3902bee5b5cdea62b2697629b127e1ce5/qt6_GUI/mainwindow.cpp#L375
