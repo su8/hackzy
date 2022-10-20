@@ -332,7 +332,6 @@ static void do_analyze(const std::string &str)
     char *bufPtr = buf;
     static const char alphas[] = "abcdefghijklmnopqrstuvwxyz";
     std::string keyStr = "";
-    time_t t;
 
     if (str.empty())
     {
@@ -369,19 +368,12 @@ static void do_analyze(const std::string &str)
         return;
     }
 
-    if ((t = time(NULL)) == -1)
-    {
-        UI->textEdit->setText(static_cast<QString>("time(NULL) failed."));
-        return;
-    }
-    QRandomGenerator(static_cast<unsigned int>(t) ^ static_cast<unsigned int>(getpid()));
-
     oldText = "";
     for (x = 50U; x < 256U; x++, z++)
     {
         if (z & 1U)
         {
-            *bufPtr = alphas[static_cast<unsigned short int>(QRandomGenerator::global()->bounded(0, 26)) % sizeof(alphas) - 1 / sizeof(char)];
+            *bufPtr = alphas[static_cast<unsigned short int>(QRandomGenerator::global()->bounded(0, 26))];
             UI->textEdit->setText(oldText + static_cast<QString>(*bufPtr));
             oldText = oldText + *bufPtr++;
             if (w++ > 28U)
