@@ -392,6 +392,7 @@ static void do_analyze(const std::string &str)
 
         z >>= static_cast<unsigned short int>(1U);
     }
+    UI->textEdit->setText(oldText + static_cast<QString>("\nDone."));
     *bufPtr = '\0';
     ipSolved[keyStr] = static_cast<std::string>(buf);
 }
