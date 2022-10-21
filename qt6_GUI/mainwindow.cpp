@@ -40,6 +40,8 @@
 #include <QMediaPlayer>
 #include <QAudioOutput>
 #include <QRandomGenerator>
+#include <QKeyEvent>
+#include <QObject>
 #include "./ui_mainwindow.h"
 
 static void do_ls(const std::string &str);
@@ -104,6 +106,8 @@ static std::vector<std::string> ipArr = {
     "noIP"
 };
 
+static QString prevCmd = "";
+
 static std::unordered_map<std::string, unsigned short int> ipCracked   = { {ipArr[0], 1U} };
 static std::unordered_map<std::string, unsigned short int> ipFwCracked = { {ipArr[0], 1U} };
 static std::unordered_map<std::string, unsigned short int> ipCrypto    = { {ipArr[0], 0U} };
@@ -111,15 +115,15 @@ static std::unordered_map<std::string, unsigned short int> ipForkBomb  = { {ipAr
 static std::unordered_map<std::string, std::string> ipSolved           = { {ipArr[0], ""} };
 static std::unordered_map<std::string, std::string> NOTES              = { {ipArr[0], ""} };
 
-QStringList wordList = {
+static QStringList wordList = {
     "scan", "help", "forkbomb", "cat", "ssh", "crypto",
     "crackssh", "crackfw", "analyze", "solve", "upgrade", "addip",
     "addnote", "delnotes", "bank", "ls", "replace"
 };
-QCompleter *completer = new QCompleter(wordList, nullptr);
+static QCompleter *completer = new QCompleter(wordList, nullptr);
 
-QMediaPlayer *player = new QMediaPlayer();
-QAudioOutput *audioOutput = new QAudioOutput();
+static QMediaPlayer *player = new QMediaPlayer();
+static QAudioOutput *audioOutput = new QAudioOutput();
 
 Ui::MainWindow *UI;
 
@@ -155,6 +159,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(player, &QMediaPlayer::mediaStatusChanged, player, &QMediaPlayer::play);
     connect(ui->lineEdit, &QLineEdit::returnPressed, this, &MainWindow::on_pushButton_clicked);
+    qApp->installEventFilter(this);
 }
 
 MainWindow::~MainWindow()
@@ -179,7 +184,25 @@ void MainWindow::on_pushButton_clicked()
     QString inputStr = ui->lineEdit->text();
     ui->textEdit->setText(inputStr + static_cast<QString>('\n') + oldText);
     ui->lineEdit->setText(static_cast<QString>(""));
+
+    prevCmd = inputStr;
     processInput(userInput);
+}
+
+bool MainWindow::eventFilter(QObject *object, QEvent *e)
+{
+    QKeyEvent *keyEvent = static_cast<QKeyEvent *>(e);
+    if (keyEvent->key() == Qt::Key_Up)
+    {
+        ui->lineEdit->setText(prevCmd);
+        return true;
+    }
+    else if (keyEvent->key() == Qt::Key_Down)
+    {
+        ui->lineEdit->setText(static_cast<QString>(""));
+        return true;
+    }
+    return false;
 }
 
 int main(int argc, char *argv[])

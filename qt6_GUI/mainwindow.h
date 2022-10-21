@@ -17,6 +17,7 @@ public:
 
 private slots:
     void on_pushButton_clicked();
+    bool eventFilter(QObject *object, QEvent *e);
 
 private:
     Ui::MainWindow *ui;
