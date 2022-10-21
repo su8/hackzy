@@ -27,7 +27,7 @@
 #include <unordered_map>
 #include <chrono>
 #include <thread>
-#include <ctype.h>
+#include <cctype>
 #include <regex>
 
 #include "mainwindow.h"
