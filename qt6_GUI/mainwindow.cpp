@@ -121,7 +121,6 @@ QCompleter *completer = new QCompleter(wordList, nullptr);
 QMediaPlayer *player = new QMediaPlayer();
 QAudioOutput *audioOutput = new QAudioOutput();
 
-
 Ui::MainWindow *UI;
 
 MainWindow::MainWindow(QWidget *parent)
@@ -162,10 +161,10 @@ MainWindow::~MainWindow()
 {
     delete completer;
     player->stop();
-    delete player;
     delete audioOutput;
-    delete ui;
+    delete player;
     delete UI;
+    delete ui;
 }
 
 void MainWindow::on_pushButton_clicked()
