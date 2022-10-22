@@ -40,8 +40,8 @@
 #include <QMediaPlayer>
 #include <QAudioOutput>
 #include <QRandomGenerator>
-/*#include <QKeyEvent>
-#include <QObject>*/
+//#include <QKeyEvent>
+//#include <QObject>
 #include "./ui_mainwindow.h"
 
 static void do_ls(const std::string &str);
@@ -97,7 +97,6 @@ static std::string IP = "1.1.1.1";
 static unsigned long int MONEY = 0U;
 static short int ConnectCrackDelay = 5000;
 static QString oldText = "";
-/*static QString prevCmd = "";*/
 
 static std::vector<std::string> ipArr = {
     "1.1.1.1",
@@ -120,6 +119,10 @@ static QStringList wordList = {
     "addnote", "delnotes", "bank", "ls", "replace"
 };
 static QCompleter *completer = new QCompleter(wordList, nullptr);
+
+//static std::vector<std::string> prevNextCmdArr;
+//static QStringList prevNextCmd = {};
+//static unsigned short int prevNextNum = 0U;
 
 static QMediaPlayer *player = new QMediaPlayer();
 static QAudioOutput *audioOutput = new QAudioOutput();
@@ -158,7 +161,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(player, &QMediaPlayer::mediaStatusChanged, player, &QMediaPlayer::play);
     connect(ui->lineEdit, &QLineEdit::returnPressed, this, &MainWindow::on_pushButton_clicked);
-    /*qApp->installEventFilter(this);*/
+    //qApp->installEventFilter(this);
 }
 
 MainWindow::~MainWindow()
@@ -184,22 +187,31 @@ void MainWindow::on_pushButton_clicked()
     ui->textEdit->setText(inputStr + static_cast<QString>('\n') + oldText);
     ui->lineEdit->setText(static_cast<QString>(""));
 
-    /*prevCmd = inputStr;*/
+    //prevNextNum++;
+    //prevNextCmdArr.emplace_back(userInput);
+    //prevNextCmd.append(inputStr);
     processInput(userInput);
 }
 
 /*bool MainWindow::eventFilter(QObject *object, QEvent *e)
 {
-    static QString emptyStr = static_cast<QString>("");
     QKeyEvent *keyEvent = static_cast<QKeyEvent *>(e);
     if (keyEvent->key() == Qt::Key_Up)
     {
-        ui->lineEdit->setText(prevCmd);
+        if (prevNextNum > 0U)
+        {
+            prevNextNum--;
+        }
+        ui->lineEdit->setText(prevNextCmd[prevNextNum]);
         return true;
     }
     else if (keyEvent->key() == Qt::Key_Down)
     {
-        ui->lineEdit->setText(emptyStr);
+        if (prevNextNum < (prevNextCmdArr.size() - 1))
+        {
+            prevNextNum++;
+        }
+        ui->lineEdit->setText(prevNextCmd[prevNextNum]);
         return true;
     }
     return false;
