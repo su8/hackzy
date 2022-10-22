@@ -296,8 +296,8 @@ static void do_cat(const std::string &str)
     {
         if (key == IP)
         {
-            QString outStr = static_cast<std::string>(val).c_str();
-            UI->textEdit->setText(outStr + static_cast<QString>('\n'));
+            QString outStr = static_cast<std::string>(val + '\n').c_str();
+            UI->textEdit->setText(outStr);
             break;
         }
     }
@@ -309,9 +309,9 @@ static void do_scan(const std::string &str)
     oldText = "";
     for (const auto &key : ipArr)
     {
-        QString outStr = static_cast<std::string>(key).c_str();
-        UI->textEdit->setText(oldText + outStr + static_cast<QString>('\n'));
-        oldText = oldText + outStr + '\n';
+        QString outStr = static_cast<std::string>(key + '\n').c_str();
+        UI->textEdit->setText(oldText + outStr);
+        oldText = oldText + outStr;
         std::this_thread::sleep_for(std::chrono::milliseconds(500));
         qApp->processEvents();
     }
