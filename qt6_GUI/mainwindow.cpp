@@ -40,8 +40,8 @@
 #include <QMediaPlayer>
 #include <QAudioOutput>
 #include <QRandomGenerator>
-#include <QKeyEvent>
-#include <QObject>
+/*#include <QKeyEvent>
+#include <QObject>*/
 #include "./ui_mainwindow.h"
 
 static void do_ls(const std::string &str);
@@ -97,7 +97,7 @@ static std::string IP = "1.1.1.1";
 static unsigned long int MONEY = 0U;
 static short int ConnectCrackDelay = 5000;
 static QString oldText = "";
-static QString prevCmd = "";
+/*static QString prevCmd = "";*/
 
 static std::vector<std::string> ipArr = {
     "1.1.1.1",
@@ -158,7 +158,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(player, &QMediaPlayer::mediaStatusChanged, player, &QMediaPlayer::play);
     connect(ui->lineEdit, &QLineEdit::returnPressed, this, &MainWindow::on_pushButton_clicked);
-    qApp->installEventFilter(this);
+    /*qApp->installEventFilter(this);*/
 }
 
 MainWindow::~MainWindow()
@@ -184,11 +184,11 @@ void MainWindow::on_pushButton_clicked()
     ui->textEdit->setText(inputStr + static_cast<QString>('\n') + oldText);
     ui->lineEdit->setText(static_cast<QString>(""));
 
-    prevCmd = inputStr;
+    /*prevCmd = inputStr;*/
     processInput(userInput);
 }
 
-bool MainWindow::eventFilter(QObject *object, QEvent *e)
+/*bool MainWindow::eventFilter(QObject *object, QEvent *e)
 {
     static QString emptyStr = static_cast<QString>("");
     QKeyEvent *keyEvent = static_cast<QKeyEvent *>(e);
@@ -203,7 +203,7 @@ bool MainWindow::eventFilter(QObject *object, QEvent *e)
         return true;
     }
     return false;
-}
+}*/
 
 int main(int argc, char *argv[])
 {
