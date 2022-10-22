@@ -97,6 +97,7 @@ static std::string IP = "1.1.1.1";
 static unsigned long int MONEY = 0U;
 static short int ConnectCrackDelay = 5000;
 static QString oldText = "";
+static QString prevCmd = "";
 
 static std::vector<std::string> ipArr = {
     "1.1.1.1",
@@ -105,8 +106,6 @@ static std::vector<std::string> ipArr = {
     "268.99.301.543",
     "noIP"
 };
-
-static QString prevCmd = "";
 
 static std::unordered_map<std::string, unsigned short int> ipCracked   = { {ipArr[0], 1U} };
 static std::unordered_map<std::string, unsigned short int> ipFwCracked = { {ipArr[0], 1U} };
@@ -191,6 +190,7 @@ void MainWindow::on_pushButton_clicked()
 
 bool MainWindow::eventFilter(QObject *object, QEvent *e)
 {
+    static QString emptyStr = static_cast<QString>("");
     QKeyEvent *keyEvent = static_cast<QKeyEvent *>(e);
     if (keyEvent->key() == Qt::Key_Up)
     {
@@ -199,7 +199,7 @@ bool MainWindow::eventFilter(QObject *object, QEvent *e)
     }
     else if (keyEvent->key() == Qt::Key_Down)
     {
-        ui->lineEdit->setText(static_cast<QString>(""));
+        ui->lineEdit->setText(emptyStr);
         return true;
     }
     return false;
