@@ -61,6 +61,7 @@ static void do_addIp(const std::string &str);
 static void do_addNote(const std::string &str);
 static void do_replace(const std::string &str);
 static void do_delNotes(const std::string &str);
+static void do_history(const std::string &str);
 static inline void processInput(const std::string &str);
 static inline void trimQuotes(char *bufPtr, const char *strPtr);
 static void updateCrypto(void);
@@ -90,6 +91,7 @@ static const struct Opt opt[] = {
     {"addnote", do_addNote},
     {"replace", do_replace},
     {"delnotes", do_delNotes},
+    {"history", do_history},
     {"upgrade", do_upgrade}
 };
 
@@ -102,7 +104,6 @@ static std::vector<std::string> ipArr = {
     "1.1.1.1",
     "44.55.66.77",
     "123.456.789.000",
-    "268.99.301.543",
     "noIP"
 };
 
@@ -112,11 +113,12 @@ static std::unordered_map<std::string, unsigned short int> ipCrypto    = { {ipAr
 static std::unordered_map<std::string, unsigned short int> ipForkBomb  = { {ipArr[0], 0U} };
 static std::unordered_map<std::string, std::string> ipSolved           = { {ipArr[0], ""} };
 static std::unordered_map<std::string, std::string> NOTES              = { {ipArr[0], ""} };
+static std::vector<std::string> History                                = {                };
 
 static QStringList wordList = {
     "scan", "help", "forkbomb", "cat", "ssh", "crypto",
     "crackssh", "crackfw", "analyze", "solve", "upgrade", "addip",
-    "addnote", "delnotes", "bank", "ls", "replace"
+    "addnote", "delnotes", "bank", "ls", "replace", "history"
 };
 static QCompleter *completer = new QCompleter(wordList, nullptr);
 
@@ -190,6 +192,8 @@ void MainWindow::on_pushButton_clicked()
     //prevNextNum++;
     //prevNextCmdArr.emplace_back(userInput);
     //prevNextCmd.append(inputStr);
+
+    History.emplace_back(userInput);
     processInput(userInput);
 }
 
@@ -720,6 +724,19 @@ static void do_delNotes(const std::string &str)
     UI->textEdit->setText(outStr);
 }
 
+static void do_history(const std::string &str)
+{
+    oldText = "";
+    static_cast<void>(str);
+    for (const auto &key : History)
+    {
+        QString outStr = (key + '\n').c_str();
+        UI->textEdit->setText(oldText + outStr);
+        oldText = oldText + outStr;
+    }
+    oldText = "";
+}
+
 #define CRACK_PROGRAM(function, dicti, msg1, msg2, msg3, launchCrypto)        \
     static void do_##function(const std::string &str)                         \
     {                                                                         \
@@ -874,8 +891,10 @@ static void do_help(const std::string &str)
                                   "addnote Will cause addition to 'notes.txt' file for the particular IP.\n"
                                   "addnote: 'Your text goes here'\n"
                                   "replace Will replace text within notes.txt\n"
-                                  "replace old_text new_text\n"
+                                  "replace: old_text new_text\n"
                                   "delnotes Will delete the entire notes.txt for the connected IP address. Optionally you can specify IP argument and it will delete the notes.txt file for the given IP address.\n"
+                                  "history Will show every command that you entered\n"
+                                  "history: plain command without arguments\n"
                                   "help: shows this helpful help page\n";
     UI->textEdit->setText(helpMsg);
 }
