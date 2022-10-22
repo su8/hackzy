@@ -48,6 +48,7 @@ static void do_addIp(const std::string &str);
 static void do_addNote(const std::string &str);
 static void do_replace(const std::string &str);
 static void do_delNotes(const std::string &str);
+static void do_history(const std::string &str);
 static inline void processInput(const std::string &str);
 static inline void trimQuotes(char *bufPtr, const char *strPtr);
 static void updateCrypto(void);
@@ -77,6 +78,7 @@ static const struct Opt opt[] = {
     {"addnote", do_addNote},
     {"replace", do_replace},
     {"delnotes", do_delNotes},
+    {"history", do_history},
     {"upgrade", do_upgrade}};
 
 static std::string IP = "1.1.1.1";
@@ -97,6 +99,7 @@ static std::unordered_map<std::string, unsigned short int> ipCrypto    = { {ipAr
 static std::unordered_map<std::string, unsigned short int> ipForkBomb  = { {ipArr[0], 0U} };
 static std::unordered_map<std::string, std::string> ipSolved           = { {ipArr[0], ""} };
 static std::unordered_map<std::string, std::string> NOTES              = { {ipArr[0], ""} };
+static std::vector<std::string> History                                = {                };
 
 int main(void)
 {
@@ -127,6 +130,7 @@ int main(void)
             break;
         }
 
+        History.emplace_back(userInput);
         processInput(userInput);
     }
 
@@ -589,6 +593,15 @@ static void do_delNotes(const std::string &str)
         NOTES[str] = "";
     }
     puts("Done.");
+}
+
+static void do_history(const std::string &str)
+{
+    static_cast<void>(str);
+    for (const auto &key : History)
+    {
+        std::cout << key << '\n' << std::flush;
+    }
 }
 
 #define CRACK_PROGRAM(function, dicti, msg1, msg2, msg3, launchCrypto)        \
