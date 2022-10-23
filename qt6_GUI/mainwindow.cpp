@@ -155,7 +155,6 @@ MainWindow::MainWindow(QWidget *parent)
     }
     ui->lineEdit->setCompleter(completer);
     completer->popup()->setStyleSheet("background-color:rgb(54, 57, 63); color:white;");
-    ui->lineEdit->setPlaceholderText(static_cast<QString>("frost@localhost 1.1.1.1 > Type here..."));
 
     player->setAudioOutput(audioOutput);
     player->setSource(QUrl::fromLocalFile("media/Whitesnake.mp3"));

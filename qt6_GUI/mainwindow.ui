@@ -28,7 +28,7 @@
      </rect>
     </property>
     <property name="placeholderText">
-     <string extracomment="Type here">Type here...</string>
+     <string extracomment="Type here">frost@localhost 1.1.1.1 > Type here...</string>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton">
