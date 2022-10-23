@@ -267,6 +267,7 @@ static inline void processInput(const std::string &str)
 
     trimQuotes(buf, strPtr);
     opt[x].my_func(static_cast<std::string>(buf));
+    UI->lineEdit->setPlaceholderText(static_cast<QString>(static_cast<std::string>("frost@localhost " + IP + " > " + "Type here...").c_str()));
 }
 
 static inline void trimQuotes(char *bufPtr, const char *strPtr)
@@ -349,7 +350,6 @@ static void do_ssh(const std::string &str)
         foundIt = 1;
         QString outStr = static_cast<std::string>("Connected to: " + str + '\n').c_str();
         UI->textEdit->setText(outStr);
-        UI->lineEdit->setPlaceholderText(static_cast<QString>(static_cast<std::string>("frost@localhost " + str + " > " + "Type here...").c_str()));
         IP = str;
         break;
     }
@@ -538,7 +538,6 @@ static void do_forkbomb(const std::string &str)
         }
         foundIt = 1;
         ipForkBomb[key] = 1U;
-        UI->lineEdit->setPlaceholderText(static_cast<QString>(static_cast<std::string>("frost@localhost " + IP + " > " + "Type here...").c_str()));
         break;
     }
 
