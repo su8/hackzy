@@ -155,6 +155,7 @@ MainWindow::MainWindow(QWidget *parent)
     }
     ui->lineEdit->setCompleter(completer);
     completer->popup()->setStyleSheet("background-color:rgb(54, 57, 63); color:white;");
+    ui->lineEdit->setPlaceholderText(static_cast<QString>("frost@localhost 1.1.1.1 > Type here..."));
 
     player->setAudioOutput(audioOutput);
     player->setSource(QUrl::fromLocalFile("media/Whitesnake.mp3"));
@@ -349,6 +350,7 @@ static void do_ssh(const std::string &str)
         foundIt = 1;
         QString outStr = static_cast<std::string>("Connected to: " + str + '\n').c_str();
         UI->textEdit->setText(outStr);
+        UI->lineEdit->setPlaceholderText(static_cast<QString>(static_cast<std::string>("frost@localhost " + str + " > " + "Type here...").c_str()));
         IP = str;
         break;
     }
@@ -537,6 +539,7 @@ static void do_forkbomb(const std::string &str)
         }
         foundIt = 1;
         ipForkBomb[key] = 1U;
+        UI->lineEdit->setPlaceholderText(static_cast<QString>(static_cast<std::string>("frost@localhost " + IP + " > " + "Type here...").c_str()));
         break;
     }
 
