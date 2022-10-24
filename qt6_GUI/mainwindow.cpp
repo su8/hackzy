@@ -141,7 +141,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     QPalette p = ui->textEdit->palette();
     p.setColor(QPalette::Base, Qt::black);
-    p.setColor(QPalette::Text, Qt::white);
+    p.setColor(QPalette::Text, Qt::green);
     ui->textEdit->setPalette(p);
 
     ui->textEdit->setText(static_cast<QString>("Type 'help' to see the available commands"));
@@ -271,7 +271,7 @@ static inline void processInput(const std::string &str)
 
     trimQuotes(buf, strPtr);
     opt[x].my_func(static_cast<std::string>(buf));
-    UI->lineEdit->setPlaceholderText(static_cast<QString>(static_cast<std::string>("frost@localhost " + IP + " > " + "Type here...").c_str()));
+    UI->lineEdit->setPlaceholderText(static_cast<QString>(static_cast<std::string>("frost@localhost " + IP + " > Type here...").c_str()));
 }
 
 static inline void trimQuotes(char *bufPtr, const char *strPtr)
@@ -870,36 +870,37 @@ static void do_ls(const std::string &str)
 static void do_help(const std::string &str)
 {
     static_cast<void>(str);
-    static const QString helpMsg = "ls: lists all directories and files in the current directory\n"
-                                  "cat: reads the contents of the given file\n"
-                                  "cat file.txt\n"
+    static const QString helpMsg = "<p style=\"color:#F9DB24\">ls: lists all directories and files in the current directory</p>\n"
+                                  "<p style=\"color:#F9DB24\">cat: reads the contents of the given file</p>\n"
+                                  "<p style=\"color:#F9DB24\">cat file.txt</p>\n"
                                   "\n"
-                                  "Networking:\n"
-                                  "scan: shows computers linked to the current computer\n"
-                                  "ssh: connects to the given IP\n"
-                                  "ssh IP\n"
-                                  "crackssh: Attempts to crack ip port 22\n"
-                                  "crackssh IP\n"
-                                  "crackfw Attempts to crack given ip firewall\n"
-                                  "crackfw ip\n"
+                                  "\nNetworking:\n"
+                                  "<p style=\"color:#F9DB24\">scan: shows computers linked to the current computer</p>\n"
+                                  "<p style=\"color:#F9DB24\">ssh: connects to the given IP</p>\n"
+                                  "<p style=\"color:#F9DB24\">ssh IP</p>\n"
+                                  "<p style=\"color:#F9DB24\">crackssh: Attempts to crack ip port 22</p>\n"
+                                  "<p style=\"color:#F9DB24\">crackssh IP</p>\n"
+                                  "<p style=\"color:#F9DB24\">crackfw Attempts to crack given ip firewall</p>\n"
+                                  "<p style=\"color:#F9DB24\">crackfw ip</p>\n"
                                   "\n"
-                                  "Misc:\n"
-                                  "crypto Installs a crypto miner bot for given ip\n"
-                                  "crypto ip\n"
-                                  "forkbomb Will cause a shell fork bomb and shutdown given ip\n"
-                                  "forkbomb ip\n"
-                                  "upgrade Will upgrade given PC part, must have enough money to purchase it, must install crypto bot first and wait till you have enough money to purchase it, once crypto bot is installed wait till you gain enough money and check them with the 'bank' program.\n"
-                                  "upgrade: given PC part. Currently there's upgrade only for the 'cpu'.\n"
-                                  "bank See your bank account after you deploy a crypto miner\n"
-                                  "addip Add more IP's to the database, without the need to bypass firewalls and ssh protections, so you can deploy a crypto miner bot on these IP's and upgrade your CPU sooner, and make some money\n"
-                                  "addip: 12.12.12.12\n"
-                                  "addnote Will cause addition to 'notes.txt' file for the particular IP.\n"
-                                  "addnote: 'Your text goes here'\n"
-                                  "replace Will replace text within notes.txt\n"
-                                  "replace: old_text new_text\n"
-                                  "delnotes Will delete the entire notes.txt for the connected IP address. Optionally you can specify IP argument and it will delete the notes.txt file for the given IP address.\n"
-                                  "history Will show every command that you entered\n"
-                                  "history: plain command without arguments\n"
-                                  "help: shows this helpful help page\n";
+                                  "\nMisc:\n"
+                                  "<p style=\"color:#F9DB24\">crypto Installs a crypto miner bot for given ip</p>\n"
+                                  "<p style=\"color:#F9DB24\">crypto ip</p>\n"
+                                  "<p style=\"color:#F9DB24\">forkbomb Will cause a shell fork bomb and shutdown given ip</p>\n"
+                                  "<p style=\"color:#F9DB24\">forkbomb ip</p>\n"
+                                  "<p style=\"color:#F9DB24\">upgrade Will upgrade given PC part, must have enough money to purchase it, must install crypto bot first and wait till you have enough money to purchase it, once crypto bot is installed wait till you gain enough money and check them with the 'bank' program.</p>\n"
+                                  "<p style=\"color:#F9DB24\">upgrade: given PC part. Currently there's upgrade only for the 'cpu'.</p>\n"
+                                  "<p style=\"color:#F9DB24\">bank See your bank account after you deploy a crypto miner</p>\n"
+                                  "<p style=\"color:#F9DB24\">addip Add more IP's to the database, without the need to bypass firewalls and ssh protections, so you can deploy a crypto miner bot on these IP's and upgrade your CPU sooner, and make some money</p>\n"
+                                  "<p style=\"color:#F9DB24\">addip: 12.12.12.12</p>\n"
+                                  "<p style=\"color:#F9DB24\">addnote Will cause addition to 'notes.txt' file for the particular IP.</p>\n"
+                                  "<p style=\"color:#F9DB24\">addnote: 'Your text goes here'</p>\n"
+                                  "<p style=\"color:#F9DB24\">replace Will replace text within notes.txt</p>\n"
+                                  "<p style=\"color:#F9DB24\">replace: old_text new_text</p>\n"
+                                  "<p style=\"color:#F9DB24\">delnotes Will delete the entire notes.txt for the connected IP address. Optionally you can specify IP argument and it will delete the notes.txt file for the given IP address.</p>\n"
+                                  "<p style=\"color:#F9DB24\">history Will show every command that you entered</p>\n"
+                                  "<p style=\"color:#F9DB24\">history: plain command without arguments</p>\n"
+                                  "<p style=\"color:#F9DB24\">help: shows this helpful help page</p>\n"
+                                  "<p style\"solid-color:green\"></p>";
     UI->textEdit->setText(helpMsg);
 }
