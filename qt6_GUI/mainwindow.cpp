@@ -40,6 +40,7 @@
 #include <QMediaPlayer>
 #include <QAudioOutput>
 #include <QRandomGenerator>
+#include <QIcon>
 //#include <QKeyEvent>
 //#include <QObject>
 #include "./ui_mainwindow.h"
@@ -155,6 +156,9 @@ MainWindow::MainWindow(QWidget *parent)
     }
     ui->lineEdit->setCompleter(completer);
     completer->popup()->setStyleSheet("background-color:rgb(54, 57, 63); color:white;");
+
+    ui->lineEdit->setClearButtonEnabled(true);
+    ui->lineEdit->addAction(static_cast<QIcon>("media/linux.png"), QLineEdit::LeadingPosition);
 
     player->setAudioOutput(audioOutput);
     player->setSource(QUrl::fromLocalFile("media/Whitesnake.mp3"));
