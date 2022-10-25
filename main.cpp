@@ -89,7 +89,6 @@ static std::vector<std::string> ipArr = {
     "1.1.1.1",
     "44.55.66.77",
     "123.456.789.000",
-    "268.99.301.543",
     "noIP"
 };
 
@@ -213,7 +212,7 @@ static void do_scan(const std::string &str)
     static_cast<void>(str);
     for (const auto &key : ipArr)
     {
-        std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+        std::this_thread::sleep_for(std::chrono::milliseconds(500));
         std::cout << key << '\n' << std::flush;
     }
 }
@@ -719,38 +718,38 @@ static void do_ls(const std::string &str)
 static void do_help(const std::string &str)
 {
     static_cast<void>(str);
-    static const char helpMsg[] = "ls: lists all directories and files in the current directory\n"
-                                  "cat: reads the contents of the given file\n"
-                                  "cat file.txt\n"
-                                  "\n"
-                                  "Networking:\n"
-                                  "scan: shows computers linked to the current computer\n"
-                                  "ssh: connects to the given IP\n"
-                                  "ssh IP\n"
-                                  "crackssh: Attempts to crack ip port 22\n"
-                                  "crackssh IP\n"
-                                  "crackfw Attempts to crack given ip firewall\n"
-                                  "crackfw ip\n"
-                                  "analyze Examine the key behind every ip firewall. Must use 'solve' command afterwards\n"
-                                  "analyze ip\n"
-                                  "solve will crack the ssh port as well the firewall\n"
-                                  "solve key@ip\n"
-                                  "\n"
-                                  "Misc:\n"
-                                  "crypto Installs a crypto miner bot for given ip\n"
-                                  "crypto ip\n"
-                                  "forkbomb Will cause a shell fork bomb and shutdown given ip\n"
-                                  "forkbomb ip\n"
-                                  "upgrade Will upgrade given PC part, must have enough money to purchase it, must install crypto bot first and wait till you have enough money to purchase it, once crypto bot is installed wait till you gain enough money and check them with the 'bank' program.\n"
-                                  "upgrade: given PC part. Currently there's upgrade only for the 'cpu'.\n"
-                                  "bank See your bank account after you deploy a crypto miner\n"
-                                  "addip Add more IP's to the database, without the need to bypass firewalls and ssh protections, so you can deploy a crypto miner bot on these IP's and upgrade your CPU sooner, and make some money\n"
-                                  "addip: 12.12.12.12\n"
-                                  "addnote Will cause addition to 'notes.txt' file for the particular IP.\n"
-                                  "addnote: 'Your text goes here'\n"
-                                  "replace Will replace text within notes.txt\n"
-                                  "replace old_text new_text\n"
-                                  "delnotes Will delete the entire notes.txt for the connected IP address. Optionally you can specify IP argument and it will delete the notes.txt file for the given IP address.\n"
+    static const char helpMsg[] = "ls: lists all directories and files in the current directory\n\n"
+                                  "cat: reads the contents of the given file\n\n"
+                                  "cat file.txt\n\n"
+                                  "\n\n"
+                                  "Networking:\n\n"
+                                  "scan: shows computers linked to the current computer\n\n"
+                                  "ssh: connects to the given IP\n\n"
+                                  "ssh IP\n\n"
+                                  "crackssh: Attempts to crack ip port 22\n\n"
+                                  "crackssh IP\n\n"
+                                  "crackfw Attempts to crack given ip firewall\n\n"
+                                  "crackfw ip\n\n"
+                                  "analyze Examine the key behind every ip firewall. Must use 'solve' command afterwards\n\n"
+                                  "analyze ip\n\n"
+                                  "solve will crack the ssh port as well the firewall\n\n"
+                                  "solve key@ip\n\n"
+                                  "\n\n"
+                                  "Misc:\n\n"
+                                  "crypto Installs a crypto miner bot for given ip\n\n"
+                                  "crypto ip\n\n"
+                                  "forkbomb Will cause a shell fork bomb and shutdown given ip\n\n"
+                                  "forkbomb ip\n\n"
+                                  "upgrade Will upgrade given PC part, must have enough money to purchase it, must install crypto bot first and wait till you have enough money to purchase it, once crypto bot is installed wait till you gain enough money and check them with the 'bank' program.\n\n"
+                                  "upgrade: given PC part. Currently there's upgrade only for the 'cpu'.\n\n"
+                                  "bank See your bank account after you deploy a crypto miner\n\n"
+                                  "addip Add more IP's to the database, without the need to bypass firewalls and ssh protections, so you can deploy a crypto miner bot on these IP's and upgrade your CPU sooner, and make some money\n\n"
+                                  "addip: 12.12.12.12\n\n"
+                                  "addnote Will cause addition to 'notes.txt' file for the particular IP.\n\n"
+                                  "addnote: 'Your text goes here'\n\n"
+                                  "replace Will replace text within notes.txt\n\n"
+                                  "replace old_text new_text\n\n"
+                                  "delnotes Will delete the entire notes.txt for the connected IP address. Optionally you can specify IP argument and it will delete the notes.txt file for the given IP address.\n\n"
                                   "help: shows this helpful help page\n";
     puts(helpMsg);
 }
