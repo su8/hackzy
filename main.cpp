@@ -750,6 +750,8 @@ static void do_help(const std::string &str)
                                   "replace Will replace text within notes.txt\n\n"
                                   "replace old_text new_text\n\n"
                                   "delnotes Will delete the entire notes.txt for the connected IP address. Optionally you can specify IP argument and it will delete the notes.txt file for the given IP address.\n\n"
+                                  "history Will show every command that you entered\n\n"
+                                  "history: plain command without arguments\n\n"
                                   "help: shows this helpful help page\n";
     puts(helpMsg);
 }
