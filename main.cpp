@@ -17,7 +17,7 @@
 */
 
 #include <iostream>
-#include <time.h>
+#include <ctime>
 #include <sys/types.h>
 #include <unistd.h>
 #include <cstdio>
@@ -28,7 +28,7 @@
 #include <unordered_map>
 #include <chrono>
 #include <thread>
-#include <ctype.h>
+#include <cctype>
 #include <regex>
 
 static void do_ls(const std::string &str);

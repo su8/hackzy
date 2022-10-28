@@ -16,7 +16,7 @@
   MA 02110-1301, USA.
 */
 #include <iostream>
-#include <time.h>
+#include <ctime>
 #include <sys/types.h>
 #include <unistd.h>
 #include <cstdio>
