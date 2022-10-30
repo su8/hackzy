@@ -64,6 +64,7 @@ static void do_replace(const std::string &str);
 static void do_delNotes(const std::string &str);
 static void do_history(const std::string &str);
 static void do_uname(const std::string &str);
+static void do_date(const std::string &str);
 static inline void processInput(const std::string &str);
 static inline void trimQuotes(char *bufPtr, const char *strPtr);
 static void updateCrypto(void);
@@ -95,6 +96,7 @@ static const struct Opt opt[] = {
     {"delnotes", do_delNotes},
     {"history", do_history},
     {"uname", do_uname},
+    {"date", do_date},
     {"upgrade", do_upgrade}
 };
 
@@ -119,7 +121,7 @@ static std::unordered_map<std::string, std::string> NOTES              = { {ipAr
 static std::vector<std::string> History                                = {                };
 
 static QStringList wordList = {
-    "scan", "help", "forkbomb", "cat", "ssh", "crypto",
+    "scan", "help", "forkbomb", "cat", "ssh", "crypto", "date",
     "crackssh", "crackfw", "analyze", "solve", "upgrade", "addip",
     "addnote", "delnotes", "bank", "ls", "replace", "history", "uname"
 };
@@ -750,6 +752,22 @@ static void do_uname(const std::string &str)
     UI->textEdit->setText(uname);
 }
 
+static void do_date(const std::string &str)
+{
+    static_cast<void>(str);
+    char time_str[128];
+    time_t t = 0;
+    struct tm *taim = NULL;
+
+    if ((t = time(NULL)) == -1 || (taim = localtime(&t)) == NULL ||
+      (strftime(time_str, 128, "%d %m %Y %I:%M %p", taim)) == 0) {
+        UI->textEdit->setText(static_cast<QString>("Time failed!\n"));
+        return;
+    }
+
+    UI->textEdit->setText(static_cast<QString>(time_str));
+}
+
 #define CRACK_PROGRAM(function, dicti, msg1, msg2, msg3, launchCrypto)        \
     static void do_##function(const std::string &str)                         \
     {                                                                         \
@@ -910,6 +928,8 @@ static void do_help(const std::string &str)
                                   "<p style=\"color:#F9DB24\">history: plain command without arguments</p>\n"
                                   "<p style=\"color:#F9DB24\">uname Will show system kernel and cpu versions</p>\n"
                                   "<p style=\"color:#F9DB24\">uname: plain command without arguemnt</p>\n"
+                                  "<p style=\"color:#F9DB24\">date Will show the current day/month/year and time in AM/PM</p>\n"
+                                  "<p style=\"color:#F9DB24\">date: plain command without arguments</p>\n"
                                   "<p style=\"color:#F9DB24\">help: shows this helpful help page</p>\n"
                                   "<p style\"solid-color:green\"></p>";
     UI->textEdit->setText(helpMsg);

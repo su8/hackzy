@@ -50,6 +50,7 @@ static void do_replace(const std::string &str);
 static void do_delNotes(const std::string &str);
 static void do_history(const std::string &str);
 static void do_uname(const std::string &str);
+static void do_date(const std::string &str);
 static inline void processInput(const std::string &str);
 static inline void trimQuotes(char *bufPtr, const char *strPtr);
 static void updateCrypto(void);
@@ -81,6 +82,7 @@ static const struct Opt opt[] = {
     {"delnotes", do_delNotes},
     {"history", do_history},
     {"uname", do_uname},
+    {"date", do_date},
     {"upgrade", do_upgrade}};
 
 static std::string IP = "1.1.1.1";
@@ -611,6 +613,23 @@ static void do_uname(const std::string &str)
     std::cout << uname << '\n' << std::flush;
 }
 
+static void do_date(const std::string &str)
+{
+    static_cast<void>(str);
+    char time_str[128];
+    time_t t = 0;
+    struct tm *taim = NULL;
+
+    if ((t = time(NULL)) == -1 || (taim = localtime(&t)) == NULL ||
+      (strftime(time_str, 128, "%d %m %Y %I:%M %p", taim)) == 0) {
+  
+        std::cout << "Time failed!\n" << std::flush;
+        return;
+    }
+
+    std::cout << time_str << std::endl;
+}
+
 #define CRACK_PROGRAM(function, dicti, msg1, msg2, msg3, launchCrypto)        \
     static void do_##function(const std::string &str)                         \
     {                                                                         \
@@ -762,6 +781,8 @@ static void do_help(const std::string &str)
                                   "history: plain command without arguments\n\n"
                                   "uname Will show system kernel and cpu versions\n\n"
                                   "uname: plain command without arguemnts\n\n"
+                                  "date Will show the current day/month/year and time in AM/PM\n\n"
+                                  "date: plain command without arguments\n\n"
                                   "help: shows this helpful help page\n";
     puts(helpMsg);
 }
