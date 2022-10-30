@@ -472,7 +472,7 @@ static void do_upgrade(const std::string &str) {
 static void do_addIp(const std::string &str)
 {
     unsigned short int z = static_cast<unsigned short int>(str.length());
-    char toAddIp = 0;
+    char toAddIp = 1;
     const char *strPtr = str.c_str();
 
     std::this_thread::sleep_for(std::chrono::milliseconds(ConnectCrackDelay));
@@ -482,7 +482,6 @@ static void do_addIp(const std::string &str)
         unsigned char cStrPtr = static_cast<unsigned char>(*strPtr);
         if ((!(isdigit(cStrPtr)) && *strPtr == '.') || isdigit(cStrPtr))
         {
-            toAddIp = 1;
             continue;
         }
         else
