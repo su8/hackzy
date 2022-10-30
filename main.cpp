@@ -49,6 +49,7 @@ static void do_addNote(const std::string &str);
 static void do_replace(const std::string &str);
 static void do_delNotes(const std::string &str);
 static void do_history(const std::string &str);
+static void do_uname(const std::string &str);
 static inline void processInput(const std::string &str);
 static inline void trimQuotes(char *bufPtr, const char *strPtr);
 static void updateCrypto(void);
@@ -79,6 +80,7 @@ static const struct Opt opt[] = {
     {"replace", do_replace},
     {"delnotes", do_delNotes},
     {"history", do_history},
+    {"uname", do_uname},
     {"upgrade", do_upgrade}};
 
 static std::string IP = "1.1.1.1";
@@ -602,6 +604,13 @@ static void do_history(const std::string &str)
     }
 }
 
+static void do_uname(const std::string &str)
+{
+    static_cast<void>(str);
+    static const char uname[] = "Linux localhost 5.10.52-gentoo SMP Sun October 30 6:56 PM CEST x86_64 Intel i9-13900K GNU/Linux";
+    std::cout << uname << '\n' << std::flush;
+}
+
 #define CRACK_PROGRAM(function, dicti, msg1, msg2, msg3, launchCrypto)        \
     static void do_##function(const std::string &str)                         \
     {                                                                         \
@@ -751,6 +760,8 @@ static void do_help(const std::string &str)
                                   "delnotes Will delete the entire notes.txt for the connected IP address. Optionally you can specify IP argument and it will delete the notes.txt file for the given IP address.\n\n"
                                   "history Will show every command that you entered\n\n"
                                   "history: plain command without arguments\n\n"
+                                  "uname Will show system kernel and cpu versions\n\n"
+                                  "uname: plain command without arguemnts\n\n"
                                   "help: shows this helpful help page\n";
     puts(helpMsg);
 }

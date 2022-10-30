@@ -63,6 +63,7 @@ static void do_addNote(const std::string &str);
 static void do_replace(const std::string &str);
 static void do_delNotes(const std::string &str);
 static void do_history(const std::string &str);
+static void do_uname(const std::string &str);
 static inline void processInput(const std::string &str);
 static inline void trimQuotes(char *bufPtr, const char *strPtr);
 static void updateCrypto(void);
@@ -93,6 +94,7 @@ static const struct Opt opt[] = {
     {"replace", do_replace},
     {"delnotes", do_delNotes},
     {"history", do_history},
+    {"uname", do_uname},
     {"upgrade", do_upgrade}
 };
 
@@ -119,7 +121,7 @@ static std::vector<std::string> History                                = {      
 static QStringList wordList = {
     "scan", "help", "forkbomb", "cat", "ssh", "crypto",
     "crackssh", "crackfw", "analyze", "solve", "upgrade", "addip",
-    "addnote", "delnotes", "bank", "ls", "replace", "history"
+    "addnote", "delnotes", "bank", "ls", "replace", "history", "uname"
 };
 static QCompleter *completer = new QCompleter(wordList, nullptr);
 
@@ -741,6 +743,13 @@ static void do_history(const std::string &str)
     oldText = "";
 }
 
+static void do_uname(const std::string &str)
+{
+    static_cast<void>(str);
+    static const QString uname = "Linux localhost 5.10.52-gentoo SMP Sun October 30 6:56 PM CEST x86_64 Intel i9-13900K GNU/Linux\n";
+    UI->textEdit->setText(uname);
+}
+
 #define CRACK_PROGRAM(function, dicti, msg1, msg2, msg3, launchCrypto)        \
     static void do_##function(const std::string &str)                         \
     {                                                                         \
@@ -899,6 +908,8 @@ static void do_help(const std::string &str)
                                   "<p style=\"color:#F9DB24\">delnotes Will delete the entire notes.txt for the connected IP address. Optionally you can specify IP argument and it will delete the notes.txt file for the given IP address.</p>\n"
                                   "<p style=\"color:#F9DB24\">history Will show every command that you entered</p>\n"
                                   "<p style=\"color:#F9DB24\">history: plain command without arguments</p>\n"
+                                  "<p style=\"color:#F9DB24\">uname Will show system kernel and cpu versions</p>\n"
+                                  "<p style=\"color:#F9DB24\">uname: plain command without arguemnt</p>\n"
                                   "<p style=\"color:#F9DB24\">help: shows this helpful help page</p>\n"
                                   "<p style\"solid-color:green\"></p>";
     UI->textEdit->setText(helpMsg);
