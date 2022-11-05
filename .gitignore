@@ -34,3 +34,4 @@
 # Build directories
 build-*
 CMakeFiles
+main_autogen
