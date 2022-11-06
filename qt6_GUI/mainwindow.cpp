@@ -180,7 +180,7 @@ MainWindow::~MainWindow()
     player->stop();
     delete audioOutput;
     delete player;
-    delete UI;
+    //delete UI;
     delete ui;
 }
 
