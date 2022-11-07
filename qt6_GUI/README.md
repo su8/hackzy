@@ -6,9 +6,8 @@ This is Qt 6 GUI version of **hackzy**.
 
 ```bash
 cmake .
-cmake --build .
-make -j8 # 8 cores to use in parallel compile
-sudo make install # if on linux or *BSD
+make -j8 # 8 cores/threads to use in parallel compile
+sudo make install
 ```
 
 ---
