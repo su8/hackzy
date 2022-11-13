@@ -320,7 +320,7 @@ static void do_scan(const std::string &str)
     {
         QString outStr = static_cast<std::string>(key + '\n').c_str();
         UI->textEdit->setText(oldText + outStr);
-        oldText = oldText + outStr;
+        oldText += outStr;
         std::this_thread::sleep_for(std::chrono::milliseconds(500));
         qApp->processEvents();
     }
@@ -422,7 +422,7 @@ static void do_analyze(const std::string &str)
         {
             *bufPtr = alphas[static_cast<unsigned short int>(QRandomGenerator::global()->bounded(0, 26))];
             UI->textEdit->setText(oldText + static_cast<QString>(*bufPtr));
-            oldText = oldText + static_cast<QString>(*bufPtr++);
+            oldText += static_cast<QString>(*bufPtr++);
             if (w++ > 28U)
             {
                 break;
@@ -432,7 +432,7 @@ static void do_analyze(const std::string &str)
         {
             static const QString outStr = "0";
             UI->textEdit->setText(oldText + outStr);
-            oldText = oldText + outStr;
+            oldText += outStr;
             qApp->processEvents();
             std::this_thread::sleep_for(std::chrono::milliseconds(10));
         }
@@ -739,7 +739,7 @@ static void do_history(const std::string &str)
     {
         QString outStr = (key + '\n').c_str();
         UI->textEdit->setText(oldText + outStr);
-        oldText = oldText + outStr;
+        oldText += outStr;
     }
     oldText = "";
 }
