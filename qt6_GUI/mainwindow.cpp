@@ -568,7 +568,7 @@ static void do_upgrade(const std::string &str) {
         return;
     }
 
-    if (strlen(str.c_str()) >= 3 && (tolower(str[0]) == 'c' && tolower(str[1]) == 'p' && tolower(str[2]) == 'u'))
+    if (strlen(str.c_str()) == 3 && (tolower(str[0]) == 'c' && tolower(str[1]) == 'p' && tolower(str[2]) == 'u'))
     {
         if (ConnectCrackDelay == 5000 && MONEY >= 10U)
         {
