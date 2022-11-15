@@ -30,6 +30,7 @@
 #include <thread>
 #include <cctype>
 #include <regex>
+#include <random>
 
 static void do_ls(const std::string &str);
 static void do_help(const std::string &str);
@@ -270,7 +271,8 @@ static void do_analyze(const std::string &str)
     char *bufPtr = buf;
     static const char alphas[] = "abcdefghijklmnopqrstuvwxyz";
     std::string keyStr = "";
-    time_t t;
+    std::random_device rd;
+    std::uniform_int_distribution<int> udist(0, 26);
 
     if (str.empty())
     {
@@ -303,19 +305,12 @@ static void do_analyze(const std::string &str)
         return;
     }
 
-    if ((t = time(NULL)) == -1)
-    {
-        puts("time(NULL) failed");
-        return;
-    }
-    srandom(static_cast<unsigned int>(t) ^ static_cast<unsigned int>(getpid()));
-
     for (x = 50U; x < 256U; x++, z++)
     {
         if (z & 1U)
         {
             putchar('1');
-            *bufPtr = alphas[static_cast<unsigned short int>(rand()) % sizeof(alphas) - 1 / sizeof(char)];
+            *bufPtr = alphas[udist(rd)];
             putchar(*bufPtr++);
             if (w++ > 28U)
             {

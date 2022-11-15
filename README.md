@@ -6,10 +6,6 @@ Terminal & **GUI** hacker game. For the GUI version click on the [qt6_GUI](https
 
 ## Installation
 
-If on windows, replace **srandom** with **srand**.
-
-https://github.com/su8/hackzy/blob/333413677200ffe1b482664f03aadfe15f3ed9b7/main.cpp#L311
-
 Tested with [Visual Studio Code Editor](https://code.visualstudio.com/download), but you need to install [MingW](https://github.com/niXman/mingw-builds-binaries/releases/download/12.2.0-rt_v10-rev0/x86_64-12.2.0-release-posix-seh-rt_v10-rev0.7z), once downloaded extract it to **C:\MingW**, then re-open [Visual Studio Code Editor](https://code.visualstudio.com/download), you might want to install C\C++ extensions if you plan to write C\C++ code with the editor. If you plan to contribute to this project go to **File->Preferences->Settings** and type to search for **cppStandard** and set it to c17 to both C++ and C.
 
 I use **One Monokai** theme for the [VScode Editor](https://code.visualstudio.com/download)
