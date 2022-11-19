@@ -30,7 +30,6 @@
 #include <cctype>
 #include <regex>
 
-#include "mainwindow.h"
 #include <QApplication>
 #include <QCompleter>
 #include <QStringList>
@@ -43,6 +42,7 @@
 #include <QIcon>
 //#include <QKeyEvent>
 //#include <QObject>
+#include "mainwindow.h"
 #include "./ui_mainwindow.h"
 
 static void do_ls(const std::string &str);
