@@ -19,7 +19,7 @@ set(THREADS_PREFER_PTHREAD_FLAG ON)
 
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
-find_package(Qt6 REQUIRED COMPONENTS Multimedia)
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Multimedia)
 
 set(PROJECT_SOURCES
         mainwindow.cpp
