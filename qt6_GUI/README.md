@@ -1,4 +1,4 @@
-This is Qt 6 GUI version of **hackzy**. 
+This is Qt6/5 GUI version of **hackzy**. 
 
 ---
 
