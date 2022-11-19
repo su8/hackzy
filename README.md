@@ -1,8 +1,8 @@
 [![C/C++ build](https://github.com/su8/hackzy/actions/workflows/c-cpp.yml/badge.svg)](https://github.com/su8/hackzy/actions/workflows/c-cpp.yml) [![CodeQL](https://github.com/su8/hackzy/actions/workflows/codeql.yml/badge.svg)](https://github.com/su8/hackzy/actions/workflows/codeql.yml) [![flawfinder](https://github.com/su8/hackzy/actions/workflows/flawfinder.yml/badge.svg)](https://github.com/su8/hackzy/actions/workflows/flawfinder.yml)
 
-![](qt6_GUI/media/snap.png)
+![](qt_GUI/media/snap.png)
 
-Terminal & **GUI** hacker game. For the GUI version click on the [qt6_GUI](https://github.com/su8/hackzy/tree/main/qt6_GUI) folder and compile it according to the README.md docs.
+Terminal & **GUI** hacker game. For the GUI version click on the [qt_GUI](https://github.com/su8/hackzy/tree/main/qt_GUI) folder and compile it according to the README.md docs.
 
 ## Installation
 
@@ -68,7 +68,7 @@ To compile the program press **CTRL** + **SHIFT** + **B** , wait until it compil
 If on Linux or *BSD
 
 ```bash
-make -j8 # 8 cores to use in parallel compile, you can add your cpu threads too
+make -j8 # 8 cores/threads to use in parallel compile
 sudo make install
 ```
 
