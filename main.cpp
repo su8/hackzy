@@ -88,7 +88,7 @@ static const struct Opt opt[] = {
 
 static std::string IP = "1.1.1.1";
 static unsigned long int MONEY = 0U;
-static short int ConnectCrackDelay = 5000;
+static short int ConnectCrackDelay = 5;
 
 static std::vector<std::string> ipArr = {
     "1.1.1.1",
@@ -280,7 +280,7 @@ static void do_analyze(const std::string &str)
         return;
     }
 
-    std::this_thread::sleep_for(std::chrono::milliseconds(ConnectCrackDelay));
+    std::this_thread::sleep_for(std::chrono::seconds(ConnectCrackDelay));
 
     if (checkForkBomb(str) == 1U)
     {
@@ -346,7 +346,7 @@ static void do_solve(const std::string &str)
         return;
     }
 
-    std::this_thread::sleep_for(std::chrono::milliseconds(ConnectCrackDelay));
+    std::this_thread::sleep_for(std::chrono::seconds(ConnectCrackDelay));
 
     for (; *strPtr && x < 9U; strPtr++, x++)
     {
@@ -398,7 +398,7 @@ static void do_forkbomb(const std::string &str)
         return;
     }
 
-    std::this_thread::sleep_for(std::chrono::milliseconds(ConnectCrackDelay));
+    std::this_thread::sleep_for(std::chrono::seconds(ConnectCrackDelay));
 
     for (const auto &[key, val] : ipForkBomb)
     {
@@ -446,14 +446,14 @@ static void do_upgrade(const std::string &str) {
     if (str == "cpu" || str == "CPU" || str == "Cpu"
       || str == "cPu" || str == "cpU" || str == "cPU" || str == "CPu")
     {
-        if (ConnectCrackDelay == 5000 && MONEY >= 10U)
+        if (ConnectCrackDelay == 5 && MONEY >= 10U)
         {
-            ConnectCrackDelay = 1000;
+            ConnectCrackDelay = 1;
             MONEY -= 10U;
             puts("Successfully purchased a CPU upgrade");
             return;
         }
-        else if (ConnectCrackDelay == 1000)
+        else if (ConnectCrackDelay == 1)
         {
             puts("You already upgraded the CPU.");
         }
@@ -474,7 +474,7 @@ static void do_addIp(const std::string &str)
     char toAddIp = 1;
     const char *strPtr = str.c_str();
 
-    std::this_thread::sleep_for(std::chrono::milliseconds(ConnectCrackDelay));
+    std::this_thread::sleep_for(std::chrono::seconds(ConnectCrackDelay));
 
     for (unsigned short int x = 0U; x < z; x++, strPtr++)
     {
@@ -503,10 +503,11 @@ static void do_addIp(const std::string &str)
     }
 
     ipArr.emplace_back(str);
-    ipFwCracked.emplace(str, 1U);
-    ipCracked.emplace(str, 1U);
+    ipFwCracked.emplace(str, 0U);
+    ipCracked.emplace(str, 0U);
     ipCrypto.emplace(str, 0U);
     NOTES.emplace(str, "");
+    ipForkBomb.emplace(str, 0U);
     std::cout << "Successfully added " << str << " to the IP database, now you can deploy a crypto miner bot to this IP.\n" << std::flush;
 }
 
@@ -648,7 +649,7 @@ static void do_date(const std::string &str)
             if (val == 0U)                                                    \
             {                                                                 \
                 std::cout << msg1 << str << '\n' << std::flush;               \
-                std::this_thread::sleep_for(std::chrono::milliseconds(ConnectCrackDelay)); \
+                std::this_thread::sleep_for(std::chrono::seconds(ConnectCrackDelay)); \
                 if (launchCrypto == 0)                                        \
                 {                                                             \
                     std::cout << msg2 << str << '\n' << std::flush;           \
@@ -720,7 +721,7 @@ static unsigned short int checkForkBomb(const std::string &str)
 
 static void updateCrypto(void)
 {
-    std::this_thread::sleep_for(std::chrono::milliseconds(10000));
+    std::this_thread::sleep_for(std::chrono::seconds(10));
     MONEY++;
     updateCrypto();
 }

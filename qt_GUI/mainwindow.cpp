@@ -102,7 +102,7 @@ static const struct Opt opt[] = {
 
 static std::string IP = "1.1.1.1";
 static unsigned long int MONEY = 0U;
-static short int ConnectCrackDelay = 5000;
+static short int ConnectCrackDelay = 5;
 static QString oldText = "";
 
 static std::vector<std::string> ipArr = {
@@ -389,7 +389,7 @@ static void do_analyze(const std::string &str)
 
     UI->textEdit->setText(static_cast<QString>("Please wait..."));
     qApp->processEvents();
-    std::this_thread::sleep_for(std::chrono::milliseconds(ConnectCrackDelay));
+    std::this_thread::sleep_for(std::chrono::seconds(ConnectCrackDelay));
 
     if (checkForkBomb(str) == 1U)
     {
@@ -461,7 +461,7 @@ static void do_solve(const std::string &str)
 
     UI->textEdit->setText(static_cast<QString>("Please wait..."));
     qApp->processEvents();
-    std::this_thread::sleep_for(std::chrono::milliseconds(ConnectCrackDelay));
+    std::this_thread::sleep_for(std::chrono::seconds(ConnectCrackDelay));
 
     for (; *strPtr && x < 9U; strPtr++, x++)
     {
@@ -519,7 +519,7 @@ static void do_forkbomb(const std::string &str)
 
     UI->textEdit->setText(static_cast<QString>("Please wait...."));
     qApp->processEvents();
-    std::this_thread::sleep_for(std::chrono::milliseconds(ConnectCrackDelay));
+    std::this_thread::sleep_for(std::chrono::seconds(ConnectCrackDelay));
 
     for (const auto &[key, val] : ipForkBomb)
     {
@@ -570,15 +570,15 @@ static void do_upgrade(const std::string &str) {
 
     if (strlen(str.c_str()) == 3 && (tolower(str[0]) == 'c' && tolower(str[1]) == 'p' && tolower(str[2]) == 'u'))
     {
-        if (ConnectCrackDelay == 5000 && MONEY >= 10U)
+        if (ConnectCrackDelay == 5 && MONEY >= 10U)
         {
-            ConnectCrackDelay = 1000;
+            ConnectCrackDelay = 1;
             MONEY -= 10U;
             QString outStr = static_cast<std::string>("Successfully purchased a CPU upgrade.\n").c_str();
             UI->textEdit->setText(outStr);
             return;
         }
-        else if (ConnectCrackDelay == 1000)
+        else if (ConnectCrackDelay == 1)
         {
             QString outStr = static_cast<std::string>("You already upgraded the CPU.\n").c_str();
             UI->textEdit->setText(outStr);
@@ -604,7 +604,7 @@ static void do_addIp(const std::string &str)
 
     UI->textEdit->setText(static_cast<QString>("Please wait..."));
     qApp->processEvents();
-    std::this_thread::sleep_for(std::chrono::milliseconds(ConnectCrackDelay));
+    std::this_thread::sleep_for(std::chrono::seconds(ConnectCrackDelay));
 
     for (unsigned short int x = 0U; x < z; x++, strPtr++)
     {
@@ -635,10 +635,11 @@ static void do_addIp(const std::string &str)
     }
 
     ipArr.emplace_back(str);
-    ipFwCracked.emplace(str, 1U);
-    ipCracked.emplace(str, 1U);
+    ipFwCracked.emplace(str, 0U);
+    ipCracked.emplace(str, 0U);
     ipCrypto.emplace(str, 0U);
     NOTES.emplace(str, "");
+    ipForkBomb.emplace(str, 0U);
 
     QString outStr = static_cast<std::string>("Successfully added " + str + " to the IP database, now you can deploy a crypto miner bot to this IP.\n").c_str();
     UI->textEdit->setText(outStr);
@@ -793,7 +794,7 @@ static void do_date(const std::string &str)
                 QString outStr = static_cast<std::string>(msg1 + str + '\n').c_str(); \
                 UI->textEdit->setText(outStr);                                \
                 qApp->processEvents();                                        \
-                std::this_thread::sleep_for(std::chrono::milliseconds(ConnectCrackDelay)); \
+                std::this_thread::sleep_for(std::chrono::seconds(ConnectCrackDelay)); \
                 if (launchCrypto == 0)                                        \
                 {                                                             \
                     QString outStr = static_cast<std::string>(msg2 + str + '\n').c_str(); \
@@ -872,7 +873,7 @@ static unsigned short int checkForkBomb(const std::string &str)
 
 static void updateCrypto(void)
 {
-    std::this_thread::sleep_for(std::chrono::milliseconds(10000));
+    std::this_thread::sleep_for(std::chrono::seconds(10));
     MONEY++;
     updateCrypto();
 }
