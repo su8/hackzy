@@ -64,6 +64,12 @@ struct Opt
     void (*my_func)(const std::string &str);
 };
 
+struct missionCmd
+{
+    std::string cmds;
+    void (*loadMission)(const std::string &str);
+};
+
 static const struct Opt opt[] = {
     {"ls", do_ls},
     {"help", do_help},
@@ -94,8 +100,14 @@ static std::vector<std::string> ipArr = {
     "1.1.1.1",
     "44.55.66.77",
     "123.456.789.000",
-    "noIP"
-};
+    "noIP"};
+static const std::vector<std::string> Missions               = {
+    "scan",
+    "addip ip",
+    "crackssh ip",
+    "crackfw ip",
+    "crypto ip",
+    "bank"};
 
 static std::unordered_map<std::string, unsigned short int> ipCracked   = { {ipArr[0], 1U} };
 static std::unordered_map<std::string, unsigned short int> ipFwCracked = { {ipArr[0], 1U} };
@@ -120,6 +132,11 @@ int main(void)
 
     while (1)
     {
+        for (const auto &key : Missions)
+        {
+            std::cout << key << '\n' << std::flush;
+        }
+
         std::string userInput;
         std::cout << "frost@localhost " << IP << " > " << std::flush;
         getline(std::cin, userInput);
