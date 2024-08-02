@@ -64,12 +64,6 @@ struct Opt
     void (*my_func)(const std::string &str);
 };
 
-struct missionCmd
-{
-    std::string cmds;
-    void (*loadMission)(const std::string &str);
-};
-
 static const struct Opt opt[] = {
     {"ls", do_ls},
     {"help", do_help},
