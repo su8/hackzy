@@ -63,7 +63,7 @@ In [Visual Studio Code Editor](https://code.visualstudio.com/download), go to **
 }
 ```
 
-### To compile the game press **CTRL** + **SHIFT** + **B** , then from the same folder start the `0verm0n.bat` script.
+### To compile the game press **CTRL** + **SHIFT** + **B** , then from the same folder start the `hackzy.bat` script.
 
 Alternatively if you want to use VSCode's terminal to run the game press **CTRL** + **\`** and paste this `cp -r C:\Users\YOUR_USERNAME_GOES_HERE\Desktop\main.exe C:\MingW\bin;cd C:\MingW\bin;.\main.exe`
 
