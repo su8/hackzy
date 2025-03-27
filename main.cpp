@@ -764,11 +764,9 @@ static void do_lsblk(const std::string &str)
 static void do_ps(const std::string &str)
 {
     static_cast<void>(str);
-    static unsigned short int z = 0U;
-    static const unsigned short int x[] = {1U, 2U, 3U, 4U, 5U, 6U, 7U, 8U};
     static const std::string progs[] = {"systemd", "kthread", "rcu_gp", "rcu_par_gp", "chromium", "netns", "slub_flushwq", "mm_percpu_wq"};
-    for (const auto &key : progs)
-        std::cout << x[z++] << ' ' << key << '\n' << std::flush;
+    for (unsigned short int x = 0U; x < 8U; x++)
+        std::cout << x + 1 << ' ' << progs[x] << '\n' << std::flush;
 }
 
 static void do_df(const std::string &str)
