@@ -52,6 +52,9 @@ static void do_delNotes(const std::string &str);
 static void do_history(const std::string &str);
 static void do_uname(const std::string &str);
 static void do_date(const std::string &str);
+static void do_lsblk(const std::string &str);
+static void do_ps(const std::string &str);
+static void do_df(const std::string &str);
 static inline void processInput(const std::string &str);
 static inline void trimQuotes(char *bufPtr, const char *strPtr);
 static void updateCrypto(void);
@@ -84,7 +87,10 @@ static const struct Opt opt[] = {
     {"history", do_history},
     {"uname", do_uname},
     {"date", do_date},
-    {"upgrade", do_upgrade}};
+    {"upgrade", do_upgrade},
+    {"lsblk", do_lsblk},
+    {"ps", do_ps},
+    {"df", do_df}};
 
 static std::string IP = "1.1.1.1";
 static unsigned long int MONEY = 0U;
@@ -95,7 +101,7 @@ static std::vector<std::string> ipArr = {
     "44.55.66.77",
     "123.456.789.000",
     "noIP"};
-static const std::vector<std::string> Missions               = {
+static const std::vector<std::string> PreviewCMDS = {
     "scan",
     "addip ip",
     "crackssh ip",
@@ -124,13 +130,13 @@ int main(void)
     }
     puts("Type 'help' to see the available commands");
 
+    for (const auto &key : PreviewCMDS)
+    {
+        std::cout << key << '\n' << std::flush;
+    }
+
     while (1)
     {
-        for (const auto &key : Missions)
-        {
-            std::cout << key << '\n' << std::flush;
-        }
-
         std::string userInput;
         std::cout << "frost@localhost " << IP << " > " << std::flush;
         getline(std::cin, userInput);
@@ -749,6 +755,28 @@ static void do_ls(const std::string &str)
     puts("notes.txt");
 }
 
+static void do_lsblk(const std::string &str)
+{
+    static_cast<void>(str);
+    std::cout << "NAME   MAJ:MIN RM  SIZE RO TYPE MOUNTPOINTS\nsda      8:0    0   30G  0 disk \n├─sda1   8:1    0   29G  0 part /\n├─sda2   8:2    0    1K  0 part \n└─sda5   8:5    0  975M  0 part [SWAP]\nsr0     11:0    1 1024M  0 rom " << '\n' << std::flush;
+}
+
+static void do_ps(const std::string &str)
+{
+    static_cast<void>(str);
+    static unsigned short int z = 0U;
+    static const unsigned short int x[] = {1U, 2U, 3U, 4U, 5U, 6U, 7U, 8U};
+    static const std::string progs[] = {"systemd", "kthread", "rcu_gp", "rcu_par_gp", "chromium", "netns", "slub_flushwq", "mm_percpu_wq"};
+    for (const auto &key : progs)
+        std::cout << x[z++] << ' ' << key << '\n' << std::flush;
+}
+
+static void do_df(const std::string &str)
+{
+    static_cast<void>(str);
+    std::cout << "Filesystem                  Size  Used Avail Use% Mounted on\n/dev/mapper/vg_kvm-lv_root   18G  4.2G   13G  25% /\ntmpfs                       372M  288K  372M   1% /dev/shm\n/dev/vda1                   485M   76M  384M  17% /boot" << '\n' << std::flush;
+}
+
 static void do_help(const std::string &str)
 {
     static_cast<void>(str);
@@ -790,6 +818,9 @@ static void do_help(const std::string &str)
                                   "uname: plain command without arguemnts\n\n"
                                   "date Will show the current day/month/year and time in AM/PM\n\n"
                                   "date: plain command without arguments\n\n"
+                                  "lsblk: list all block devices\n\n"
+                                  "ps: list all running processes\n\n"
+                                  "df: display storage usage\n\n"
                                   "help: shows this helpful help page\n";
     puts(helpMsg);
 }
