@@ -7,11 +7,19 @@ on:
     branches: [ main ]
 
 jobs:
-  build:
+  build-linux:
 
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
+    - name: make -j8
+      run: make -j8
+
+  build-windows:
+
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v4
     - name: make -j8
       run: make -j8
